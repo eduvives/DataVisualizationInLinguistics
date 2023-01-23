@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Add jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+
+    {% load static %}
+
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static  'css/simple-sidebar.css' %}" rel="stylesheet">
+
+    <!-- To select the best display layout -->
+    <script src="https://d3js.org/d3.v4.min.js"></script>
+    <script>
+        var d3v4 = window.d3;
+        window.d3 = null;
+    </script>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/d3-hierarchy@3"></script>
+    <script type="module" src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.0.1/chart.min.js" integrity="sha512-tQYZBKe34uzoeOjY9jr3MX7R/mo7n25vnqbnrkskGr4D6YOoPYSpyafUAzQVjV6xAozAqUFIEFsCO4z8mnVBXA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.0.1/chart.umd.js" integrity="sha512-gQhCDsnnnUfaRzD8k1L5llCCV6O9HN09zClIzzeJ8OJ9MpGmIlCxm+pdCkqTwqJ4JcjbojFr79rl2F1mzcoLMQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{% static 'js/shared_functions.js' %}"></script>
+</head>
+
+
+<style>
+
+    .btn-outline-primary {
+        color: #C9DAF8;
+        background-color: transparent;
+        background-image: none;
+        border-color: #C9DAF8;
+    }
+
+    .btn-outline-primary:hover {
+        color: #000000;
+        background-color: #C9DAF8;
+        border-color: #C9DAF8;
+    }
+
+    .btn-outline-primary:focus,
+    .btn-outline-primary.focus {
+        box-shadow: 0 0 0 0.2rem rgba(201, 218, 248, 0.5);
+    }
+
+    .btn-outline-primary.disabled,
+    .btn-outline-primary:disabled {
+        color: #C9DAF8;
+        background-color: transparent;
+    }
+
+    .btn-outline-primary:not(:disabled):not(.disabled):active,
+    .btn-outline-primary:not(:disabled):not(.disabled).active,
+    .show > .btn-outline-primary.dropdown-toggle {
+        color: #000000;
+        background-color: #C9DAF8;
+        border-color: #C9DAF8;
+    }
+
+    .btn-outline-primary:not(:disabled):not(.disabled):active:focus,
+    .btn-outline-primary:not(:disabled):not(.disabled).active:focus,
+    .show > .btn-outline-primary.dropdown-toggle:focus {
+        box-shadow: 0 0 0 0.2rem rgba(201, 218, 248, 0.5);
+    }
+
+    .btn-outline-primary:not(:disabled):not(.disabled).active {
+        background-color: #C9DAF8;
+        border-color: #C9DAF8;
+    }
+
+    .btn-outline-primary:hover {
+        background-color: #C9DAF8;
+        border-color: #C9DAF8;
+    }
+
+    .btn-outline-primary:active {
+        background-color: #C9DAF8;
+        border-color: #C9DAF8;
+    }
+
+    .btn-primary {
+        background-color: #ffffff00;
+        border-color: #C9DAF8;
+        color: #76a5f7;
+    }
+
+    .btn-outline-primary.btn-primary {
+        background-color: #C9DAF8;
+        border-color: #C9DAF8;
+    }
+
+    /* Add background color to the top navigation */
+    .btn-outline-primary {
+        border-color: #C9DAF8;
+        color: #76a5f7;
+    }
+
+    /* Style the links inside the navigation bar */
+    .btn-outline-primary label {
+        background-color: #C9DAF8;
+    }
+
+    /* Change the color of links on hover */
+    .btn-outline-primary label:hover {
+        background-color: #C9DAF8;
+        color: #C9DAF8;
+    }
+
+    /* Add a color to the active/current link */
+    .btn-outline-primary label:active {
+        background-color: #C9DAF8;
+    }
+
+    .btn-primary:hover {
+        color: #000000;
+        background-color: #C9DAF8;
+        border-color: #C9DAF8;
+    }
+    .btn-primary:focus,
+    .btn-primary.focus {
+        box-shadow: none, 0 0 0 0.2rem rgba(201, 218, 248, 0.5);
+    }
+    .btn-primary.disabled,
+    .btn-primary:disabled {
+        color: #000000;
+        background-color: #C9DAF8;
+        border-color: #C9DAF8;
+    }
+    .btn-primary:not(:disabled):not(.disabled):active,
+    .btn-primary:not(:disabled):not(.disabled).active,
+    .show > .btn-primary.dropdown-toggle {
+        color: #000000;
+        background-color: #C9DAF8;
+        border-color: #C9DAF8;
+    }
+    .btn-primary:not(:disabled):not(.disabled):active:focus,
+    .btn-primary:not(:disabled):not(.disabled).active:focus,
+    .show > .btn-primary.dropdown-toggle:focus {
+        box-shadow: none, 0 0 0 0.2rem rgba(201, 218, 248, 0.5);
+    }
+    body {
+        height: fit-content;
+        width: auto;
+    }
+    .navbar-glyphs-radio-img {
+        border-radius: 10px;
+    }
+    .span-navbar-options {
+        text-align: left;
+    }
+    .label-navbar-options {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+</style>
+
+<body>
+
+{% include 'rasa_webchat.html' %}
+
+<div class="topnav row justify-content-center" style="display: flex; padding: 0px; margin-left: 300px;width: calc(100% - 300px);">
+    {#    <form style=" padding-left: 5px; padding-right: 45px; margin: 10px;">#}
+    {#        <button style="margin-top: 4px;" class="btn btn-primary" formaction="{% url 'manage_data' %}">Manage Data#}
+    {#        </button>#}
+    {#    </form>#}
+    <div style="align-items: center; min-height: 100px;" class="btn-group btn-group-toggle" data-toggle="buttons">
+        <div style="text-align: center; padding: 15px;">
+            <a id="navbar-home" style="float: unset;" href="/">
+                <img src="{% static 'images/app_icon.svg' %}"
+                     style="width: 70px;">
+            </a>
+        </div>
+
+        <form style="justify-content: center; vertical-align: middle; align-items: center;"
+              action="{% url 'selected_data' %}"
+              id="main_form"
+              method="POST">
+            {% csrf_token %}
+            <input type="hidden" id="main_graph_info" name="main_graph_info" value="complete">
+            <input type="hidden" id="main_subtree_nodes_ids" name="main_subtree_nodes_ids" value="">
+            <input type="hidden" id="main_subtree_document_description" name="main_subtree_document_description" value='{{ selected_item }}'>
+            <input type="hidden" id="main_subtree_name" name="main_subtree_name" value="">
+            <input type="hidden" id="main_hierarchy_name" name="main_hierarchy_name" value="">
+            <input type="hidden" id="main_layout_name" name="main_layout_name" value="">
+            <input type="hidden" id="popup_graph_info" name="popup_graph_info" value="">
+            <input type="hidden" id="popup_subtree_nodes_ids" name="popup_subtree_nodes_ids" value="">
+            <input type="hidden" id="popup_subtree_document_description" name="popup_subtree_document_description" value="">
+            <input type="hidden" id="popup_subtree_name" name="popup_subtree_name" value="">
+            <input type="hidden" id="popup_hierarchy_name" name="popup_hierarchy_name" value="">
+            <input type="hidden" id="popup_layout_name" name="popup_layout_name" value="">
+            <input type="hidden" id="main_subtree_id" name="main_subtree_id" value="">
+            <input type="hidden" id="popup_subtree_id" name="popup_subtree_id" value="">
+            <input type="hidden" id="action_popup" name="action_popup" value="">
+            <input type="hidden" id="selected_container" name="selected_container" value="">
+            <input type="hidden" id="do_action" name="do_action" value="">
+
+            <div style="align-items: center; height: fit-content;" class="btn-group btn-group-toggle"
+                 data-toggle="buttons">
+
+                <select id="dataset_dropdown" class="btn btn-primary" style="background-color: white; color: black;"
+                        name="selected_data"
+                        form="main_form">
+                    {% for option in options %}
+                        <option value="{{ option.description }}" id="{{ option.description }}"
+                                {% if option.description == selected_item %}selected{% endif %}>{{ option.description }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+            <!-- <select name="dropdown_layout" form="dropdown_data">
+            {% for layout in layouts %}
+            <option value="{{ layout }}" id="{{ layout }}"
+            {% if layout == selected_layout %}selected{% endif %}>{{ layout }}</option>
+            {% endfor %}
+        </select>
+        <input style="margin-left: 15px; margin-bottom: 4px;" class="btn btn-primary" type="submit" value="Submit"> -->
+        </form>
+    </div>
+    <!-- Layouts Radio Buttons -->
+
+    <div style="align-items: center;padding-right: 30px; padding-left: 30px; min-height: 100px;" class="col btn-group btn-group-toggle" id="layouts-radio-buttons" data-toggle="buttons">
+        <label id="tree_label" style="min-width: 170px; height:fit-content;"
+               {% if checked_layout == "tree" %}class="btn btn-outline-primary active label-navbar-options"
+               {% else %}class="btn btn-outline-primary label-navbar-options"{% endif %}>
+            <input type="radio" id="tree_layout_button" name="tree_layout_button" value="checked"
+                   autocomplete="off" form="main_form"
+                   {% if checked_layout == "tree" %}checked{% endif %}><span class="span-navbar-options">Tree <br>Layout&#8195;</span>
+            <img
+                    src="{% static 'images/nav_bar/treeLayout.svg' %}" style="width: 60px;">
+        </label>
+        <label id="force_label" style="min-width: 170px; height:fit-content;"
+               {% if checked_layout == "force" %}class="btn btn-outline-primary active label-navbar-options"
+               {% else %}class="btn btn-outline-primary label-navbar-options"{% endif %}>
+            <input type="radio" id="force_layout_button" form="main_form"
+                   name="force_layout_button" value="checked" autocomplete="off"
+                   {% if checked_layout == "force" %}checked{% endif %}><span class="span-navbar-options">Force <br>Layout&#8195;</span>
+            <img
+                    src="{% static 'images/nav_bar/forceLayout.svg' %}" style="width: 60px;">
+        </label>
+        <label id="radial_label" style="min-width: 170px; height:fit-content;"
+               {% if checked_layout == "radial" %}class="btn btn-outline-primary active label-navbar-options"
+               {% else %}class="btn btn-outline-primary label-navbar-options"{% endif %}>
+            <input type="radio" id="radial_layout_button" form="main_form"
+                   name="radial_layout_button" value="checked" autocomplete="off"
+                   {% if checked_layout == "radial" %}checked{% endif %}><span class="span-navbar-options">Radial <br>Layout&#8195;</span>
+            <img
+                    src="{% static 'images/nav_bar/radialLayout.svg' %}" style="width: 60px;">
+        </label>
+        <label id="circle_label" style="min-width: 170px; height:fit-content;"
+               {% if checked_layout == "circle" %}class="btn btn-outline-primary active label-navbar-options"
+               {% else %}class="btn btn-outline-primary label-navbar-options"{% endif %}>
+            <input type="radio" id="circle_layout_button" form="main_form"
+                   name="circle_layout_button" value="checked" autocomplete="off"
+                   {% if checked_layout == "circle" %}checked{% endif %}><span class="span-navbar-options">Circle <br>Packing&#8195;</span>
+            <img
+                    src="{% static 'images/nav_bar/circlePacking.svg' %}" style="width: 60px;">
+        </label>
+    </div>
+
+    <!-- Glyphs Radio Buttons -->
+
+    <div style="align-items: center; margin-right: 20px; min-height: 100px;" id="glyphs-radio-buttons" class="btn-group btn-group-toggle" data-toggle="buttons">
+        <label id="dots_label" style="min-width: 160px; height:fit-content;"
+               {% if selected_icons == "dots" %}class="btn btn-outline-primary active label-navbar-options"
+               {% else %}class="btn btn-outline-primary label-navbar-options"{% endif %}>
+            <input type="radio" name="dots_icon_button" id="dots_icon_button" form="main_form"
+                   autocomplete="off" {% if selected_icons == "dots" %}checked{% endif %}><span class="span-navbar-options">Dots &#8195;</span>
+            <img class="navbar-glyphs-radio-img" src="{% static 'images/nav_bar/dots_1.svg' %}" style="width: 60px;">
+        </label>
+        <label id="glyphs_label" style="min-width: 160px; height:fit-content;"
+               {% if selected_icons == "glyphs" %}class="btn btn-outline-primary active label-navbar-options"
+               {% else %}class="btn btn-outline-primary label-navbar-options"{% endif %}>
+            <input type="radio" name="glyphs_icon_button" id="glyphs_icon_button" form="main_form"
+                   autocomplete="off" {% if selected_icons == "glyphs" %}checked{% endif %}><span class="span-navbar-options">Circular <br>Glyphs &#8195;</span>
+            <img class="navbar-glyphs-radio-img" src="{% static 'images/nav_bar/glyph.svg' %}" style="width: 60px;">
+        </label>
+        <label id="trivial_label" style="min-width: 160px; height:fit-content;"
+               {% if selected_icons == "trivial" %}class="btn btn-outline-primary active label-navbar-options"
+               {% else %}class="btn btn-outline-primary label-navbar-options"{% endif %}>
+            <input type="radio" name="trivial_icon_button" id="trivial_icon_button" form="main_form"
+                   autocomplete="off" {% if selected_icons == "trivial" %}checked{% endif %}><span class="span-navbar-options">Trivial <br>Cheese &#8195;</span>
+            <img class="navbar-glyphs-radio-img" src="{% static 'images/nav_bar/trivial.svg' %}" style="width: 60px;">
+        </label>
+    </div>
+
+</div>
+
+<script>
+
+    $(document).ready(function () {
+        $('#dataset_dropdown').change(function () {
+
+            document.getElementById("main_graph_info").value = 'complete';
+            document.getElementById("main_subtree_nodes_ids").value = '';
+            document.getElementById("main_subtree_document_description").value = '';
+            document.getElementById("main_subtree_name").value = '';
+            document.getElementById("main_hierarchy_name").value = '';
+            document.getElementById("main_layout_name").value = '';
+            document.getElementById("main_subtree_id").value = '';
+
+            document.getElementById("popup_graph_info").value = '';
+            document.getElementById("popup_subtree_nodes_ids").value = '';
+            document.getElementById("popup_subtree_document_description").value = '';
+            document.getElementById("popup_subtree_name").value = '';
+            document.getElementById("popup_hierarchy_name").value = '';
+            document.getElementById("popup_layout_name").value = '';
+            document.getElementById("popup_subtree_id").value = '';
+
+            document.getElementById("selected_container").value = '';
+
+            let form = document.getElementById("main_form")
+            let formData = new FormData(form);
+
+            $.ajax({
+                type: "POST",
+                url: "{% url 'generate_dataset' %}",
+                data: formData,
+                // handle a successful response
+                success: function (data) {
+                    d3.json(data, function (error, treeData) {
+                        let root = treeData;
+                        var i = 0;
+
+                        function recurse(node, parent) {
+                            node.parent = parent; //We assign a parent to the node
+                            if (parent) node.depth = node.parent.depth + 1; //If parent is not null
+                            if (node.children) node.children.forEach(element => recurse(element, node));
+                            if (!node.id) node.id = ++i;
+                        }
+                        root.depth = 0;
+                        recurse(root, null);
+
+                        let hierarchyName = getHierarchyName(root, L, GFcomp, d_lvl);
+                        document.getElementById("main_hierarchy_name").value = hierarchyName;
+                        let layoutNameElem = document.getElementById("main_layout_name");
+
+                        switch(hierarchyName) {
+                          case "Unspecified": case "nCompact": case "Hybrid":
+                            layoutNameElem.value = "force";
+                            break;
+                          case "Elongated":
+                            layoutNameElem.value = "tree";
+                            break;
+                          case "Compact":
+                            layoutNameElem.value = "radial";
+                            break;
+                        }
+                        let inputBestLayout = document.createElement("input");
+                        inputBestLayout.setAttribute("type", "hidden");
+                        inputBestLayout.setAttribute("name", "best_layout_selected");
+                        inputBestLayout.setAttribute("value", "true");
+                        form.appendChild(inputBestLayout);
+                        form.submit();
+                    });
+                },
+                // handle a non-successful response
+                error: function(jqXHR, textStatus, errorThrown) { // on error..
+                    if (jqXHR.status === 0) {
+                        alert('Not connect: Verify Network.');
+                    } else if (jqXHR.status === 404) {
+                        alert('Requested page not found [404]');
+                    } else if (jqXHR.status === 500) {
+                        alert('Internal Server Error [500].');
+                    } else if (textStatus === 'parsererror') {
+                        alert('Requested JSON parse failed.');
+                    } else if (textStatus === 'timeout') {
+                        alert('Time out error.');
+                    } else if (textStatus === 'abort') {
+                        alert('Ajax request aborted.');
+                    } else {
+                        alert('Uncaught Error: ' + jqXHR.responseText);
+                    }
+                },
+                cache: false,
+                contentType: false,
+                processData: false,
+            })
+        });
+    });
+
+    function addChangedLayoutInputs(elemLayoutID) {
+
+        document.getElementById("action_popup").value = '';
+
+        let form = document.getElementById('main_form');
+        let inputLayoutChange = document.createElement("input");
+        inputLayoutChange.setAttribute("type", "hidden");
+        inputLayoutChange.setAttribute("name", "changed_main_layout");
+        inputLayoutChange.setAttribute("value", "true");
+        form.appendChild(inputLayoutChange);
+
+        let changedFromChat = document.getElementById(elemLayoutID).from_chat;
+        let fromChatMsg = document.getElementById(elemLayoutID).from_chat_msg;
+        if (changedFromChat) {
+            let inputFromChat = document.createElement("input");
+            inputFromChat.setAttribute("type", "hidden");
+            inputFromChat.setAttribute("name", "chatbot");
+            inputFromChat.setAttribute("value", "true");
+            form.appendChild(inputFromChat);
+            let inputFromChatMsg = document.createElement("input");
+            inputFromChatMsg.setAttribute("type", "hidden");
+            inputFromChatMsg.setAttribute("name", "from_chat_msg");
+            inputFromChatMsg.setAttribute("value", fromChatMsg);
+            form.appendChild(inputFromChatMsg);
+        }
+    }
+
+    jQuery("#tree_layout_button").click(function () {
+        $(this).prop("checked", true);
+        document.getElementById("tree_label").className = "btn btn-primary active label-navbar-options";
+        $('#force_layout_button').prop("checked", false);
+        document.getElementById("force_label").className = "btn btn-primary label-navbar-options";
+        $('#radial_layout_button').prop("checked", false);
+        document.getElementById("radial_label").className = "btn btn-primary label-navbar-options";
+        $('#circle_layout_button').prop("checked", false);
+        document.getElementById("circle_label").className = "btn btn-primary label-navbar-options";
+
+        document.getElementById("main_layout_name").value = 'tree';
+        addChangedLayoutInputs("tree_layout_button");
+        $('#main_form').submit();
+    });
+
+    jQuery("#force_layout_button").click(function () {
+        $('#tree_layout_button').prop("checked", false);
+        document.getElementById("tree_label").className = "btn btn-primary label-navbar-options";
+        $(this).prop("checked", true);
+        document.getElementById("force_label").className = "btn btn-primary active label-navbar-options";
+        $('#radial_layout_button').prop("checked", false);
+        document.getElementById("radial_label").className = "btn btn-primary label-navbar-options";
+        $('#circle_layout_button').prop("checked", false);
+        document.getElementById("circle_label").className = "btn btn-primary label-navbar-options";
+
+        document.getElementById("main_layout_name").value = 'force';
+        addChangedLayoutInputs("force_layout_button");
+        $('#main_form').submit();
+    });
+
+    jQuery("#radial_layout_button").click(function () {
+        $('#tree_layout_button').prop("checked", false);
+        document.getElementById("tree_label").className = "btn btn-primary label-navbar-options";
+        $('#force_layout_button').prop("checked", false);
+        document.getElementById("force_label").className = "btn btn-primary label-navbar-options";
+        $(this).prop("checked", true);
+        document.getElementById("radial_label").className = "btn btn-primary active label-navbar-options";
+        $('#circle_layout_button').prop("checked", false);
+        document.getElementById("circle_label").className = "btn btn-primary label-navbar-options";
+
+        document.getElementById("main_layout_name").value = 'radial';
+        addChangedLayoutInputs("radial_layout_button");
+        $('#main_form').submit();
+    });
+
+    jQuery("#circle_layout_button").click(function () {
+        $('#tree_layout_button').prop("checked", false);
+        document.getElementById("tree_label").className = "btn btn-primary label-navbar-options";
+        $('#force_layout_button').prop("checked", false);
+        document.getElementById("force_label").className = "btn btn-primary label-navbar-options";
+        $('#radial_layout_button').prop("checked", false);
+        document.getElementById("radial_label").className = "btn btn-primary label-navbar-options";
+        $(this).prop("checked", true);
+        document.getElementById("circle_label").className = "btn btn-primary active label-navbar-options";
+
+        document.getElementById("main_layout_name").value = 'circle';
+        addChangedLayoutInputs("circle_layout_button");
+        $('#main_form').submit();
+    });
+
+
+    jQuery("#dots_icon_button").click(function () {
+        $(this).prop("checked", true);
+        document.getElementById("dots_label").className = "btn btn-primary active label-navbar-options";
+        $('#glyphs_icon_button').prop("checked", false);
+        document.getElementById("glyphs_label").className = "btn btn-primary label-navbar-options";
+        $('#trivial_icon_button').prop("checked", false);
+        document.getElementById("trivial_label").className = "btn btn-primary label-navbar-options";
+        console.log('[User]', user.split('/')[2], '| [interaction]', 'dots_icons', '| [Date]', Date.now());
+    });
+
+    jQuery("#glyphs_icon_button").click(function () {
+        $('#dots_icon_button').prop("checked", false);
+        document.getElementById("dots_label").className = "btn btn-primary label-navbar-options";
+        $('#trivial_icon_button').prop("checked", false);
+        document.getElementById("trivial_label").className = "btn btn-primary label-navbar-options";
+        $(this).prop("checked", true);
+        document.getElementById("glyphs_label").className = "btn btn-primary active label-navbar-options";
+        console.log('[User]', user.split('/')[2], '| [interaction]', 'glyph_icons', '| [Date]', Date.now());
+    });
+
+    jQuery("#trivial_icon_button").click(function () {
+        $('#dots_icon_button').prop("checked", false);
+        document.getElementById("dots_label").className = "btn btn-primary label-navbar-options";
+        $('#glyphs_icon_button').prop("checked", false);
+        document.getElementById("glyphs_label").className = "btn btn-primary label-navbar-options";
+        $(this).prop("checked", true);
+        document.getElementById("trivial_label").className = "btn btn-primary active label-navbar-options";
+        console.log('[User]', user.split('/')[2], '| [interaction]', 'trivial_icons', '| [Date]', Date.now());
+    });
+
+    document.getElementById("navbar-home").onclick = function () {
+        window.location="/";
+    };
+</script>
+</body>
+</html>

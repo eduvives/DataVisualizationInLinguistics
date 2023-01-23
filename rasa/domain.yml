@@ -1,0 +1,624 @@
+version: '2.0'
+
+intents:
+  - greet
+  - goodbye
+  - affirm:
+      use_entities: [] # ignore all entities
+  - deny:
+      use_entities: [] # ignore all entities
+  - cancel_form
+  - bot_challenge
+  - start_intent
+  - generate_response_message:
+      use_entities:
+      - response_message
+  - set_slots
+  - logout:
+      use_entities:
+      - action_requested
+  - login:
+      use_entities:
+      - action_requested
+  - signup:
+      use_entities:
+      - action_requested
+  - change_layout:
+      use_entities:
+      - layout_requested
+      - object_requested
+  - change_layout_tree:
+      use_entities:
+      - layout_requested
+      - object_requested
+  - change_layout_force:
+      use_entities:
+      - layout_requested
+      - object_requested
+  - change_layout_radial:
+      use_entities:
+      - layout_requested
+      - object_requested
+  - change_layout_circle:
+      use_entities:
+      - layout_requested
+      - object_requested
+  - select_document:
+      use_entities:
+      - document_requested
+      - object_requested
+  # Filters
+  - switch_or
+  - switch_and
+  - highlight_switch
+  - highlight_uncheck_all
+  - highlight_uncheck
+  - highlight_check
+  # Complex intents
+  - longest_thread
+  - widest_level
+  - largest_thread
+  - most_toxic_thread
+  - most_toxic_subtree
+  - comment_level_vs_very_toxic
+  - combination_features_very_toxic
+  - combination_features_toxic
+  - combination_features_mildly_toxic
+  - combination_features_non_toxic
+  - combination_features_CL1
+  - combination_features_CL2
+  - comment_level_1
+  - comment_level_2
+  - CL1_argument_constructive
+  - CL2_argument_constructive
+  - constructive_feature
+  - target_person_loT
+  - statistics_features_tree
+  - statistics_features_subtrees
+  - most_tagged_features
+  - help_glyphs
+  - help_layouts
+  - help_highlight
+  - help_summary
+  - help_main_graph_barchart
+  - functions
+  - help_subtree_barchart
+  - help_AND
+  - help_OR
+  - help_AND_OR
+  - help_what_can_you_do
+  - what_can_do_after_glyphs
+  - test
+
+actions:
+  - action_check_session_login
+  - action_check_session_signup
+  - action_generate_response_message
+  - action_greet
+  - action_login
+  - action_logout
+  - action_logout_to_login_cancellation
+  - action_logout_to_signup_cancellation
+  - action_open_document
+  - action_set_slots
+  - action_signup
+  - action_store_session_slots
+  - utter_goodbye
+  - utter_offers_help
+  - validate_signup_form
+  - validate_login_form
+  - validate_document_selection_form
+  - action_highlight_check
+  - action_highlight_uncheck
+  - action_highlight_switch
+  - action_highlight_check_last
+  - action_highlight_uncheck_last
+  - action_highlight_switch_last
+  - action_send_popup_shown_message
+
+
+forms:
+  login_form:
+    username:
+    - type: from_text
+    password:
+    - type: from_text
+  signup_form:
+    username:
+    - type: from_text
+    password:
+    - type: from_text
+    password_confirmation:
+    - type: from_text
+  document_selection_form:
+    document_requested:
+    - type: from_text
+
+entities:
+  - action_requested
+  - csrfmiddlewaretoken
+  - csrftoken
+  - document_requested
+  - greet_again
+  - layout_requested
+  - nickname
+  - object_requested
+  - password
+  - password_confirmation
+  - response_message
+  - sessionid
+  - username
+  - filter_name
+  - first_login
+  - popup_shown
+
+slots:
+  csrfmiddlewaretoken:
+    type: text
+    influence_conversation: false
+  csrftoken:
+    type: text
+    influence_conversation: false
+  document_requested:
+    type: text
+    influence_conversation: false
+  layout_requested:
+    type: text
+    influence_conversation: false
+  nickname:
+    type: text
+    influence_conversation: false
+  object_requested:
+    type: text
+    influence_conversation: false
+  password:
+    type: text
+    influence_conversation: false
+  password_confirmation:
+    type: text
+    influence_conversation: false
+  sessionid:
+    type: text
+    influence_conversation: false
+  user_is_logged_in:
+    type: bool
+    influence_conversation: true
+  username:
+    type: text
+    influence_conversation: false
+  previous_filters:
+    type: list
+  first_login:
+    type: bool
+  popup_shown:
+    type: bool
+
+
+
+responses:
+
+  utter_offers_help:
+  - text: "Need something? 😊"
+  - text: "Can I help you with anything? 😊"
+
+  utter_user_affirm_help:
+    - text: "What can I do for you?"
+    - text: "How can I help you?"
+
+  utter_user_deny_help:
+    - text: "Okay, don't hesitate to ask me for help if you need it"
+    - text: "Okay, I am here if you need any help"
+
+  utter_goodbye:
+  - text: "Bye"
+  - text: "Goodbye!"
+  - text: "See you later"
+
+  utter_you_are_welcome:
+  - text: "you are welcome"
+  - text: "you're welcome"
+  - text: "no problem"
+
+  utter_iamabot:
+  - text: "I am a bot, powered by Rasa."
+
+  utter_logout_confirmation:
+  - text: "Sure you want to log out?"
+
+  utter_logout_cancellation:
+  - text: "Okay! I will not log you out"
+
+  utter_logout_to_login:
+  - text: "You are already logged in, do you want me to log you out to start a new session?"
+
+  utter_logout_to_signup:
+  - text: "I need to close your current session in order to register the new user, is that ok?"
+
+  utter_ask_username:
+  - text: "What is your username?"
+
+  utter_ask_signup_form_username:
+  - text: "What username would you like to have?"
+
+  utter_ask_login_form_password:
+  - text: "and the password?"
+
+  utter_ask_signup_form_password:
+  - text: "What password do you want to set?"
+
+  utter_ask_signup_form_password_confirmation:
+  - text: "Please retype the password to confirm it"
+
+  utter_change_layout:
+  - text: "To which layout do you want to change?"
+    buttons:
+      - title: "Tree"
+        payload: '/change_layout_tree{{"object_requested":"layout","layout_requested":"tree"}}'
+      - title: "Force"
+        payload: '/change_layout_force{{"object_requested":"layout","layout_requested":"force"}}'
+      - title: "Radial"
+        payload: '/change_layout_radial{{"object_requested":"layout","layout_requested":"radial"}}'
+      - title: "Circle"
+        payload: '/change_layout_circle{{"object_requested":"layout","layout_requested":"circle"}}'
+
+  utter_change_layout_tree:
+  - text: "intent_change_layout,tree_layout_button,Layout changed to Tree"
+
+  utter_change_layout_force:
+  - text: "intent_change_layout,force_layout_button,Layout changed to Force"
+
+  utter_change_layout_radial:
+  - text: "intent_change_layout,radial_layout_button,Layout changed to Radial"
+
+  utter_change_layout_circle:
+  - text: "intent_change_layout,circle_layout_button,Layout changed to Circle Packing"
+
+  utter_ask_document_selection_form_document_requested:
+  - text: "Which document do you want to open?"
+
+  # Filters
+  # Change to OR / AND
+  utter_switch_or:
+  - text: "intent_switch_or_and,or_button,Highlighting options changed to OR"
+
+  utter_switch_and:
+  - text: "intent_switch_or_and,and_button,Highlighting options changed to AND"
+
+  utter_highlight_uncheck_all:
+  - text: "intent_highlight_uncheck_all,Here you have it"
+
+  # complex intent responses
+
+  # longest, largest, widest, most toxic
+  utter_longest_thread:
+  - text: "intent_event,longest_thread,Here you have it"
+  - text: "intent_event,longest_thread,I've highlighted it in your graph"
+  - text: "intent_event,longest_thread,Here is the longest thread"
+
+  utter_widest_level:
+  - text: "intent_event,widest_level,Here you have it"
+  - text: "intent_event,widest_level,I've highlighted it in your graph"
+  - text: "intent_event,widest_level,Here is the widest level"
+
+  utter_largest_thread:
+  - text: "intent_event,largest_thread,Here you have it"
+  - text: "intent_event,largest_thread,I've highlighted it in your graph"
+  - text: "intent_event,largest_thread,Here is the largest subtree"
+
+  utter_most_toxic_thread:
+    - text: "intent_event,most_toxic_thread,Here is the most toxic thread"
+    - text: "intent_event,most_toxic_thread,Here you have it"
+
+  utter_most_toxic_subtree:
+    - text: "intent_event,most_toxic_subtree,Here is the most toxic subtree"
+    - text: "intent_event,most_toxic_subtree,Here you have it"
+
+  # comment level and very toxic
+  utter_comment_level_vs_very_toxic:
+    - text: "I displayed the comment level with the most very toxic nodes which is comment level: "
+    - text: "Here you have it"
+
+  # combination of features in levels of toxicity
+  utter_combination_features_very_toxic:
+    - text: "Most occurred combination of features are [] and []"
+    - text: "Here you have it"
+
+  utter_combination_features_toxic:
+    - text: "Most occurred combination of features are [] and []"
+    - text: "Here you have it"
+
+  utter_combination_features_mildly_toxic:
+    - text: "Most occurred combination of features are [] and []"
+    - text: "Here you have it"
+
+  utter_combination_features_non_toxic:
+    - text: "Most occurred combination of features are [] and []"
+    - text: "Here you have it"
+
+  # comment level related
+  utter_combination_features_CL1:
+    - text: "Most occurred combination of features are [] and []"
+    - text: "Here you have it"
+
+  utter_combination_features_CL2:
+    - text: "Most occurred combination of features are [] and []"
+    - text: "Here you have it"
+
+  # these two should be more easier to do
+  utter_comment_level_1:
+    - text: "Here you have comment level 1 displayed"
+    - text: "Here you have it"
+
+  utter_comment_level_2:
+    - text: "Here you have comment level 2 displayed"
+    - text: "Here you have it"
+
+  # comment level and argument - constructive
+  utter_CL1_argument_constructive:
+    - text: "Here you have nodes that have constructiveness and argumentation in comment level 1"
+    - text: "Here you have it"
+
+  utter_CL2_argument_constructive:
+    - text: "Here you have nodes that have constructiveness and argumentation in comment level 2"
+    - text: "Here you have it"
+
+  # features vs features or level of toxicity
+  utter_constructiveness_feature:
+    - text: "[] features appear more with constructiveness"
+
+  utter_target_person_loT:
+    - text: "In [] level of toxicity target person appears more"
+
+  utter_statistics_features_tree:
+    - text: "intent_event,statistics_all_features_tree,These are the statistics of the graph features"
+
+  utter_statistics_features_subtrees:
+    - text: "intent_event,statistics_all_features_subtrees,These are the statistics of the subgraphs features"
+
+  utter_most_tagged_features:
+    - text: "intent_event,most_tagged_features,Here you have it"
+
+  utter_asking_about_barchart:
+    - text: "Do you want to see a bar chart comparing values of features?"
+
+  utter_help_glyphs:
+    - text: "You can directly see which features are tagged to which comments by using glyphs.  \ \n
+
+  Check-all the features on the left column under Features to see the glyphs"
+      image: "https://ecemkavaz.github.io/imagesRasa/features.png"
+
+  utter_help_bar_chart_pop_up:
+    - text: "You can change features to:  \ \n
+            - Targets  \ \n
+            - Stances   \ \n
+            - Level of Toxicity  \ \n
+
+             Also, you can change the visualisation to:  \ \n
+              - Horizontal Bar   \ \n
+              - Pie  "
+
+
+
+
+  utter_explain_glyphs_one:
+    - text: "Glyphs helps you see which comments are annotated with which features. \ \n
+    I have three available glyphs:
+    "
+  utter_explain_glyphs_two:
+    - text: "Dots"
+      image: "https://ecemkavaz.github.io/imagesRasa/dots_1.svg"
+
+  utter_explain_glyphs_three:
+    - text: "Circular Glyph"
+      image: "https://ecemkavaz.github.io/imagesRasa/glyph.svg"
+
+  utter_explain_glyphs_four:
+    - text: "Trivial Cheese"
+      image: "https://ecemkavaz.github.io/imagesRasa/trivial.svg"
+
+  utter_explain_glyphs_five:
+    - text: "You can use the left bar to activate the features you want to see. \ \n
+                  You can select them: \ \n
+
+                 - one-by-one \ \n
+                     or \ \n
+                  - select 'check all' button \ \n"
+
+  utter_explain_targets_one:
+    - text: "Targets are annotated on comments that have these attributes. There are three available targets:
+    "
+  utter_explain_targets_two:
+    - text: "Target Group"
+      image: "https://ecemkavaz.github.io/imagesRasa/Group.svg"
+
+  utter_explain_targets_three:
+    - text: "Target Person"
+      image: "https://ecemkavaz.github.io/imagesRasa/Person.svg"
+
+  utter_explain_targets_four:
+    - text: "Stereotype"
+      image: "https://ecemkavaz.github.io/imagesRasa/Stereotype.svg"
+
+  utter_explain_targets_five:
+    - text: "Use Targets tab on the lef bar to activate and deactivate them"
+      image: "https://ecemkavaz.github.io/imagesRasa/targets.png"
+
+
+  utter_explain_features_tab:
+    - text: "All the comments are tagged with features that they have. You can activate and deactivate features to see with Glyphs which comments have which, using Features tab. Select features one-by-one or check-all. "
+      image: "https://ecemkavaz.github.io/imagesRasa/features.png"
+
+  utter_help_layouts:
+    - text: "There are four available layouts. I automatically select the best fitted layout according
+         to your data but you can explore other layouts by selecting them above. Try a different layout:"
+      buttons:
+       - title: "Tree"
+         payload: '/change_layout_tree{{"object_requested":"layout","layout_requested":"tree"}}'
+       - title: "Force"
+         payload: '/change_layout_force{{"object_requested":"layout","layout_requested":"force"}}'
+       - title: "Radial"
+         payload: '/change_layout_radial{{"object_requested":"layout","layout_requested":"radial"}}'
+       - title: "Circle"
+         payload: '/change_layout_circle{{"object_requested":"layout","layout_requested":"circle"}}'
+
+
+
+
+  utter_help_highlight:
+    - text: "Highlight function will show only the comments that include the selected feature.
+    You can ask me to show you or select features from the left bar."
+      image: "https://ecemkavaz.github.io/imagesRasa/highlight.png"
+
+  utter_help_AND:
+    - text: "If you use AND option to select more than one feature,
+    you will see the comments that are tagged with all the selected features"
+
+  utter_help_OR:
+    - text: "If you use OR option to select more than one feature,
+    you will see the comments that are tagged with at least one of the selected features"
+
+  utter_help_AND_OR:
+    - text: "If you use AND option to select more than one feature,
+      you will see the comments that are tagged with all the selected features. If you use OR option to select more than one feature,
+      you will see the comments that are tagged with at least one of the selected features"
+
+  utter_help_summary:
+    - text: "Summary shows how many comments are there in different levels of toxicity and how many comments
+    are there in different target features. Summary gets updated when comments are highlighted."
+      image: "https://ecemkavaz.github.io/imagesRasa/summary.png"
+
+  utter_help_main_bar:
+    - text: "If you select 'Selected Comments' button on the top, a bar chart will appear displaying the
+    number of each feature the selected comments have. \ \n
+     From the first list you can select to see statistics of: \ \n
+      - Targets \ \n
+      - Stances \ \n
+       - Level of toxicity \ \n
+
+       There are available three graph options on the second list: \ \n
+       - Bar Chart \ \n
+       - Horizontal Bar Chart  \ \n
+       - Pie
+     Chart."
+      image: "https://ecemkavaz.github.io/imagesRasa/selectedcomments.png"
+
+  utter_help_main_bar_two:
+    - text: "If you want to have more information about this:"
+      buttons:
+        - title: "Click here"
+          payload: '/statistics_help'
+
+  utter_help_main_bar_three:
+    - text: "If you click on each bar, you can highlight the features on the graph. Also, you can
+    remove features by clicking on their name to compare the only features you want."
+
+  utter_help_subtree_bar:
+    - text: "If you select 'Level One Comments' button, a bar chart will appear displaying the
+    available features of each comment in level one and their children. \ \n
+    From the first list you can select to see statistics of: \ \n
+          - Targets \ \n
+          - Stances \ \n
+           - Level of toxicity \ \n
+
+           There are available three graph options on the second list: \ \n
+           - Bar Chart \ \n
+           - Horizontal Bar Chart  \ \n
+          "
+      image: "https://ecemkavaz.github.io/imagesRasa/levelonecomments.png"
+
+  utter_general_help:
+    - text: "I can help you with: "
+      buttons:
+        - title: "Highlight"
+          payload: '/help_highlight'
+        - title: "Layouts"
+          payload: '/help_layouts'
+        - title: "Glyphs"
+          payload: '/help_glyphs'
+        - title: "Features"
+          payload: '/features_on_the_left'
+        - title: "Targets"
+          payload: '/targets_help'
+        - title: "Summary"
+          payload: '/help_summary'
+        - title: "Selected Comments"
+          payload: '/help_main_graph_barchart'
+        - title: "Level One Comments"
+          payload: 'help_subtree_barchart'
+        - title: "Sub Structures"
+          payload: '/help_sub_structure'
+
+  utter_help_sub_structure:
+    - text: "There are sub structures that I can display, select one to see."
+      buttons:
+        - title: "the largest thread"
+          payload: '/largest_thread'
+        - title: "the longest thread"
+          payload: '/longest_thread'
+        - title: "the most toxic thread"
+          payload: '/most_toxic_thread'
+        - title: "the widest level"
+          payload: '/widest_level'
+
+
+
+  utter_help_what_can_you_do:
+    - text: "I am here to guide you through analysis.
+             I can show you sub structures, highlight features, or answer questions about the features of the tool."
+      buttons:
+        - title: "the largest thread"
+          payload: '/largest_thread'
+        - title: "the longest thread"
+          payload: '/longest_thread'
+        - title: "the most toxic thread"
+          payload: '/most_toxic_thread'
+        - title: "the widest level"
+          payload: '/widest_level'
+        - title: "learn more"
+          payload: '/tool_help'
+
+
+  utter_explain_pop_up_toxic:
+    - text: "I highlighted the most toxic thread on the main view. Also, I displayed it separately on
+    a pop-up window."
+
+  utter_explain_pop_up_largest:
+    - text: "I highlighted the largest thread on the main view. Also, I displayed it separately on
+    a pop-up window."
+
+  utter_explain_pop_up_longest:
+    - text: "I highlighted the longest thread on the main view. Also, I displayed it separately on
+    a pop-up window."
+
+  utter_explain_pop_up_widest:
+    - text: "I highlighted the widest level on the main view. Also, I displayed it separately on
+    a pop-up window."
+
+  utter_guide_bar_charts:
+    - text: "Now you can compare the features with additional charts. Also, don't forget you can switch
+    active window and compare whole graph's features with additional charts. Just ask me or select the
+    button at the top that says 'Selected Comments'."
+
+  utter_active_window_explain:
+    - text: "Now the active window is the pop-up that is highlighted with a blue frame. You can switch
+                the active window by selecting the main window. Don't forget I will give answers to your questions considering
+                the active window!"
+
+
+  utter_test:
+    - text: "do you want to know more?"
+      buttons:
+        - title: "yes"
+          payload: "/affirm"
+        - title: "no"
+          payload: "/deny"
+
+
+
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true
+
+config:
+  store_entities_as_slots: true

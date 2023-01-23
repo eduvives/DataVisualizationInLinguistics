@@ -1,0 +1,446 @@
+version: "2.0"
+
+stories:
+
+- story: User states that he needs help
+  steps:
+  - intent: greet
+  - action: utter_offers_help
+  - intent: affirm
+  - action: utter_user_affirm_help
+
+- story: User does not need help
+  steps:
+  - intent: greet
+  - action: utter_offers_help
+  - intent: deny
+  - action: utter_user_deny_help
+
+- story: Wait for user request
+  steps:
+    - intent: greet
+    - action: utter_offers_help
+    - action: action_listen
+
+- story: User decides to log out and confirms
+  steps:
+    - intent: logout
+    - action: utter_logout_confirmation
+    - intent: affirm
+    - action: action_logout
+
+- story: The user decides to log out, but reconsiders and does not confirm. He is warned that his session will remain open.
+  steps:
+    - intent: logout
+    - action: utter_logout_confirmation
+    - intent: deny
+    - action: utter_logout_cancellation
+
+- story: User logs in without an active session already open
+  steps:
+    - slot_was_set:
+        - sessionid: null
+    - intent: login
+    - action: action_check_session_login
+    - action: login_form
+    - active_loop: login_form
+    - slot_was_set:
+        - requested_slot: username
+    - slot_was_set:
+        - username: edu
+    - slot_was_set:
+        - requested_slot: password
+    - slot_was_set:
+        - password: patata5439
+    - slot_was_set:
+        - requested_slot: null
+    - active_loop: null
+    - action: action_login
+
+
+- story: User attempts to log in with an active session, but regrets and remains in current session
+  steps:
+    - slot_was_set:
+        - sessionid: j0lvx14zf3f2itg0wmj9utl8ipml12ed
+    - intent: login
+    - action: action_check_session_login
+    - action: utter_logout_to_login
+    - intent: deny
+    - action: action_logout_to_login_cancellation
+
+- story: The user logs in and replaces his current session with another one
+  steps:
+    - slot_was_set:
+        - sessionid: m29srwgqfjsqmm8fprrxiwhl68m5gi70
+    - intent: login
+    - action: action_check_session_login
+    - action: utter_logout_to_login
+    - intent: affirm
+    - action: login_form
+    - active_loop: login_form
+    - slot_was_set:
+        - requested_slot: username
+    - slot_was_set:
+        - username: edu
+    - slot_was_set:
+        - requested_slot: password
+    - slot_was_set:
+        - password: patata5439
+    - slot_was_set:
+        - requested_slot: null
+    - active_loop: null
+    - action: action_login
+
+- story: User registers
+  steps:
+    - slot_was_set:
+        - sessionid: null
+    - intent: signup
+    - action: action_check_session_signup
+    - action: signup_form
+    - active_loop: signup_form
+    - slot_was_set:
+        - requested_slot: username
+    - slot_was_set:
+        - username: ecem2
+    - slot_was_set:
+        - requested_slot: password
+    - slot_was_set:
+        - password: 123456test
+    - slot_was_set:
+        - requested_slot: password_confirmation
+    - slot_was_set:
+        - password_confirmation: 123456test
+    - slot_was_set:
+        - requested_slot: null
+    - active_loop: null
+    - action: action_signup
+
+- story: User attempts to register with an active session, but decides to stay in the current session rather than registering
+  steps:
+    - slot_was_set:
+        - sessionid: j0lvx14zf3f2itg0wmj9utl8ipml12ed
+    - intent: signup
+    - action: action_check_session_signup
+    - action: utter_logout_to_signup
+    - intent: deny
+    - action: action_logout_to_signup_cancellation
+
+- story: The user registers and replaces his current session with the new registered user
+  steps:
+    - slot_was_set:
+        - sessionid: m29srwgqfjsqmm8fprrxiwhl68m5gi70
+    - intent: signup
+    - action: action_check_session_signup
+    - action: utter_logout_to_signup
+    - intent: affirm
+    - action: signup_form
+    - active_loop: signup_form
+    - slot_was_set:
+        - requested_slot: username
+    - slot_was_set:
+        - username: ecem2
+    - slot_was_set:
+        - requested_slot: password
+    - slot_was_set:
+        - password: 123456test
+    - slot_was_set:
+        - requested_slot: password_confirmation
+    - slot_was_set:
+        - password_confirmation: 123456test
+    - slot_was_set:
+        - requested_slot: null
+    - active_loop: null
+    - action: action_signup
+
+- story: User requests to change layout
+  steps:
+    - intent: start_intent
+    - action: action_greet
+    - intent: greet
+    - action: utter_offers_help
+    - action: action_listen
+    - intent: change_layout
+    - action: utter_change_layout
+    - intent: change_layout_tree
+    - action: utter_change_layout_tree
+    - action: action_listen
+
+- story: User requests to change layout 2
+  steps:
+    - intent: start_intent
+    - action: action_greet
+    - intent: greet
+    - action: utter_offers_help
+    - action: action_listen
+    - intent: change_layout
+    - action: utter_change_layout
+    - intent: change_layout_force
+    - action: utter_change_layout_force
+    - action: action_listen
+
+- story: The user requests to open a specific document
+  steps:
+    - intent: start_intent
+    - action: action_greet
+    - intent: greet
+    - action: utter_offers_help
+    - action: action_listen
+    - intent: select_document
+      entities:
+        - object_requested: "document"
+        - document_requested: "20200831_CR"
+    - slot_was_set:
+        - object_requested: "document"
+        - document_requested: "20200831_CR"
+    - action: action_open_document
+
+- story: User provides the name of a document
+  steps:
+    - intent: select_document
+      entities:
+        - document_requested: "test3"
+    - slot_was_set:
+        - document_requested: "test3"
+    - action: action_open_document
+
+- story: User requests to open an unspecified document
+  steps:
+    - intent: greet
+    - action: utter_offers_help
+    - action: action_listen
+    - intent: select_document
+      entities:
+        - object_requested: "document"
+    - slot_was_set:
+        - object_requested: "document"
+    - action: document_selection_form
+    - active_loop: document_selection_form
+    - slot_was_set:
+        - requested_slot: document_requested
+    - slot_was_set:
+        - document_requested: 20200708_MI
+    - slot_was_set:
+        - requested_slot: null
+    - active_loop: null
+    - action: action_open_document
+
+
+- story: New scenario with guidance without affirm/deny 1
+  steps:
+    - intent: greet
+    - action: utter_offers_help
+    - intent: help_what_can_you_do
+    - action: utter_help_what_can_you_do
+    - intent: most_toxic_thread
+    - action: utter_most_toxic_thread
+    - action: utter_explain_pop_up_toxic
+    - intent: most_tagged_features
+    - action: utter_most_tagged_features
+    - action: utter_help_glyphs
+    - intent: help_glyphs
+    - action: utter_explain_glyphs_one
+    - action: utter_explain_glyphs_two
+    - action: utter_explain_glyphs_three
+    - action: utter_explain_glyphs_four
+    - action: utter_explain_glyphs_five
+    - intent: what_can_do_after_glyphs
+    - action: utter_guide_bar_charts
+    - intent: statistics_features_subtrees
+    - action: utter_statistics_features_subtrees
+    - action: utter_help_bar_chart_pop_up
+
+
+- story: New scenario with guidance without affirm/deny 2
+  steps:
+    - intent: greet
+    - action: utter_offers_help
+    - intent: help_what_can_you_do
+    - action: utter_help_what_can_you_do
+    - intent: largest_thread
+    - action: utter_largest_thread
+    - action: utter_explain_pop_up_largest
+    - intent: longest_thread
+    - action: utter_longest_thread
+    - action: utter_explain_pop_up_longest
+    - intent: statistics_features_tree
+    - action: utter_statistics_features_tree
+    - action: utter_help_bar_chart_pop_up
+    - intent: most_tagged_features
+    - action: utter_most_tagged_features
+    - action: utter_help_glyphs
+    - intent: help_glyphs
+    - action: utter_explain_glyphs_one
+    - action: utter_explain_glyphs_two
+    - action: utter_explain_glyphs_three
+    - action: utter_explain_glyphs_four
+    - action: utter_explain_glyphs_five
+
+
+- story: explaining glyphs with multiple steps
+  steps:
+    - intent: help_glyphs
+    - action: utter_explain_glyphs_one
+    - action: utter_explain_glyphs_two
+    - action: utter_explain_glyphs_three
+    - action: utter_explain_glyphs_four
+    - action: utter_explain_glyphs_five
+
+
+- story: left bar help
+  steps:
+    - intent: features_on_the_left
+    - action: utter_explain_features_tab
+    - intent: targets_help
+    - action: utter_explain_targets_one
+    - action: utter_explain_targets_two
+    - action: utter_explain_targets_three
+    - action: utter_explain_targets_four
+    - action: utter_explain_targets_five
+    - intent: thanks
+    - action: utter_you_are_welcome
+
+- story: target
+  steps:
+    - intent: targets_help
+    - action: utter_explain_targets_one
+    - action: utter_explain_targets_two
+    - action: utter_explain_targets_three
+    - action: utter_explain_targets_four
+    - action: utter_explain_targets_five
+
+
+
+
+#- story: Analysis scenario 1 positive
+#  steps:
+#    - intent: greet
+#    - action: utter_offers_help
+#    - intent: most_toxic_thread
+#    - action: utter_most_toxic_thread
+#    - intent: most_tagged_features
+#    - action: utter_most_tagged_features
+#    - intent: affirm
+#    - action: utter_statistics_features_subtrees
+#    - action: utter_help_glyphs
+#    - intent: statistics_features_tree
+#    - action: utter_statistics_features_tree
+#    - action: utter_help_bar_chart_pop_up
+
+
+#- story: Analysis scenario 1 negative
+#  steps:
+#    - intent: greet
+#    - action: utter_offers_help
+#    - intent: most_toxic_thread
+#    - action: utter_most_toxic_thread
+#    - intent: most_tagged_features
+#    - action: utter_most_tagged_features
+#    - intent: deny
+#    - action: utter_user_deny_help
+
+
+#- story: Analysis scenario 2 positive
+#  steps:
+#    - intent: greet
+#    - action: utter_offers_help
+#    - intent: highlight_check
+#    - action: action_highlight_check
+#    - intent: most_tagged_features
+#    - action: utter_most_tagged_features
+#    - intent: affirm
+#    - action: utter_statistics_features_subtrees
+#    - action: utter_help_glyphs
+
+- story: Analysis scenario 3
+  steps:
+    - intent: greet
+    - action: utter_offers_help
+    - intent: largest_thread
+    - action: utter_largest_thread
+    - action: utter_explain_pop_up_largest
+    - intent: longest_thread
+    - action: utter_longest_thread
+    - action: utter_explain_pop_up_longest
+
+
+- story: Help Scenario
+  steps:
+    - intent: greet
+    - action: utter_offers_help
+    - intent: tool_help
+    - action: utter_general_help
+    - intent: help_sub_structure
+    - action: utter_help_sub_structure
+    - intent: thanks
+    - action: utter_you_are_welcome
+    - intent: help_main_graph_barchart
+    - action: utter_help_main_bar
+    - action: utter_help_main_bar_two
+    - intent: statistics_help
+    - action: utter_help_main_bar_three
+
+
+- story: User wants to know about statistics
+  steps:
+    - intent: help_main_graph_barchart
+    - action: utter_help_main_bar
+    - action: utter_help_main_bar_two
+    - intent: statistics_help
+    - action: utter_help_main_bar_three
+
+- story: User wants to know about sub graphs button
+  steps:
+    - intent: help_subtree_barchart
+    - action: utter_help_subtree_bar
+
+
+
+
+#- story: showing the features of our system 1
+#  steps:
+#    - intent: greet
+#    - action: utter_offers_help
+#    - intent: help_what_can_you_do
+#    - action: utter_help_what_can_you_do
+#    - intent: largest_thread
+#    - action: utter_largest_thread
+#    - intent: statistics_features_subtrees
+#    - action: utter_statistics_features_subtrees
+#    - intent: help_glyphs
+#    - action: utter_explain_glyphs
+#    - intent: change_layout_tree
+#    - action: utter_change_layout_tree
+
+
+- story: showing the features of our system 2
+  steps:
+    - intent: greet
+    - action: utter_offers_help
+    - intent: help_what_can_you_do
+    - action: utter_help_what_can_you_do
+    - intent: widest_level
+    - action: utter_widest_level
+    - action: utter_explain_pop_up_widest
+    - intent: highlight_check
+    - action: action_highlight_check
+    - intent: statistics_features_subtrees
+    - action: utter_statistics_features_subtrees
+    - action: utter_help_bar_chart_pop_up
+
+#
+#- story: showing the features of our system 3
+#  steps:
+#    - intent: greet
+#    - action: utter_offers_help
+#    - intent: help_what_can_you_do
+#    - action: utter_help_what_can_you_do
+#    - intent: longest_thread
+#    - action: utter_longest_thread
+#    - intent: help_main_graph_barchart
+#    - action: utter_help_main_bar
+#    - action: utter_asking_about_barchart
+#    - intent: affirm
+#    - action: utter_statistics_features_tree
+#    - action: utter_help_bar_chart_pop_up
+

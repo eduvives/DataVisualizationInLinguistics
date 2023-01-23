@@ -1,1 +1,259 @@
-Hello World
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <title>Data Visualization in Linguistics</title>
+
+    <script src="https://code.highcharts.com/highcharts.src.js"></script>
+    {% load static %}
+</head>
+
+
+<style>
+
+    ul.cloud {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center;
+        line-height: 2.75rem;
+        width: 450px;
+    }
+
+
+    ul.cloud a {
+        /*
+        Not supported by any browser at the moment :(
+        --size: attr(data-weight number);
+        */
+        --size: 4;
+        --color: #a33;
+        color: var(--color);
+        font-size: calc(var(--size) * 0.25rem + 0.5rem);
+        display: flex;
+        padding: 0.125rem 0.25rem;
+        position: relative;
+        text-decoration: none;
+        /*
+        For different tones of a single color
+        opacity: calc((15 - (9 - var(--size))) / 15);
+        */
+    }
+
+    li {
+        display: inline-block;
+    }
+
+
+    #cons {
+        color: #90F6B2;
+        --size: 10;
+        position: relative;
+        top: 50px;
+        left: 0px;
+    }
+
+    #arg {
+        color: #1B8055;
+        --size: 10;
+        position: relative;
+        top: 50px;
+        left: 150px;
+    }
+
+    #sar {
+        color: #97CFFF;
+        --size: 10;
+        position: relative;
+        top: 50px;
+        left: -50px;
+    }
+
+    #moc {
+        color: #1795FF;
+        --size: 10;
+        position: relative;
+        top: 50px;
+        left: 50px;
+    }
+
+    #into {
+        color: #0B5696;
+        --size: 10;
+        position: relative;
+        top: 50px;
+        left: 0px;
+    }
+
+    #impro {
+        color: #E3B7E8;
+        --size: 10;
+        position: relative;
+        top: 50px;
+        left: -75px;
+    }
+
+    #insult {
+        color: #A313B3;
+        --size: 10;
+        position: relative;
+        left: 225px;
+    }
+
+    #aggres {
+        color: #5E1566;
+        --size: 10;
+        position: relative;
+        left: -75px;
+    }
+
+    #neg {
+        color: #E60800;
+        position: relative;
+        left: -150px;
+        --size: 9;
+    }
+
+    #pos {
+        color: #24FF36;
+        position: relative;
+        top: -47px;
+        left: 200px;
+        --size: 9;
+    }
+
+    #tox {
+        color: #000000;
+        position: relative;
+        left: 0px;
+        --size: 11;
+    }
+
+    @media (min-width: 767px) {
+        #main-page-color-texts {
+            padding-left: 30%;
+        }
+    }
+
+    .noselect {
+        -webkit-touch-callout: none; /* iOS Safari */
+        -webkit-user-select: none; /* Safari */
+        -khtml-user-select: none; /* Konqueror HTML */
+        -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+        user-select: none; /* Non-prefixed version, currently
+                            supported by Chrome, Edge, Opera and Firefox */
+    }
+
+</style>
+
+<body>
+
+{% include 'messages.html' %}
+
+<div class="d-flex" id="wrapper">
+
+    {% include 'sidebar.html' with title="DViL" documents='{{ documents_uploaded }}' %}
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <button class="btn navbar-toggler" id="menu-toggle"><span class="navbar-toggler-icon"></span></button>
+        </nav>
+
+        <h1 class="display-2 text-center">Data Visualization in Linguistics</h1>
+        <br>
+
+        <h2 class="display-4 text-center">How do we identify hate speech in digital news?</h2>
+
+
+        <table>
+            <div class="row text-center" style="margin-top: 50px; align-items: center; justify-content: center;">
+                <div class="column noselect" style="width: 32%">
+                    <div id="image1"><img src="{% static 'images/landing_page/Immigration.svg' %}" style="width: 30%"
+                                          alt="Immigration"/>
+                    </div>
+                    <br>Immigration
+                </div>
+                <div class="column noselect" style="width: 32%">
+                    <div id="image2"><img src="{% static 'images/landing_page/Society.svg' %}" style="width: 30%"
+                                          alt="Society"/></div>
+                    <br>Society
+                </div>
+                <div class="column noselect" style="width: 32%">
+                    <div id="image3"><img src="{% static 'images/landing_page/Crime.svg' %}" style="width: 30%"
+                                          alt="Crime"/></div>
+                    <br>Crime
+                </div>
+            </div>
+        </table>
+
+
+        <table>
+            <div id="main-page-color-texts" class="row text-center" style="align-items: center; justify-content: center;">
+                <ul class="cloud" role="navigation"
+                    style="margin-bottom: 75px; box-sizing: content-box">
+                    <li><a href="#" data-weight="4" id='cons'>Constructiveness</a></li>
+                    <li><a href="#" data-weight="5" id='arg'>Argumentation</a></li>
+                    <li><a href="#" data-weight="5" id="sar">Sarcasm</a></li>
+                    <li><a href="#" data-weight="6" id="moc">Mockery</a></li>
+                    <li><a href="#" data-weight="6" id="into">Intolerance</a></li>
+                    <li><a href="#" data-weight="4" id="impro">Improper Language</a></li>
+                    <li><a href="#" data-weight="5" id="insult">Insult</a></li>
+                    <li><a href="#" data-weight="6" id="aggres">Aggressiveness</a></li>
+                    <li><a href="#" data-weight="6" id="neg">Negative Stance</a></li>
+                    <li><a href="#" data-weight="8" id="pos">Positive Stance</a></li>
+                    <li><a href="#" data-weight="7" id="tox">Toxicity</a></li>
+
+                </ul>
+            </div>
+        </table>
+
+        <table>
+            <div class="row text-center" style="margin-top: 50px; margin-bottom: 50px; align-items: center; justify-content: center;">
+                <div class="column noselect" style="width: 32%">
+                    <div id="image1"><img src="{% static 'images/landing_page/Person.svg' %}" style="width: 30%"
+                                          alt="Person"/>
+                    </div>
+                    <br>Person
+                </div>
+                <div class="column noselect" style="width: 32%">
+                    <div id="image2"><img src="{% static 'images/landing_page/Group.svg' %}" style="width: 30%"
+                                          alt="Group"/></div>
+                    <br>Group
+                </div>
+                <div class="column noselect" style="width: 32%">
+                    <div id="image3"><img src="{% static 'images/landing_page/Stereotype.svg' %}" style="width: 30%"
+                                          alt="Stereotype"/></div>
+                    <br>Stereotype
+                </div>
+            </div>
+        </table>
+
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Bootstrap core JavaScript -->
+<script src="../static/vendor/jquery/jquery.min.js"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+</body>
+</html>

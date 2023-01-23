@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+<style>
+
+    .link {
+        fill: none;
+        stroke-width: 1.5px;
+        opacity: 0.75;
+    }
+
+    #div-circle-container.selected-container {
+        outline: 5px solid rgba(0, 123, 255,0.5);
+    }
+
+    .my-tooltip tr td:not(:last-child) {
+        padding-right: 10px;
+    }
+
+    .my-tooltip {
+        background: #fff;
+        border-radius: 28px;
+        border: 5px solid #cccccc;
+        max-width: 485px;
+        min-width: 465px;
+        font-size: 14px;
+        font-family: sans-serif;
+        opacity: 1;
+        padding: 10px;
+        pointer-events: none;
+    }
+    /* Add background color to the top navigation */
+    .topnav {
+        background-color: #f2f2f2;
+    }
+
+    #highlight-checkbox-group {
+        border-radius: 0.25rem;
+    }
+
+    .column2 {
+        float: left;
+        width: calc(100vw - 300px);
+        padding: 10px 10px 19px 10px;
+    }
+
+    .my-statistic {
+        margin-top: 35px;
+        max-width: 300px;
+        font-size: 14px;
+        font-family: sans-serif;
+        opacity: 0.8;
+        color: darkslategray;
+        top: 10px;
+    }
+</style>
+<head>
+    {% load static %}
+    <script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
+</head>
+
+<script>
+    var pt = "{% static 'images/targets/' %}";
+    var pr = "{% static 'images/' %}";
+    var pf = "{% static 'images/features/' %}"
+    var sel_item = "{% static selected_item %}";
+    var popup_container = "#popupModal.modal .modal-body";
+    var dataset = "{% static dataset %}";
+    var user = "{% static user %}";
+    var container = "#tree-container";
+</script>
+
+<body>
+{% include 'messages.html' %}
+{% include 'nav_bar.html' with template_selected="circle" %}
+{% include 'sidebar_layouts.html' with template_selected="circle"%}
+
+<style>
+    .leaf circle {
+        fill-opacity: 1;
+    }
+
+    text {
+        font: 10px sans-serif;
+        text-anchor: middle;
+    }
+</style>
+
+<script src="{% static 'js/circle_graph.js' %}"></script>
+
+</body>

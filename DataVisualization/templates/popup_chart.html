@@ -1,0 +1,180 @@
+<style>
+    #chartModal.modal .modal-content, #chartSubModal.modal .modal-content {
+        width: 525px;
+        height: 305px;
+    }
+    #chart-modal-body, #chart-sub-modal-body {
+        position: absolute;
+    }
+    .chart-modal-select {
+        width: auto;
+    }
+    .square-chart {
+
+    }
+    #chartModal.modal .modal-header, #chartSubModal.modal .modal-header {
+        align-items: baseline;
+        padding: 0.5rem 1rem;
+    }
+    #select-chart-data-modal, #select-chart-sub-data-modal {
+        margin-left: auto;
+    }
+    #select-chart-type-modal, #select-chart-data-modal, #select-chart-sub-type-modal, #select-chart-sub-data-modal {
+        margin-right: 1rem;
+    }
+    #chartModal.modal .modal-header .close, #chartSubModal.modal .modal-header .close {
+        padding: 0.5rem 1rem;
+        margin: -0.5rem -1rem -0.5rem -1rem;
+    }
+
+    #chartModal .modal-header, #chartSubModal .modal-header {
+        cursor: move;
+    }
+    #chartModal .modal-title, #chartSubModal .modal-title {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        margin-right: 1rem;
+    }
+    #chartSubModal .chart-sub-body {
+        min-width: 100%;
+        min-height: 100%;
+    }
+
+    /* Customize website's scrollbar like Mac OS
+    Not supports in Firefox and IE */
+
+    /* total width */
+    #chartSubModal .modal-body::-webkit-scrollbar {
+        background-color: #fff;
+        width: 16px;
+    }
+
+    /* background of the scrollbar except button or resizer */
+    #chartSubModal .modal-body::-webkit-scrollbar-track {
+        background-color: #fff;
+    }
+
+    /* scrollbar itself */
+    #chartSubModal .modal-body::-webkit-scrollbar-thumb {
+        background-color: #babac0;
+        border-radius: 16px;
+        border: 4px solid #fff;
+    }
+
+    /* set button(top and bottom of the scrollbar) */
+    #chartSubModal .modal-body::-webkit-scrollbar-button {
+        display:none;
+    }
+
+    #chartSubModal .modal-body {
+        overflow-x: scroll;
+        overflow-y: scroll;
+        margin: 0 0 0 1rem;
+        padding: 1rem 0 0 0;
+    }
+</style>
+
+{% load static %}
+
+<!-- Chart Modal Subgraphs -->
+<div class="modal fade" id="chartSubModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="chartModalSubLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title"></h5>
+            <select id="select-chart-sub-data-modal" class="form-control chart-modal-select" onchange="renderChartData(this, 'chart-sub-modal-body')">
+                <option value="toxicity">Toxicity</option>
+                <option value="stance">Stance</option>
+                <option value="target">Target</option>
+                <option selected="selected" value="features">Features</option>
+            </select>
+            <select id="select-chart-sub-type-modal" class="form-control chart-modal-select" onchange="renderChartType(this, 'chart-sub-modal-body')">
+                <option selected="selected" value="bar">Bar Chart</option>
+                <option value="horizontal_bar">Horizontal Bar</option>
+            </select>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+      <div class="modal-body" style="position: relative;">
+            <div class="chart-sub-body">
+                <canvas id="chart-sub-modal-body"></canvas>
+            </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Chart Modal -->
+<div class="modal fade" id="chartModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="chartModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title"></h5>
+            <select id="select-chart-data-modal" class="form-control chart-modal-select" onchange="renderChartData(this, 'chart-modal-body')">
+                <option value="toxicity">Toxicity</option>
+                <option value="stance">Stance</option>
+                <option value="target">Target</option>
+                <option selected="selected" value="features">Features</option>
+            </select>
+            <select id="select-chart-type-modal" class="form-control chart-modal-select" onchange="renderChartType(this, 'chart-modal-body')">
+                <option selected="selected" value="bar">Bar Chart</option>
+                <option value="horizontal_bar">Horizontal Bar</option>
+                <option value="pie">Pie</option>
+            </select>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+      <div class="modal-body" style="position: relative;">
+            <canvas id="chart-modal-body"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+
+    $('#chartModal').on('shown.bs.modal', function() {
+        $(document).off('focusin.modal');
+    });
+
+    $("#chartModal.modal").draggable({
+        handle: ".modal-header",
+        cursor: "move",
+        containment: "window"
+    });
+
+    $("#chartModal.modal .modal-content").resizable({
+        containment: "document",
+        minHeight: 305,
+        autoHide: true,
+        aspectRatio: true
+    });
+
+    $("#chartModal").on("hidden.bs.modal", function () {
+        Chart.getChart('chart-modal-body').destroy();
+    });
+
+    $('#chartSubModal').on('shown.bs.modal', function() {
+        $(document).off('focusin.modal');
+    });
+
+    $("#chartSubModal.modal").draggable({
+        handle: ".modal-header",
+        cursor: "move",
+        containment: "window"
+    });
+
+    $("#chartSubModal.modal .modal-content").resizable({
+        containment: "document",
+        minHeight: 305,
+        minWidth: 525,
+        autoHide: true,
+    });
+
+    $("#chartSubModal").on("hidden.bs.modal", function () {
+        Chart.getChart('chart-sub-modal-body').destroy();
+    });
+</script>

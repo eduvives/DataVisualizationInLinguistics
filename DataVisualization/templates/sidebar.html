@@ -1,0 +1,373 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    /* Style the buttons that are used to open and close the accordion panel */
+    .accordion {
+        background-color: #eee;
+        cursor: pointer;
+        padding: 18px;
+        width: 100%;
+        text-align: left;
+        border: none;
+        outline: none;
+        transition: 0.4s;
+    }
+
+    /* Add a background color to the button if it is clicked on (add the .active class with JS), and when you move the mouse over it (hover) */
+    .active, .accordion:hover {
+        background-color: #ccc;
+    }
+
+    /* Style the accordion panel. Note: hidden by default */
+    .panel {
+        padding: 0 18px;
+        background-color: white;
+        display: none;
+        overflow: hidden;
+    }
+
+    /* Start Bootstrap - Simple Sidebar Custom Style */
+
+    .main-left-sidebar {
+        z-index: 10;
+    }
+    #wrapper #sidebar-wrapper.main-left-sidebar {
+        margin-left: 0px !important;
+        transition: 0.5s;
+    }
+
+    /* If the navigation bar is hidden ("toggled" class added) */
+    @media (max-width: 1320px) {
+        #wrapper.toggled #sidebar-wrapper.main-left-sidebar {
+            margin-left: -301px !important;
+            transition: 0.5s;
+        }
+    }
+    .navbar-light .btn.navbar-toggler {
+        height: 40.7px;
+    }
+
+    @media (min-width: 992px){
+        #page-content-wrapper .navbar-expand-lg .navbar-toggler {
+            display: inline-block;
+        }
+    }
+
+    @media (max-width: 1320px) {
+        #page-content-wrapper .navbar.navbar-expand-lg {
+            margin-top: 0px;
+            transition: 0.5s;
+        }
+    }
+
+    @media (min-width: 1320px) {
+        #page-content-wrapper .navbar.navbar-expand-lg {
+            margin-top: -57.7px;
+            transition: 0.5s;
+        }
+    }
+
+    .container-fluid.sidebar-title-container {
+        padding-right: 15px;
+        padding-left: 35px;
+        padding-top: 35px;
+        padding-bottom: 15px;
+    }
+</style>
+<head>
+     <!-- Add jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js" type="text/javascript"></script>
+
+    {% load static %}
+    <!-- Bootstrap core CSS -->
+    <link href="{% static 'vendor/bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="{% static  'css/simple-sidebar.css' %}" rel="stylesheet">
+
+    <!-- To select the best display layout -->
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <script src="{% static 'js/shared_functions.js' %}"></script>
+</head>
+
+<body>
+
+{% include 'rasa_webchat.html' %}
+
+<div class="bg-light border-right main-left-sidebar" id="sidebar-wrapper" style="width: 300px;">
+
+    <div style="display: flex; vertical-align:center; text-align:center;" class="sidebar-heading">
+        <a href="/">
+            <img src="{% static 'images/app_icon.svg' %}"
+                 style="width: 70px;">
+        </a>
+
+        <h1 style="width:fit-content; padding: 10px;">{{ title }}</h1>
+    </div>
+    <div class="list-group list-group-flush" style="width: 300px;">
+
+        <div class="text-center">
+            {% if user.is_authenticated %}
+                Hello, {{ user }}
+            {% else %}
+                Please log-in or sign-up to use the application.
+            {% endif %}
+        </div>
+
+
+        <div class="text-center"
+             style="padding-top: 15px; padding-left: 20px; padding-right: 20px; padding-bottom: 15px;">
+            {% if user.is_authenticated %}
+                <div>
+                    <form action="{% url 'logout' %}" method="get">
+                        {% csrf_token %}
+                        <button href="/logout" type="submit" class="btn btn-primary"
+                                style="width: 115px;"
+                        >Log-out
+                        </button>
+                    </form>
+                </div>
+            {% else %}
+                <div>
+                    <form action="{% url 'login' %}" method="get">
+                        {% csrf_token %}
+                        <button href="/login" type="submit" class="btn btn-primary"
+                                style="width: 85px; float: left;"
+                        >Log-in
+                        </button>
+                    </form>
+                </div>
+                <div>
+                    <form action="{% url 'signup' %}" method="get">
+                        {% csrf_token %}
+                        <button href="/signup" type="submit" class="btn btn-primary"
+                                style="width: 85px; float: right;"
+                        >Sign-up
+                        </button>
+                    </form>
+                </div>
+            {% endif %}
+
+        </div>
+
+        {% if user.is_authenticated %}
+            <button id="data_button" type="button" class="accordion active"><span style="font-size:22px;"> View Data</span>
+                <div id="plus_sign_data" style="float: right; font-size: 22px;">
+                    &#8722;
+                </div>
+            </button>
+            <div class="panel" style="display: block;">
+                {% for document in documents_uploaded %}
+                    <button class="list-group-item-action bg-light btn btn-secondary"
+                            type="button"
+                            style="width: 63%; margin-top: 10px; vertical-align: unset;"
+                            onclick="getBestLayout('{{ document.pk }}')">
+                        <form style="justify-content: center; vertical-align: center;"
+                              action="{% url 'selected_data' %}"
+                              id="data_selection_{{ document.pk }}"
+                              method="POST">
+                            {% csrf_token %}
+                            <input type="hidden" name="from_button" value="{{ document.description }}">
+                            <input type="hidden" name="best_layout_selected" value="true">
+                            <input id="layout_doc_{{ document.pk }}" type="hidden" name="main_layout_name" value="">
+                            <input id="hierarchy_doc_{{ document.pk }}" type="hidden" name="main_hierarchy_name" value="">
+                        </form>
+                        {{ document.description }}</button>
+                    <button style="width: 14.7%; height: 38px; margin-bottom: 5px;"
+                            href="/delete_data"
+                            class="btn btn-danger error"
+                            name="delete_button" type="submit"
+                            value="{{ document.description }}" form="data_deletion_{{ document.pk }}">
+                        <form style="justify-content: center; vertical-align: center;"
+                              action="{% url 'delete_data' %}" id="data_deletion_{{ document.pk }}" method="POST">
+                            {% csrf_token %}
+                        </form>
+                        &#10005
+
+                    </button>
+                    <button style="width: 18.5%; height: 38px; margin-bottom: 5px;"
+                            class="btn btn-primary"
+                            name="edit_button"
+                            value="{{ document.description }}" form="data_edit_{{ document.pk }}">
+                        <form style="justify-content: center; vertical-align: center;"
+                              action="{% url 'edit_data' document.pk %}" id="data_edit_{{ document.pk }}" method="GET">
+                            {% csrf_token %}
+                        </form>
+                        <span style="margin-right: 1px;">&#9998;</span>
+                    </button>
+                    {% if not forloop.last %}{% endif %}
+                {% endfor %}
+                <div style="margin-top: 15px; margin-bottom: 15px;">
+                    <a style="width: 250px;" type="button" href="/upload_file" class="btn btn-primary"
+                       value="Upload Document"
+                       name="upload_button">Upload Document</a>
+                </div>
+            </div>
+
+            {% if False %}
+                <button id="projects_button" type="button" class="accordion"><span
+                        style="font-size:22px;">Manage Projects</span>
+                    <div style="float: right">
+                        <span id="plus_sign_manage_projects" style="font-size:22px;">&#43;</span>
+                    </div>
+                </button>
+                <div class="panel">
+                    {#            <a type="button" href="/upload_file" class="btn btn-primary" value="Upload Document"#}
+                    {#               name="upload_button">Upload Document</a>#}
+                    {#            <form method="POST" id="dropdown_delete">#}
+                    {#                {% csrf_token %}#}
+                    {#                <input type="submit" class="btn btn-danger error" value="Delete Data" name="delete_button"#}
+                    {#                       id="delete_button">#}
+                    {#                <select name="selected_data_delete" form="dropdown_delete">#}
+                    {#                    {% for document in documents_uploaded %}#}
+                    {#                        <option value="{{ document.description }}"#}
+                    {#                                id="{{ document.description }}">{{ document.description }}</option>#}
+                    {#                    {% endfor %}#}
+                    {#                </select>#}
+                    {#            </form>#}
+                    <a href="" style="margin-top: 5px; width: 250px;" type="button" class="btn btn-primary"
+                       value="Create new Project"
+                       name="new_project_button">Create
+                        new project</a>
+                    <a href="" style="margin-top: 5px; margin-bottom: 15px; width: 250px;" type="button"
+                       class="btn btn-primary"
+                       value="Load Project"
+                       name="load_project_button">Load
+                        project</a>
+                </div>
+            {% endif %}
+        {% endif %}
+
+
+    </div>
+</div>
+</body>
+</html>
+
+
+<!-- Bootstrap core JavaScript -->
+<script src="../static/vendor/jquery/jquery.min.js"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+
+<script>
+
+    var acc = document.getElementsByClassName("accordion");
+    var i;
+
+    for (i = 0; i < acc.length; i++) {
+        acc[i].addEventListener("click", function () {
+            /* Toggle between adding and removing the "active" class,
+            to highlight the button that controls the panel */
+            this.classList.toggle("active");
+
+            /* Toggle between hiding and showing the active panel */
+            var panel = this.nextElementSibling;
+            if (panel.style.display === "block") {
+                panel.style.display = "none";
+            } else {
+                panel.style.display = "block";
+            }
+        });
+    }
+    jQuery("#delete_button").click(function () {
+        $("<div></div>").appendTo('body')
+            .html('<div><h3> Are you sure that do you want to delete this dataset? </h3></div>')
+            .dialog({
+                title: "Delete Data",
+                width: 500, height: 300,
+                modal: true,
+                resizable: false,
+                show: {effect: 'drop', direction: "left"},
+                hide: {effect: 'blind'},
+
+                buttons: {
+                    Yes: function () {
+                        jQuery.ajax({
+                            type: "POST", //post data
+                            data: {'key': key}, //if you want to send any data to view
+                            url: '/get_viewerModal/' // your url that u write in action in form tag
+                        }).done(function (result) {
+                            alert("am done") //this will executes after your view executed
+                        })
+                    },
+                    Cancel: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+    });
+
+    var data_accordion_expanded = true;
+    jQuery("#data_button").click(function () {
+        if (!data_accordion_expanded) {
+            document.getElementById('plus_sign_data').innerHTML = '&#8722;';
+            data_accordion_expanded = true;
+        } else {
+            document.getElementById('plus_sign_data').innerHTML = '&#43;'
+            data_accordion_expanded = false;
+        }
+    });
+
+    var project_accordion_expanded = false;
+    jQuery("#projects_button").click(function () {
+        if (!project_accordion_expanded) {
+            document.getElementById('plus_sign_manage_projects').innerHTML = '&#8722;';
+            project_accordion_expanded = true;
+        } else {
+            document.getElementById('plus_sign_manage_projects').innerHTML = '&#43;'
+            project_accordion_expanded = false;
+        }
+    });
+
+    function getBestLayout(id) {
+
+        let formData = new FormData(document.getElementById("data_selection_" + id));
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'generate_dataset' %}",
+            data: formData,
+            // handle a successful response
+            success: function (data) {
+                d3.json(data, function (error, treeData) {
+                    let root = treeData;
+                    var i = 0;
+
+                    function recurse(node, parent) {
+                        node.parent = parent; //We assign a parent to the node
+                        if (parent) node.depth = node.parent.depth + 1; //If parent is not null
+                        if (node.children) node.children.forEach(element => recurse(element, node));
+                        if (!node.id) node.id = ++i;
+                    }
+                    root.depth = 0;
+                    recurse(root, null);
+
+                    let hierarchyName = getHierarchyName(root, L, GFcomp, d_lvl);
+                    document.getElementById("hierarchy_doc_" + id).value = hierarchyName;
+                    let layoutNameElem = document.getElementById("layout_doc_" + id);
+
+                    switch(hierarchyName) {
+                      case "Unspecified": case "nCompact": case "Hybrid":
+                        layoutNameElem.value = "force";
+                        break;
+                      case "Elongated":
+                        layoutNameElem.value = "tree";
+                        break;
+                      case "Compact":
+                        layoutNameElem.value = "radial";
+                        break;
+                    }
+                    $('#data_selection_' + id).submit();
+                });
+            },
+            // handle a non-successful response
+            error: function(jqXHR, textStatus, errorThrown) { // on error..
+                handleSimpleAjaxError(jqXHR, textStatus, errorThrown)
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+        })
+    }
+</script>

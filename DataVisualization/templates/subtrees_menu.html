@@ -1,0 +1,232 @@
+{% if not user_subtrees %}
+    <span id="empty_subtrees_menu_msg">There are no subtrees to show</span>
+{% endif %}
+{% for subtree in user_subtrees %}
+    <div id="dropdown_container_{{ subtree.pk }}" class="dropdown subtrees-menu-dropdown">
+        <button class="btn btn-dark dropdown-toggle subtrees-dropdown-btn"
+                type="button"
+                id="dropdown_subtree_{{ subtree.pk }}"
+                data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+                title="{{ subtree.name }}">
+            {{ subtree.name }}
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdown_subtree_{{ subtree.pk }}">
+            <button class="dropdown-item"
+                    name="open_popup_btn"
+                    value="{{ subtree.pk }}"
+                    type="button"
+                    onclick="openPopup('{{ subtree.pk }}', {{ subtree.node_ids }}, '{{ subtree.name }}', '{{ subtree.document.description }}')">
+                Show as Popup
+            </button>
+            <button class="dropdown-item"
+                    name="open_popup_main_btn"
+                    value="{{ subtree.pk }}"
+                    type="button"
+                    onclick="openPopupInMainWindow('{{ subtree.pk }}', {{ subtree.node_ids }}, '{{ subtree.name }}', '{{ subtree.document.description }}')">
+                Show in main window
+            </button>
+            <button class="dropdown-item"
+                    name="swap_popup_main_btn"
+                    value="{{ subtree.pk }}"
+                    type="button"
+                    onclick="openPopupInMainWindow('{{ subtree.pk }}', {{ subtree.node_ids }}, '{{ subtree.name }}', '{{ subtree.document.description }}', true)">
+                Show in main window (keep main window graph)
+            </button>
+            <button class="dropdown-item"
+                    name="delete_subtree_btn"
+                    value="{{ subtree.pk }}"
+                    type="button"
+                    onclick="delete_subtree('{{ subtree.pk }}')">
+                Delete subtree
+            </button>
+            <form style="display: none"
+                      action="{% url 'delete_subtree' subtree.pk %}"
+                      id="subtree_deletion_{{ subtree.pk }}"
+                      method="POST">
+                    {% csrf_token %}
+            </form>
+        </div>
+    </div>
+{% endfor %}
+
+<script>
+    function delete_subtree(subtreeID) {
+        $('#subtree_deletion_' + subtreeID).submit();
+        setTimeout(function () {
+            update_subtrees_menu();
+        }, 100);
+    }
+    function openPopupInMainWindow(subtreeID, subtreeNodeIDs, subtreeName, subtreeDocumentDescription, swap = false) {
+
+        let action;
+        if (swap) {
+            action = 'swap'
+            document.getElementById("selected_container").value = "main";
+        } else {
+            action = 'send_to_main'
+        }
+        document.getElementById("popup_graph_info").value = 'subtree';
+        document.getElementById("popup_subtree_nodes_ids").value = subtreeNodeIDs;
+        document.getElementById("popup_subtree_name").value = subtreeName;
+        document.getElementById("popup_subtree_document_description").value = subtreeDocumentDescription;
+        document.getElementById("popup_subtree_id").value = subtreeID;
+        document.getElementById("action_popup").value = action;
+
+        let form = document.getElementById("main_form")
+        let formData = new FormData(form);
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'generate_dataset' %}",
+            data: formData,
+            // handle a successful response
+            success: function (data) {
+
+                d3.json(data, function (error, treeData) {
+                    let root = treeData;
+                    var i = 0;
+
+                    function recurse(node, parent) {
+                        node.parent = parent; //We assign a parent to the node
+                        if (parent) node.depth = node.parent.depth + 1; //If parent is not null
+                        if (node.children) node.children.forEach(element => recurse(element, node));
+                        if (!node.id) node.id = ++i;
+                    }
+                    root.depth = 0;
+                    recurse(root, null);
+
+                    let hierarchyName = getHierarchyName(root, L, GFcomp, d_lvl);
+                    document.getElementById("popup_hierarchy_name").value = hierarchyName;
+                    let layoutNameElem = document.getElementById("popup_layout_name");
+
+                    switch(hierarchyName) {
+                      case "Unspecified": case "nCompact": case "Hybrid":
+                        layoutNameElem.value = "force";
+                        break;
+                      case "Elongated":
+                        layoutNameElem.value = "tree";
+                        break;
+                      case "Compact":
+                        layoutNameElem.value = "radial";
+                        break;
+                    }
+                    let inputBestLayout = document.createElement("input");
+                    inputBestLayout.setAttribute("type", "hidden");
+                    inputBestLayout.setAttribute("name", "best_layout_selected");
+                    inputBestLayout.setAttribute("value", "true");
+                    form.appendChild(inputBestLayout);
+                    form.submit();
+                });
+            },
+            // handle a non-successful response
+            error: function(jqXHR, textStatus, errorThrown) { // on error..
+                handleSimpleAjaxError(jqXHR, textStatus, errorThrown)
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+        })
+    }
+    function openPopup(subtreeID, subtreeNodeIDs, subtreeName, subtreeDocumentDescription){
+
+        document.getElementById("popup_graph_info").value = 'subtree';
+        document.getElementById("popup_subtree_nodes_ids").value = subtreeNodeIDs;
+        document.getElementById("popup_subtree_name").value = subtreeName;
+        document.getElementById("popup_subtree_document_description").value = subtreeDocumentDescription;
+        document.getElementById("popup_subtree_id").value = subtreeID;
+
+        const formData = new FormData();
+        formData.append('csrfmiddlewaretoken', document.getElementsByName('csrfmiddlewaretoken')[0].value);
+        formData.append('popup_subtree_id', subtreeID);
+
+        $.ajax({
+            type: "POST",
+            url: "/generate_dataset_popup/",
+            data: formData,
+            // handle a successful response
+            success: function (data) {
+                d3.json(data, function (error, treeData) {
+                    let root = treeData;
+                    var i = 0;
+
+                    function recurse(node, parent) {
+                        node.parent = parent; //We assign a parent to the node
+                        if (parent) node.depth = node.parent.depth + 1; //If parent is not null
+                        if (node.children) node.children.forEach(element => recurse(element, node));
+                        if (!node.id) node.id = ++i;
+                    }
+                    root.depth = 0;
+                    recurse(root, null);
+
+                    hierarchyNamePopup = getHierarchyName(root, L, GFcomp, d_lvl);
+                    datasetPopup = data;
+
+                    switch(hierarchyNamePopup) {
+                      case "Unspecified": case "nCompact": case "Hybrid":
+                        layoutNamePopup = "force";
+                        break;
+                      case "Elongated":
+                        layoutNamePopup = "tree";
+                        break;
+                      case "Compact":
+                        layoutNamePopup = "radial";
+                        break;
+                    }
+
+                    document.getElementById("popup_hierarchy_name").value = hierarchyNamePopup;
+                    document.getElementById("popup_layout_name").value = layoutNamePopup;
+
+                    prepareModalFooter(subtreeName);
+                    if (!document.getElementById("graph-container")) {
+                        $("#popup-btn").click();
+                    } else {
+                        removeLayout();
+                    }
+                    document.getElementById("subtrees-btn").click();
+                    $(popup_container).trigger("open");
+
+                });
+            },
+            // handle a non-successful response
+            error: function(jqXHR, textStatus, errorThrown) { // on error..
+                if (jqXHR.status === 0) {
+                    alert('Not connect: Verify Network.');
+                } else if (jqXHR.status === 400) {
+                    if (jqXHR.responseText === "document_not_exist") {
+                        injectTextConversation("Document could not be found");
+                    } else if (jqXHR.responseText === "open_document_no_active_session") {
+                        injectTextConversation("Please log in to perform this action");
+                    } else {
+                        errorText = 'Bad Request [400]';
+                    }
+                } else if (jqXHR.status === 404) {
+                    alert('Requested page not found [404]');
+                } else if (jqXHR.status === 500) {
+                    alert('Internal Server Error [500].');
+                } else if (textStatus === 'parsererror') {
+                    alert('Requested JSON parse failed.');
+                } else if (textStatus === 'timeout') {
+                    alert('Time out error.');
+                } else if (textStatus === 'abort') {
+                    alert('Ajax request aborted.');
+                } else {
+                    alert('Uncaught Error: ' + jqXHR.responseText);
+                }
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+        })
+    }
+    function prepareModalFooter(subtreeName) {
+        document.getElementById("subtree-name").value = "";
+        document.querySelector("#popupModal.modal .modal-footer").style.padding = "0.375rem";
+        document.getElementById("subtree-save-success").style.display = "none";
+        document.getElementById("subtree-save-error").style.display = "none";
+        document.getElementById("modal-info-alert").style.display = "none";
+        document.getElementById("add-subtree-form").style.display = "none";
+        document.getElementById("send-popup-content").style.display = "block";
+        document.getElementById("modal-subtree-name").innerText = "Subtree " + subtreeName;
+        document.getElementById("modal-subtree-name").style.display = "block";
+    }
+</script>

@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Action Forms -->
+
+<form id="logoutForm" action="{% url 'logout' %}" method="GET" style="display: none;">
+    {% csrf_token %}
+    <input type="hidden" name="chatbot" value="true">
+    <input id="logout_chat_session_id" type="hidden" name="session_id" value= "">
+    <input id="logout_form_submit" type="submit">
+</form>
+
+<form id="loginForm" action="{% url 'login' %}" method="POST" style="display: none;">
+    {% csrf_token %}
+    <input id="username_input" type="hidden" name="username" value= "">
+    <input id="password_input" type="hidden" name="password" value= "">
+    <input type="hidden" name="chatbot" value="true">
+    <input id="login_chat_session_id" type="hidden" name="session_id" value= "">
+    <input id="login_form_submit" type="submit">
+</form>
+
+<form id="signupForm" action="{% url 'signup' %}" method="POST" style="display: none;">
+    {% csrf_token %}
+    <input id="signup_username_input" type="hidden" name="username" value= "">
+    <input id="signup_password_input" type="hidden" name="password1" value= "">
+    <input id="signup_password2_input" type="hidden" name="password2" value= "">
+    <input type="hidden" name="chatbot" value="true">
+    <input id="signup_chat_session_id" type="hidden" name="session_id" value= "">
+    <input id="signup_form_submit" type="submit">
+</form>
+
+<form id="chatbotDataSelection" action="{% url 'selected_data' %}" style="display: none;" method="POST">
+    {% csrf_token %}
+    <input id="open_document_name" type="hidden" name="from_button" value= "">
+    <input type="hidden" name="chatbot" value="true">
+    <input id="data_selection_chat_session_id" type="hidden" name="session_id" value= "">
+    <input type="hidden" id="main_hierarchy_name_chat" name="main_hierarchy_name" value="">
+    <input type="hidden" id="main_layout_name_chat" name="main_layout_name" value="">
+</form>
+
+<!-- Rasa WebChat Style -->
+
+<style>
+
+.rw-conversation-container .rw-image-details .rw-image-frame{
+    height: 120px;
+    width: 120px;
+}
+.rw-conversation-container .rw-replies{
+   display:block;
+   text-align: center;
+
+}
+
+.rw-conversation-container .rw-replies .rw-reply{
+    background-color:  #fa7070;
+    font-size: 20px;
+    border-color: #fa7070;
+    text-align: center;
+
+
+}
+.rw-widget-container {
+    pointer-events: none;
+}
+.rw-conversation-container, .rw-launcher {
+    pointer-events: auto;
+}
+.rw-conversation-container .rw-header {
+    background-color: #fa7070;
+    font-size: 18px;
+}
+.rw-conversation-container .rw-messages-container .rw-message .rw-client {
+    background-color: #fa7070;
+    font-size: 20px;
+}
+
+.rw-conversation-container .rw-messages-container .rw-response{
+    font-size: 20px;
+}
+.rw-conversation-container .rw-title{
+    font-size: 25px;
+}
+.rw-conversation-container .rw-new-message{
+    font-size: 20px;
+}
+@media screen and (min-width: 800px) {
+    .rw-messages-container {
+        max-height: 37vh;
+    }
+}
+.rw-launcher {
+    background-color: #fa7070;
+}
+#stt-feature {
+    right: 95px;
+}
+#tts-feature {
+    right: 170px;
+}
+.rw-message-text {
+    font-size: 20px;
+}
+.chat-feature-btn {
+    pointer-events: auto;
+    position: fixed;
+    background-color: #6c757d;
+
+    -webkit-animation-delay: 0;
+    -webkit-animation-duration: .5s;
+    -webkit-animation-name: slide-in;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-delay: 0;
+    -moz-animation-duration: .5s;
+    -moz-animation-name: slide-in;
+    -moz-animation-fill-mode: forwards;
+    animation-delay: 0;
+    animation-duration: .5s;
+    animation-name: slide-in;
+    animation-fill-mode: forwards;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    border: 0;
+    border-radius: 50%;
+    box-shadow: 0 2px 10px 1px #b5b5b5;
+    height: 60px;
+    margin: 0;
+    width: 60px;
+    box-sizing: border-box;
+    transition: all 0.3s;
+}
+.pulse-chat-feature::before,
+.pulse-chat-feature::after {
+    content: "";
+    display: block;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    border-radius: 50%;
+    background-color: rgba(250, 112, 112, 0.8);
+    animation: ripple-1 2s infinite ease-in-out;
+    z-index: -1;
+}
+.pulse-chat-feature::after {
+    background-color: rgba(250, 112, 112, 0.6);
+    animation: ripple-2 2s infinite ease-in-out;
+    animation-delay: 0.5s;
+}
+@keyframes ripple-1{
+    0%{
+        transform: scale(1);
+        opacity: 1;
+    }
+    100%{
+        transform: scale(1.5);
+        opacity: 0;
+    }
+}
+@keyframes ripple-2{
+    0%{
+        transform: scale(1);
+        opacity: 1;
+    }
+    100%{
+        transform: scale(1.7);
+        opacity: 0;
+    }
+}
+.show-chat-feature {
+    display: flex;
+}
+.checked-chat-feature {
+    transform: scale(0.95) !important;
+    background-color: #545b62;
+}
+.chat-feature-btn:focus {
+    outline: none;
+}
+.chat-feature-img {
+    width: 27px;
+
+    border: 0;
+    font-size: 100%;
+    vertical-align: baseline;
+    margin-block-end: 0;
+
+    max-height: 70%;
+    object-fit: contain;
+
+    -webkit-animation-delay: 0;
+    -webkit-animation-duration: .5s;
+    -webkit-animation-name: rotation-lr;
+    -webkit-animation-fill-mode: forwards;
+    -moz-animation-delay: 0;
+    -moz-animation-duration: .5s;
+    -moz-animation-name: rotation-lr;
+    -moz-animation-fill-mode: forwards;
+    animation-delay: 0;
+    animation-duration: .5s;
+    animation-name: rotation-lr;
+    animation-fill-mode: forwards;
+}
+@media screen and (min-width: 800px) {
+    .rw-widget-container.rw-full-screen.rw-chat-open #stt-feature {
+        right: 108px;
+        top: 11px;
+    }
+    .rw-widget-container.rw-full-screen.rw-chat-open #tts-feature {
+        right: 170px;
+        top: 11px;
+    }
+    .rw-widget-container.rw-full-screen.rw-chat-open .chat-feature-btn {
+        height: 47px;
+        width: 47px;
+        box-shadow: none;
+    }
+    .rw-widget-container.rw-full-screen.rw-chat-open .pulse-chat-feature::before,
+    .rw-widget-container.rw-full-screen.rw-chat-open .pulse-chat-feature::after {
+        background-color: rgba(84, 91, 98, 0.8);
+    }
+    .rw-widget-container.rw-full-screen.rw-chat-open .pulse-chat-feature::after {
+        background-color: rgba(84, 91, 98, 0.6);
+    }
+    .rw-widget-container.rw-full-screen.rw-chat-open #tts-feature.checked-chat-feature {
+        box-shadow: 0 2px 10px 1px #545b62;
+    }
+    .rw-widget-container.rw-full-screen.rw-chat-open .chat-feature-img {
+        width: 25px;
+
+    }
+}
+@media screen and (max-width: 800px) {
+    #stt-feature {
+        right: 60px;
+        top: 11px;
+    }
+    #tts-feature {
+        right: 122px;
+        top: 11px;
+    }
+    .chat-feature-btn {
+        height: 47px;
+        width: 47px;
+        box-shadow: none;
+    }
+    .pulse-chat-feature::before, .pulse-chat-feature::after {
+        background-color: rgba(84, 91, 98, 0.8);
+    }
+    .pulse-chat-feature::after {
+        background-color: rgba(84, 91, 98, 0.6);
+    }
+    #tts-feature.checked-chat-feature {
+        box-shadow: 0 2px 10px 1px #545b62;
+    }
+    .chat-feature-img {
+        width: 25px;
+    }
+}
+</style>
+
+<head>
+    {% load static %}
+</head>
+
+<script>
+
+    // Initializes the necessary variables for speech-to-text and text-to-speech functions
+    var textToSpeech = getStatusTTS();
+    var msgTextToSpeech;
+    var audioRecognizing = false;
+    var recognition;
+    var speechRecognitionSupported = isSpeechRecognitionSupported();
+    var textToSpeechSupported = isTextToSpeechSupported();
+
+    if (textToSpeechSupported) {
+        msgTextToSpeech = new SpeechSynthesisUtterance();
+        msgTextToSpeech.lang = "en-US";
+    }
+
+    var msgClearStorage;
+    var msgChatbotError;
+    var msgChatbotSuccess;
+
+    (function clearStorage() {
+        if ('{{storage_clear}}') {
+            if ('{{storage_clear}}' === "logout") {
+                msgClearStorage = "I have successfully logged you out";
+            } else if ('{{storage_clear}}' === "login") {
+                msgClearStorage = "I have logged you in without any problem";
+            } else if ('{{storage_clear}}' === "signup") {
+                msgClearStorage = "I have created your user and now you are logged in";
+            } else if ('{{storage_clear}}' === "nochat"){
+                sessionStorage.removeItem('chat_session');
+            }
+
+            if ('{{storage_clear}}' !== "nochat") {
+                sessionStorage.setItem("chat_session", '{"metadata":{"tooltipSent":{},"linkTarget":"","userInput":"","domHighlight":{},"hintText":"","showTooltip":true},"conversation":[{"type":"text","component":{"compare":null,"displayName":"Connect(s)","defaultTypes":{"displayTypingIndication":false}},"text":"' + msgClearStorage + '","sender":"response","showAvatar":true}],"params":{"unreadCount":0,"connectingText":"Waiting for server...","oldUrl":"","connected":true,"docViewer":false,"isChatOpen":false,"disabledInput":false,"pageChangeCallbacks":{},"isChatVisible":true,"initialized":false,"messageDelayed":false},"version":"1.0.0"}');
+            }
+        }
+    })();
+
+    function isSpeechRecognitionSupported() {
+        // speech recognition API supported
+        // speech recognition API not supported
+        return ('SpeechRecognition' in window || 'webkitSpeechRecognition' in window);
+    }
+
+    function isTextToSpeechSupported() {
+        // Speech Synthesis supported
+        // Speech Synthesis Not Supported
+        return ('speechSynthesis' in window);
+    }
+
+    // Dynamically adds the frontend of the speech-to-text and text-to-speech functions and implements their operation
+    function addNewFeatures() {
+        setTimeout(function () {
+            let ttsFeature = document.createElement("button");
+            ttsFeature.innerHTML = "<img src='{% static 'images/chat/features/speaker.svg' %}' class='chat-feature-img'>";
+            ttsFeature.type = "button";
+            ttsFeature.setAttribute('id', 'tts-feature');
+            if (textToSpeech) {
+                ttsFeature.classList.add('chat-feature-btn','checked-chat-feature');
+            } else {
+                ttsFeature.classList.add('chat-feature-btn');
+            }
+            document.querySelector(".rw-widget-container").appendChild(ttsFeature);
+
+            let sttFeature = document.createElement("button");
+            sttFeature.innerHTML = "<img src='{% static 'images/chat/features/microphone.svg' %}' class='chat-feature-img'>";
+            sttFeature.type = "button";
+            sttFeature.setAttribute('id', 'stt-feature');
+            sttFeature.classList.add('chat-feature-btn');
+            document.querySelector(".rw-widget-container").appendChild(sttFeature);
+
+            if (speechRecognitionSupported){
+                var speak = document.getElementById('stt-feature');
+                var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+                recognition = new SpeechRecognition();
+                recognition.lang = "en-US";
+                speak.addEventListener('click', function () {
+                    if (!audioRecognizing){
+                        $("#stt-feature").addClass('checked-chat-feature pulse-chat-feature');
+                        recognition.start();
+                        document.querySelector('textarea.rw-new-message').placeholder = '...speaking';
+                        setUpChatSendButton();
+                        document.querySelector('textarea.rw-new-message').value = '';
+                        document.querySelector('.rw-send').click();
+                        document.querySelector('.rw-send').disabled = true;
+                    } else {
+                        $("#stt-feature").removeClass('checked-chat-feature pulse-chat-feature');
+                        document.querySelector('textarea.rw-new-message').placeholder = 'Type a message...';
+                        recognition.stop();
+                    }
+
+                })
+                recognition.onresult = function (e) {
+                    if (document.querySelector('textarea.rw-new-message')) {
+                        setUpChatSendButton();
+                        document.querySelector('textarea.rw-new-message').value = e.results[0][0].transcript;
+                        document.querySelector('.rw-send').click();
+                        document.querySelector('.rw-send').disabled = true;
+                    }
+                }
+                recognition.onstart = function () {
+                    audioRecognizing = true;
+                    document.querySelector('textarea.rw-new-message').disabled = true;
+                };
+                recognition.onend = function () {
+                    $("#stt-feature").removeClass('checked-chat-feature pulse-chat-feature');
+                    if (document.querySelector('textarea.rw-new-message')) {
+                        document.querySelector('textarea.rw-new-message').placeholder = 'Type a message...';
+                        document.querySelector('textarea.rw-new-message').disabled = false;
+                    }
+                    audioRecognizing = false;
+                };
+                recognition.onerror = function (event) {
+                    $("#stt-feature").removeClass('checked-chat-feature pulse-chat-feature');
+                    if (document.querySelector('textarea.rw-new-message')) {
+                        document.querySelector('textarea.rw-new-message').placeholder = 'Type a message...';
+                        document.querySelector('textarea.rw-new-message').disabled = false;
+                    }
+                    audioRecognizing = false;
+                };
+            } else {
+                $("#stt-feature").click(function (){
+                    alert("Sorry, your browser doesn't support the speech recognition API !");
+                });
+            }
+
+            if (textToSpeechSupported){
+                $("#tts-feature").click(function (){
+                    $("#tts-feature").toggleClass('checked-chat-feature');
+                    textToSpeech = !textToSpeech;
+                    updateStatusTTS();
+                });
+            } else {
+                $("#tts-feature").click(function (){
+                    alert("Sorry, your browser doesn't support text to speech!");
+                });
+            }
+
+            if(document.querySelector('.rw-widget-container').classList.contains('rw-chat-open')) {
+                showChatFeatures();
+            }
+        }, 400);
+    }
+
+    // Enables the chat send button in case it is disabled
+    function setUpChatSendButton() {
+        if (!document.querySelector('textarea.rw-new-message').value){
+            document.querySelector('.rw-send').disabled = false;
+        }
+    }
+
+    // Returns whether the speech-to-text function is active
+    // Obtain the value from the isTTSActive key from the session storage
+    function getStatusTTS() {
+        // Get the existing data
+        let existing = sessionStorage.getItem('isTTSActive');
+        return existing === "true";
+    }
+
+    // Updates the value of the isTTSActive key of the session storage,
+    // creating the key if it does not exist. It stores the status of the speech-to-text function in it.
+    function updateStatusTTS() {
+        sessionStorage.setItem('isTTSActive', textToSpeech);
+    }
+
+    function showChatFeatures() {
+        document.getElementById('stt-feature').classList.add("show-chat-feature");
+        document.getElementById('tts-feature').classList.add("show-chat-feature");
+    }
+    function closeChatFeatures() {
+        document.getElementById('stt-feature').classList.remove("show-chat-feature");
+        document.getElementById('tts-feature').classList.remove("show-chat-feature");
+        if (speechRecognitionSupported){
+            if (audioRecognizing){
+                $("#stt-feature").removeClass('checked-chat-feature pulse-chat-feature');
+                document.querySelector('textarea.rw-new-message').placeholder = 'Type a message...';
+                recognition.stop();
+            }
+        }
+    }
+
+    function getCookie(cookieName) {
+        let cookie = {};
+        document.cookie.split(';').forEach(function(el) {
+            let [key,value] = el.split('=');
+            cookie[key.trim()] = value;
+        })
+        return cookie[cookieName];
+    }
+
+    function generateInitPayload() {
+        let action = '/start_intent';
+        let sessionid = "{{ request.session.session_key }}";
+        let csrfmiddlewaretoken = document.getElementsByName("csrfmiddlewaretoken")[0].value;
+        let csrftoken = getCookie("csrftoken");
+        return action + '{\"csrfmiddlewaretoken\":\"' + csrfmiddlewaretoken + '\",\"csrftoken\":\"' + csrftoken + '\",\"sessionid\":\"' + sessionid +
+            ('{{ user.get_username }}' ? '\",\"nickname\":\"' + '{{ user.get_username }}': "") +
+            ('{{ user.chatprofile.first_login }}' ? '\",\"first_login\":\"' + '{{ user.chatprofile.first_login }}': "") +
+            ('{{storage_clear}}' && '{{storage_clear}}' !== "nochat" ? '\",\"greet_again\":\"' + 'True': "") + '\"}';
+    }
+
+    function doSomeCleanup() {
+        sessionStorage.clear();
+    }
+
+    function botMessageEvent(e) {
+        console.log('the bot said something: ' + e.text);
+        if (e.text) {
+
+            // Get the existing sessionStorage data
+            var existingStorage = sessionStorage.getItem("chat_session");
+            // If no existing data, create an array
+            // Otherwise, convert the sessionStorage string to an array
+            existingStorage = existingStorage ? JSON.parse(existingStorage) : {};
+
+            let messageList = e.text.split(",");
+            switch (messageList[0]) {
+                case "intent_logout":
+                    e.hidden = true;
+                    e.text = "I'm working on it";
+                    document.getElementById("logout_chat_session_id").value = existingStorage["session_id"];
+                    document.getElementById("logout_form_submit").click();
+                    break;
+                case "intent_login":
+                    e.hidden = true;
+                    e.text = "I'll start your session right away";
+                    document.getElementById("username_input").value = messageList[1];
+                    document.getElementById("password_input").value = messageList[2];
+                    document.getElementById("login_chat_session_id").value = existingStorage["session_id"];
+                    document.getElementById("login_form_submit").click();
+                    break;
+                case "intent_signup":
+                    e.hidden = true;
+                    e.text = "In no time it will be done";
+                    document.getElementById("signup_username_input").value = messageList[1];
+                    document.getElementById("signup_password_input").value = messageList[2];
+                    document.getElementById("signup_password2_input").value = messageList[3];
+                    document.getElementById("signup_chat_session_id").value = existingStorage["session_id"];
+                    document.getElementById("signup_form_submit").click();
+                    break;
+                case "intent_open_document":
+                    e.hidden = true;
+                    e.text = "I'm opening the document";
+                    let documentName = messageList[1];
+                    var mainForm = '{{ selected_item }}' ? document.getElementById("main_form") : document.getElementById("chatbotDataSelection");
+                    var dataset_dropdown_value;
+
+                    if ('{{ selected_item }}') {
+                        // Change select's option
+                        let datasetDropdown = document.getElementById("dataset_dropdown");
+                        dataset_dropdown_value = datasetDropdown.value;
+                        datasetDropdown.value = documentName;
+                    } else {
+                        document.getElementById("open_document_name").value = documentName;
+                    }
+
+                    let formData = new FormData(mainForm);
+
+                    $.ajax({
+                        type: "POST",
+                        url: "{% url 'generate_dataset' %}",
+                        data: formData,
+                        // handle a successful response
+                        success: function (data) {
+                            if ('{{ selected_item }}') {
+                                createOpenDocumentInputs(mainForm, documentName, existingStorage);
+                                document.getElementById("selected_container").value = '';
+                            } else {
+                                document.getElementById("data_selection_chat_session_id").value = existingStorage["session_id"];
+                            }
+
+                            d3.json(data, function (error, treeData) {
+                                let root = treeData;
+                                var i = 0;
+
+                                function recurse(node, parent) {
+                                    node.parent = parent; //We assign a parent to the node
+                                    if (parent) node.depth = node.parent.depth + 1; //If parent is not null
+                                    if (node.children) node.children.forEach(element => recurse(element, node));
+                                    if (!node.id) node.id = ++i;
+                                }
+
+                                root.depth = 0;
+                                recurse(root, null);
+
+                                let hierarchyName = getHierarchyName(root, L, GFcomp, d_lvl);
+                                let layout;
+                                switch (hierarchyName) {
+                                    case "Unspecified": case "nCompact": case "Hybrid":
+                                        layout = "force";
+                                        break;
+                                    case "Elongated":
+                                        layout = "tree";
+                                        break;
+                                    case "Compact":
+                                        layout = "radial";
+                                        break;
+                                }
+                                if ('{{ selected_item }}') {
+                                    document.getElementById("main_hierarchy_name").value = hierarchyName;
+                                    document.getElementById("main_layout_name").value = layout;
+                                } else {
+                                    document.getElementById("main_hierarchy_name_chat").value = hierarchyName;
+                                    document.getElementById("main_layout_name_chat").value = layout;
+                                }
+                                mainForm.submit()
+                            });
+                        },
+                        // handle a non-successful response
+                        error: function(jqXHR, textStatus, errorThrown) { // on error..
+                            if (jqXHR.status === 0) {
+                                alert('Not connect: Verify Network.');
+                            } else if (jqXHR.status === 400) {
+                                if (jqXHR.responseText === "document_not_exist") {
+                                    if ('{{ selected_item }}') {
+                                        document.getElementById("dataset_dropdown").value = dataset_dropdown_value;
+                                    }
+                                    injectTextConversation("I cannot find any document with the name you have given me");
+                                } else if (jqXHR.responseText === "open_document_no_active_session") {
+                                    if ('{{ selected_item }}') {
+                                        document.getElementById("dataset_dropdown").value = dataset_dropdown_value;
+                                    }
+                                    injectTextConversation("You need to be logged in to access the documents");
+                                } else {
+                                    errorText = 'Bad Request [400]';
+                                }
+                            } else if (jqXHR.status === 404) {
+                                alert('Requested page not found [404]');
+                            } else if (jqXHR.status === 500) {
+                                alert('Internal Server Error [500].');
+                            } else if (textStatus === 'parsererror') {
+                                alert('Requested JSON parse failed.');
+                            } else if (textStatus === 'timeout') {
+                                alert('Time out error.');
+                            } else if (textStatus === 'abort') {
+                                alert('Ajax request aborted.');
+                            } else {
+                                alert('Uncaught Error: ' + jqXHR.responseText);
+                            }
+                        },
+                        cache: false,
+                        contentType: false,
+                        processData: false,
+                    })
+                    break;
+                case "intent_change_layout":
+                    if ('{{ selected_item }}') {
+                        if (messageList[1] === "tree_layout_button" && document.getElementById("tree_label").classList.contains("active")) {
+                            e.text = "Already in the layout Tree";
+                        } else if (messageList[1] === "force_layout_button" && document.getElementById("force_label").classList.contains("active")) {
+                            e.text = "Already in the layout Force";
+                        } else if (messageList[1] === "radial_layout_button" && document.getElementById("radial_label").classList.contains("active")) {
+                            e.text = "Already in the layout Radial";
+                        } else if (messageList[1] === "circle_layout_button" && document.getElementById("circle_label").classList.contains("active")) {
+                            e.text = "Already in the layout Circle Packing";
+                        } else {
+                            e.hidden = true;
+                            document.getElementById(messageList[1]).from_chat = true;
+                            document.getElementById(messageList[1]).from_chat_msg = messageList[2];
+                            document.getElementById(messageList[1]).click();
+                        }
+                    } else {
+                        e.text = "Open a document first, in order to perform this action";
+                    }
+                    break;
+                case "intent_switch_or_and":
+                    if ('{{ selected_item }}') {
+                        if (messageList[1] === "or_button" && document.getElementById("or_label").classList.contains("active")) {
+                            e.text =  "OR is already set";
+                        } else if (messageList[1] === "and_button" && document.getElementById("and_label").classList.contains("active")) {
+                            e.text =  "AND is already set";
+                        } else {
+                            e.text =  messageList[2];
+                            document.getElementById(messageList[1]).click();
+                        }
+                    } else {
+                        e.text = "Open a document first, in order to perform this action";
+                    }
+                    break;
+                case "intent_filter":
+                    if ('{{ selected_item }}') {
+                        let filters = messageList[1].split(";");
+                        for (let i = 0; i < filters.length; i++) {
+                            let filterName = filters[i].split("-");
+                            if (filterName[0] === "selectAll") {
+                                if (document.getElementById("or_label").classList.contains("active")) {
+                                    if (!document.getElementById("highlight-OR-" + filters[i]).checked) {
+                                        document.getElementById("highlight-OR-" + filters[i]).click();
+                                    }
+                                } else if (document.getElementById("and_label").classList.contains("active")) {
+                                    if (!document.getElementById("highlight-AND-" + filters[i]).checked) {
+                                        document.getElementById("highlight-AND-" + filters[i]).click();
+                                    }
+                                }
+                            } else {
+                                if (document.getElementById("or_label").classList.contains("active")) {
+                                    if (!document.getElementById(filters[i] + "OR").checked) {
+                                        document.getElementById(filters[i] + "OR").click();
+                                    }
+                                } else if (document.getElementById("and_label").classList.contains("active")) {
+                                    if (!document.getElementById(filters[i]).checked) {
+                                        document.getElementById(filters[i]).click();
+                                    }
+                                }
+                            }
+                        }
+
+                        if (filters.length === 1) {
+                            e.text = "I checked the filter"
+                        } else {
+                            e.text =  "I have checked the filters"
+                        }
+                    } else {
+                        e.text = "Open a document first, in order to perform this action";
+                    }
+                    break;
+                case "intent_filter_switch":
+                    if ('{{ selected_item }}') {
+                        let filters = messageList[1].split(";");
+                        for (let i = 0; i < filters.length; i++) {
+                            let filterName = filters[i].split("-");
+                            if (filterName[0] === "selectAll") {
+                                if (document.getElementById("or_label").classList.contains("active")) {
+                                    document.getElementById("highlight-OR-" + filters[i]).click();
+                                } else if (document.getElementById("and_label").classList.contains("active")) {
+                                    document.getElementById("highlight-AND-" + filters[i]).click();
+                                }
+                            } else {
+                                if (document.getElementById("or_label").classList.contains("active")) {
+                                    document.getElementById(filters[i] + "OR").click();
+                                } else if (document.getElementById("and_label").classList.contains("active")) {
+                                    document.getElementById(filters[i]).click();
+                                }
+                            }
+                        }
+
+                        if (filters.length === 1) {
+                            e.text = "I changed the filter"
+                        } else {
+                            e.text =  "I have changed the filters"
+                        }
+                    } else {
+                        e.text = "Open a document first, in order to perform this action";
+                    }
+                    break;
+                case "intent_highlight_uncheck_all":
+                    if ('{{ selected_item }}') {
+
+                        if (document.getElementById("or_label").classList.contains("active")) {
+                            document.getElementById("uncheck_button_highlight_OR").click();
+                        } else if (document.getElementById("and_label").classList.contains("active")) {
+                            document.getElementById("uncheck_button_highlight_AND").click();
+                        }
+                        e.text =  messageList[1];
+                    } else {
+                        e.text = "Open a document first, in order to perform this action";
+                    }
+                    break;
+                case "intent_filter_uncheck":
+                    if ('{{ selected_item }}') {
+                        let filters = messageList[1].split(";");
+                        for (let i = 0; i < filters.length; i++) {
+                            let filterName = filters[i].split("-");
+                            if (filterName[0] === "selectAll") {
+                                if (document.getElementById("or_label").classList.contains("active")) {
+                                    if (document.getElementById("highlight-OR-" + filters[i]).checked) {
+                                        document.getElementById("highlight-OR-" + filters[i]).click();
+                                    }
+                                } else if (document.getElementById("and_label").classList.contains("active")) {
+                                    if (document.getElementById("highlight-AND-" + filters[i]).checked) {
+                                        document.getElementById("highlight-AND-" + filters[i]).click();
+                                    }
+                                }
+                            } else {
+                                if (document.getElementById("or_label").classList.contains("active")) {
+                                    if (document.getElementById(filters[i] + "OR").checked) {
+                                        document.getElementById(filters[i] + "OR").click();
+                                    }
+                                } else if (document.getElementById("and_label").classList.contains("active")) {
+                                    if (document.getElementById(filters[i]).checked) {
+                                        document.getElementById(filters[i]).click();
+                                    }
+                                }
+                            }
+                        }
+
+                        if (filters.length === 1) {
+                            e.text = "I unchecked the filter"
+                        } else {
+                            e.text =  "I have unchecked the filters"
+                        }
+                    } else {
+                        e.text = "Open a document first, in order to perform this action";
+                    }
+                    break;
+                //
+                case "intent_event":
+                    if ('{{ selected_item }}') {
+                        e.text = messageList[2];
+                        $(window).trigger(messageList[1]);
+                    } else {
+                        e.text = "Open a document first, in order to perform this action";
+                    }
+            }
+            if (textToSpeech && (e.hidden !== true)) {
+                let delay = getDelayChatMsg(e.text);
+                setTimeout(function () {
+                    msgTextToSpeech.text = e.text;
+                    window.speechSynthesis.speak(msgTextToSpeech);
+                }, delay);
+            }
+        }
+    }
+
+    function injectTextConversation(textMsg, next_action = 'None'){
+        // Get the existing sessionStorage data
+        var existingStorage = sessionStorage.getItem("chat_session");
+        // If no existing data, create an array
+        // Otherwise, convert the sessionStorage string to an array
+        existingStorage = existingStorage ? JSON.parse(existingStorage) : {};
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:5005/conversations/" + existingStorage["session_id"] + "/trigger_intent?token=DataVisualizationInLinguisticsSecretToken&include_events=NONE&output_channel=socketio", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+        "name": "generate_response_message",
+        "entities": {
+            "response_message": textMsg,
+            "next_action" : next_action
+        }
+        }));
+    }
+
+    function injectIntentConversation(intent){
+        // Get the existing sessionStorage data
+        var existingStorage = sessionStorage.getItem("chat_session");
+        // If no existing data, create an array
+        // Otherwise, convert the sessionStorage string to an array
+        existingStorage = existingStorage ? JSON.parse(existingStorage) : {};
+
+        var xhr = new XMLHttpRequest();
+        xhr.open("POST", "http://localhost:5005/conversations/" + existingStorage["session_id"] + "/trigger_intent?token=DataVisualizationInLinguisticsSecretToken&include_events=NONE&output_channel=socketio", true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify({
+        "name": intent,
+        "entities": {}
+        }));
+    }
+
+    function createOpenDocumentInputs(mainForm, documentName, existingStorage) {
+        let inputChatbot = document.createElement("input");
+        inputChatbot.setAttribute("type", "hidden");
+        inputChatbot.setAttribute("name", "chatbot");
+        inputChatbot.setAttribute("value", "true");
+        mainForm.appendChild(inputChatbot);
+        let chatSessionId = document.createElement("input");
+        chatSessionId.setAttribute("type", "hidden");
+        chatSessionId.setAttribute("name", "session_id");
+        chatSessionId.setAttribute("value", existingStorage["session_id"]);
+        mainForm.appendChild(chatSessionId);
+    }
+
+    (function chatbotMessage(e) {
+        if ('{{chatbot_error}}') {
+            addToSessionStorageObject("chat_session", "conversation", '{{chatbot_error}}');
+        }
+        if ('{{chatbot_success}}') {
+            addToSessionStorageObject("chat_session", "conversation", '{{chatbot_success}}');
+        }
+    })();
+
+    /**
+     * Add an item to a sessionStorage() object
+     * @param {String} name  The sessionStorage() key
+     * @param {String} key   The sessionStorage() value object key
+     * @param {String} value The sessionStorage() value object value
+     */
+    function addToSessionStorageObject(name, key, value) {
+
+        // Get the existing data
+        let existing = sessionStorage.getItem(name);
+
+        // If no existing data, create an array
+        // Otherwise, convert the sessionStorage string to an array
+        existing = existing ? JSON.parse(existing) : {};
+
+        // Add new data to sessionStorage Array
+        existing[key].push({"type":"text","component":{"compare":null,"displayName":"Connect(s)","defaultTypes":{"displayTypingIndication":false}},"text": value,"sender":"response","showAvatar":true,"timestamp":Date.now()});
+
+        // Save back to sessionStorage
+        sessionStorage.setItem(name, JSON.stringify(existing));
+    }
+
+    function getProfileAvatar() {
+        let num = Math.floor(Math.random() * 6) + 1;
+        return "../static/images/profile_avatar/profile-avatar-" + num + ".png";
+    }
+
+    function getChatSubtitle() {
+        let text;
+        if ("{{ user.is_authenticated }}" === "True") {
+            text = "Welcome to chat section";
+        } else {
+            text = "Say hi and get started!";
+        }
+        return text;
+    }
+
+</script>
+
+<script>
+    // Returns the value of the delay time according to the message provided
+    // It depends on the length of the message
+    function getDelayChatMsg(message) {
+        let delay = message.length * 30;
+        if (delay > 1000) delay = 1000;
+        if (delay < 400) delay = 400;
+        return delay;
+    }
+
+    // At the moment of establishing connection with the chat websocket, transforms into voice the messages that
+    // were displayed in the chat prior to establishing the connection.
+    // Used for error, success and session management messages (after clearing session storage).
+    function speakMsgConnect(msg) {
+        if (textToSpeech) {
+            setTimeout(function () {
+                msgTextToSpeech.text = msg;
+                window.speechSynthesis.speak(msgTextToSpeech);
+            }, 400);
+        }
+    }
+
+    !(function () {
+      let e = document.createElement("script"),
+        t = document.head || document.getElementsByTagName("head")[0];
+      (e.src =
+        "https://cdn.jsdelivr.net/npm/rasa-webchat@1.0.0/lib/index.js"),
+        // Replace 1.x.x with the version that you want
+        (e.async = !0),
+        (e.onload = () => {
+          window.WebChat.default(
+            {
+                title: 'DViL bot',
+                subtitle: getChatSubtitle(),
+                initPayload: generateInitPayload(),
+                customData: { language: "en" },
+                socketUrl: "http://localhost:5005",
+                profileAvatar:getProfileAvatar(),
+                showFullScreenButton: true,
+                customMessageDelay: (message) => {
+                    return getDelayChatMsg(message);
+                },
+                onSocketEvent: {
+                    'bot_uttered': botMessageEvent,
+                    'connect': function() {
+                        console.log('connection established');
+                        addNewFeatures();
+                        if ('{{storage_clear}}' && '{{storage_clear}}' !== "nochat") {
+                            speakMsgConnect(msgClearStorage);
+                        }
+                        if ('{{chatbot_error}}') {
+                            speakMsgConnect('{{chatbot_error}}');
+                        }
+                        if ('{{chatbot_success}}') {
+                            speakMsgConnect('{{chatbot_success}}');
+                        }
+                    },
+                    'disconnect': function() {
+                        doSomeCleanup();
+                    },
+                },
+                onWidgetEvent: {
+                    onChatClose: function(widgetEvent) {
+                        console.log('connection onChatClose');
+                        closeChatFeatures();
+                    },
+                    onChatOpen: function(widgetEvent) {
+                        console.log('connection onChatOpen');
+                        showChatFeatures();
+                    },
+                    onChatHidden: function(widgetEvent) {
+                        console.log('connection onChatHidden');
+                    },
+                    onChatVisible: function(widgetEvent) {
+                        console.log('connection onChatVisible');
+                    },
+                },
+                // showMessageDate: true,
+                params: {storage: "session"},
+                // add other props here
+            },
+            null
+          );
+        }),
+        t.insertBefore(e, t.firstChild);
+    })();
+
+</script>
+
+
+
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.5.0/socket.io.js"></script>#}
+{#<script>#}
+{#    let socketId = JSON.parse(sessionStorage.getItem('chat_session'))['session_id'];#}
+{#    // Connect to RASA server#}
+{#    const socket = io.sockets.sockets.get(socketId);#}
+{#    socket.on('connect', function () {#}
+{#        console.log("Connected to Socket.io server");#}
+{#    });#}
+{##}
+{#    socket.on('connect_error', (error) => {#}
+{#        // Write any connection errors to the console#}
+{#        console.error(error);#}
+{#    });#}
+{##}
+{#    socket.on('bot_uttered', (args) => {#}
+{#        // Write any connection errors to the console#}
+{#    });#}
+{#</script>#}
+
+</html>

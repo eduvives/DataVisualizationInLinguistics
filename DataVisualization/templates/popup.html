@@ -1,0 +1,458 @@
+<style>
+    .modal .modal-content {
+        border-radius: 13px;
+        border-width: 0;
+    }
+    .modal .modal-dialog {
+        border-radius: 13px;
+        border: 5px solid rgba(0,0,0,.2);
+    }
+    .modal .modal-dialog.selected-container {
+        border: 5px solid rgba(0, 123, 255,0.6);
+    }
+    .modal-open { overflow: auto !important; }
+    body { padding-right: 0 !important }
+    .modal .modal-dialog {
+        max-width: none;
+        margin: 0;
+    }
+    #popupModal.modal .modal-content {
+        width: 500px;
+        height: 350px;
+    }
+    .modal {
+        width: fit-content;
+        height: fit-content;
+        padding: 0 !important;
+        top: calc(30% - 150px);
+        left: calc(50% - 225px);
+        overflow: visible !important;
+    }
+    .tree-modal-button, .force-modal-button, .radial-modal-button, .circle-modal-button {
+        border: none;
+        background: none;
+        position: absolute;
+        z-index: 100;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+        width: fit-content;
+        height: fit-content;
+        padding: 12px 6px 6px 6px;
+    }
+    .tree-modal-button img, .force-modal-button img, .radial-modal-button img, .circle-modal-button img {
+        width: 50px;
+        height: 50px;
+    }
+    .tree-modal-button:hover, .force-modal-button:hover, .radial-modal-button:hover, .circle-modal-button:hover {
+        text-decoration: none;
+    }
+    .tree-modal-button:focus, .force-modal-button:focus, .radial-modal-button:focus, .circle-modal-button:focus {
+        outline: none !important;
+    }
+    .tree-modal-button {
+        padding: 12px 6px 6px 12px;
+    }
+    .tree-modal-button{
+        left: 0;
+    }
+    .force-modal-button{
+        left: 76px;
+    }
+    .radial-modal-button{
+        left: 146px;
+    }
+    .circle-modal-button{
+        left: 216px;
+    }
+    .feature-modal-button {
+        width: 38px;
+        height: 38px;
+        border-radius: 50%;
+        position: absolute;
+        z-index: 100;
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+    .feature-modal-button:hover {
+        text-decoration: none;
+    }
+    .feature-modal-button:focus {
+        outline: none !important;
+    }
+    .close-modal-button {
+        border: #ff5248;
+        background-color: #ff5248;
+        color: #fff;
+        top: 5px;
+        right: 5px;
+    }
+    .close-modal-button:hover {
+        color: #fff;
+        background-color: #c82333;
+        border-color: #bd2130;
+    }
+    .close-modal-button:focus {
+        color: #fff;
+        background-color: #c82333;
+        border-color: #bd2130;
+        box-shadow: 0 0 0 0.2rem rgb(225 83 97 / 50%);
+    }
+    .increase-modal-button, .decrease-modal-button {
+        border: #6c757d;
+        color: #fff;
+        background-color: #6c757d;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .increase-modal-button {
+        top: 5px;
+        right: 50px;
+    }
+    .decrease-modal-button {
+        top: 5px;
+        right: 95px;
+    }
+    .increase-modal-button:hover, .decrease-modal-button:hover {
+        color: #fff;
+        background-color: #5a6268;
+        border-color: #545b62;
+    }
+    .increase-modal-button:focus, .decrease-modal-button:focus {
+        color: #fff;
+        background-color: #5a6268;
+        border-color: #545b62;
+        box-shadow: 0 0 0 0.2rem rgb(130 138 145 / 50%);
+    }
+    .modal-feature-img {
+        width: 16px;
+        border: 0;
+        font-size: 100%;
+        vertical-align: baseline;
+        margin-block-end: 0;
+
+        max-height: 70%;
+        object-fit: contain;
+    }
+    #popupModal .modal-footer {
+      cursor: move;
+    }
+    .send-popup-btn {
+        border: none;
+        background: none;
+    }
+    .send-popup-btn:hover {
+        text-decoration: none;
+    }
+    .send-popup-btn:focus {
+        outline: none !important;
+    }
+    #send-popup-interchange-btn {
+        margin-left: 5px;
+    }
+    #send-popup-interchange-img {
+        height: 35px;
+    }
+    #send-popup-main-img {
+        height: 30px;
+    }
+    #add-subtree-form {
+        width: calc(100% - 130px);
+    }
+    .modal-alert {
+        width: 100%;
+    }
+    #popupModal.modal .modal-body {
+        padding: 0;
+        background-color: #eff4fc;
+        border-radius: 13px 13px 0 0;
+        overflow: visible;
+        display: flex;
+    }
+    #popupModal.modal .modal-footer {
+        display: flex;
+        justify-content: space-between;
+    }
+    #popupModal.modal .modal-footer .alert {
+        text-align: center;
+        display: none;
+    }
+    #popupModal.modal .modal-footer form {
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+    }
+    #popupModal.modal .modal-footer form input {
+        max-width: 450px;
+    }
+    #popupModal.modal-footer form>:not(:last-child) {
+        margin-right: 0.25rem;
+    }
+    #popupModal.modal-footer form>:not(:first-child) {
+        margin-left: 0.25rem;
+    }
+    #modal-subtree-name, #subtree-save-success {
+        width: calc(100% - 130px);
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+
+{% load static %}
+
+<!-- Subtrees Modal -->
+<div class="modal fade" id="popupModal" data-backdrop="false" tabindex="-1" role="dialog" aria-labelledby="popupModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+        <button type="button" class="feature-modal-button close-modal-button" data-dismiss="modal">
+            <div style="text-align: center; margin-top: -10px; font-size: xx-large;">&#215;</div>
+        </button>
+        <button type="button" class="feature-modal-button increase-modal-button" onclick="maxPopupSize()">
+            <img src='{% static 'images/popup/increase-size.png' %}' class='modal-feature-img'>
+        </button>
+        <button type="button" class="feature-modal-button decrease-modal-button" onclick="minPopupSize()">
+            <img src='{% static 'images/popup/decrease-size.png' %}' class='modal-feature-img'>
+        </button>
+        <div>
+        <button type="button" class="tree-modal-button">
+            <img src="{% static 'images/nav_bar/treeLayout.svg' %}">
+        </button>
+        <button type="button" class="force-modal-button">
+            <img src="{% static 'images/nav_bar/forceLayout.svg' %}">
+        </button>
+        <button type="button" class="radial-modal-button">
+            <img src="{% static 'images/nav_bar/radialLayout.svg' %}">
+        </button>
+        <button type="button" class="circle-modal-button">
+            <img src="{% static 'images/nav_bar/circlePacking.svg' %}">
+        </button>
+        </div>
+      <div class="modal-body"></div>
+      <div class="modal-footer">
+          <div id="send-popup-content">
+              <button type="button" id="send-popup-main-btn" class="send-popup-btn" onclick="sendPopup('send_to_main')"
+              title="Send to main window">
+                  <img src='{% static 'images/popup/send-to-main.png' %}' id='send-popup-main-img'>
+              </button>
+              <button type="button" id="send-popup-interchange-btn" class="send-popup-btn" onclick="sendPopup('swap')"
+              title="Swap with main window">
+                  <img src='{% static 'images/popup/interchange.png' %}' id='send-popup-interchange-img'>
+              </button>
+          </div>
+
+          <form id="add-subtree-form" onsubmit="return savePopupSubtree(event)">
+              {% csrf_token %}
+              <label for="subtree-name" class="col-form-label">Name:&nbsp;</label>
+              <input type="text" name="subtree_name" class="form-control" id="subtree-name" required>
+              <input type="hidden" name="selected_item" value='{{ selected_item }}'>
+              <input type="hidden" id="popup-node-ids-input" name="node_ids" value=''>
+              <button id="subtree-save-btn" type="submit" class="btn btn-secondary" style="margin-left: 10px;">Save</button>
+          </form>
+          <div id="subtree-save-success" class="alert alert-success alert-dismissible modal-alert">
+             <button type="button" class="close" onclick="hideModalSuccessMessage()">
+                 <span aria-hidden="True">×</span>
+             </button>
+            Subtree has been saved!
+          </div>
+         <div id="subtree-save-error" class="alert alert-danger alert-dismissible modal-alert">
+             <button type="button" class="close" onclick="hideModalMessage()">
+                 <span aria-hidden="True">×</span>
+             </button>
+             <span id="error-subtree-modal-msg"></span>
+          </div>
+         <div id="modal-info-alert" class="alert alert-primary modal-alert">
+             A complete graph is being displayed
+          </div>
+          <div id="modal-subtree-name" class="alert alert-primary modal-alert">
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+    function sendPopup(dest) {
+
+        document.getElementById("action_popup").value = dest;
+
+        let form = document.getElementById("main_form")
+        let formData = new FormData(form);
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'generate_dataset' %}",
+            data: formData,
+            // handle a successful response
+            success: function (data) {
+                form.submit();
+            },
+            // handle a non-successful response
+            error: function(jqXHR, textStatus, errorThrown) { // on error..
+                handleSimpleAjaxError(jqXHR, textStatus, errorThrown)
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+        })
+    }
+
+    $('#popupModal').on('shown.bs.modal', function() {
+        $(document).off('focusin.modal');
+        if ("{{ template_selected }}" === "circle") {
+            document.getElementById("dots_label").classList.remove('disabled');
+            document.getElementById("glyphs_label").classList.remove('disabled');
+            document.getElementById("trivial_label").classList.remove('disabled');
+            // Activate the functionalities (filters) that do not belong to the Circle Packing layout
+            activateFiltersCircle();
+        }
+    });
+
+    $("#popupModal").on("hidden.bs.modal", function () {
+        if ("{{ template_selected }}" === "circle") {
+            // We deactivate the functionalities (filters) that do not belong to the Circle Packing layout
+            // deactivateFiltersCircle(); // If the filters are deactivated and the layout is changed, they are not passed.
+        }
+        $(window).trigger("main-container-click");
+        document.getElementById("popup_graph_info").value = '';
+        document.getElementById("popup_subtree_nodes_ids").value = '';
+        document.getElementById("popup_subtree_document_description").value = '';
+        document.getElementById("popup_subtree_name").value = '';
+        document.getElementById("popup_hierarchy_name").value = '';
+        document.getElementById("popup_layout_name").value = '';
+        document.getElementById("popup_subtree_id").value = '';
+        document.getElementById("selected_container").value = '';
+        document.querySelector("#popupModal .modal-dialog").classList.remove("selected-container");
+        if (document.getElementById("main_layout_name").value === 'circle') {
+            document.querySelector("#div-circle-container").classList.remove("selected-container");
+        } else {
+            document.querySelector("#tree-container .overlay").classList.remove("selected-container");
+        }
+
+        removeLayout();
+        hideModalMessage();
+    });
+
+    function hideModalSuccessMessage() {
+        document.getElementById("subtree-save-success").style.display = "none";
+        document.getElementById("send-popup-content").style.display = "block";
+        document.getElementById("modal-subtree-name").style.display = "block";
+    }
+    function hideModalMessage() {
+        document.getElementById("subtree-name").value = "";
+        document.querySelector("#popupModal.modal .modal-footer").style.padding = "0.75rem";
+        document.getElementById("subtree-save-success").style.display = "none";
+        document.getElementById("subtree-save-error").style.display = "none";
+        document.getElementById("modal-info-alert").style.display = "none";
+        document.getElementById("modal-subtree-name").style.display = "none";
+        document.getElementById("send-popup-content").style.display = "block";
+        document.getElementById("add-subtree-form").style.display = "flex";
+    }
+
+    function savePopupSubtree(e){
+        e.preventDefault();
+        document.getElementById("popup-node-ids-input").value = document.getElementById("popup_subtree_nodes_ids").value;
+        let form = document.getElementById("add-subtree-form")
+        let formData = new FormData(form);
+
+        $.ajax({
+            type: "POST",
+            url: "{% url 'create_subtree' %}",
+            data: formData,
+            // handle a successful response
+            success: function (data) {
+                let subtreeName = document.getElementById("subtree-name").value;
+                document.getElementById("popup_subtree_name").value = subtreeName;
+                document.getElementById("popup_subtree_id").value = data;
+                update_subtrees_menu();
+                document.querySelector("#popupModal.modal .modal-footer").style.padding = "0.375rem";
+                document.getElementById("add-subtree-form").style.display = "none";
+                document.getElementById("subtree-save-error").style.display = "none";
+                document.getElementById("modal-info-alert").style.display = "none";
+                document.getElementById("modal-subtree-name").style.display = "none";
+                document.getElementById("send-popup-content").style.display = "block";
+                document.getElementById("modal-subtree-name").innerText = "Subtree " + subtreeName;
+                document.getElementById("subtree-save-success").style.display = "block";
+            },
+            // handle a non-successful response
+            error: function(jqXHR, textStatus, errorThrown) { // on error..
+                let errorText;
+                if (jqXHR.status === 0) {
+                    errorText = 'Not connect: Verify Network.';
+                } else if (jqXHR.status === 400) {
+                    if (jqXHR.responseText === "subtree_already_exists") {
+                        errorText = 'You already have this subtree in your list';
+                    } else if (jqXHR.responseText === "name_already_exists") {
+                        errorText = 'You already have a subtree associated with that name';
+                    } else {
+                        errorText = 'Bad Request [400]';
+                    }
+                } else if (jqXHR.status === 404) {
+                    errorText = 'Requested page not found [404]';
+                } else if (jqXHR.status === 500) {
+                    errorText = 'Internal Server Error [500].';
+                } else if (textStatus === 'parsererror') {
+                    errorText = 'Requested JSON parse failed.';
+                } else if (textStatus === 'timeout') {
+                    errorText = 'Time out error.';
+                } else if (textStatus === 'abort') {
+                    errorText = 'Ajax request aborted.';
+                } else {
+                    errorText = 'Uncaught Error: ' + jqXHR.responseText;
+                }
+                document.querySelector("#popupModal.modal .modal-footer").style.padding = "0.375rem";
+                document.getElementById("add-subtree-form").style.display = "none";
+                document.getElementById("send-popup-content").style.display = "none";
+                document.getElementById("subtree-save-success").style.display = "none";
+                document.getElementById("modal-info-alert").style.display = "none";
+                document.getElementById("modal-subtree-name").style.display = "none";
+                document.getElementById("error-subtree-modal-msg").innerHTML = errorText;
+                document.getElementById("subtree-save-error").style.display = "block";
+            },
+            cache: false,
+            contentType: false,
+            processData: false,
+        })
+
+        return false;
+    }
+    $("#popupModal.modal").draggable({
+        handle: ".modal-footer",
+        cursor: "move",
+        containment: "window"
+    });
+    $("#popupModal.modal .modal-content").resizable({
+        containment: "document",
+        minHeight: 300,
+        minWidth: 450,
+        autoHide: true
+    });
+
+    let messageSent = false;
+    $(document).ready(function(){
+    $('#popupModal').on('shown.bs.modal', function () {
+        if (!messageSent) {
+            messageSent = true;
+            const event = {
+                event: "popup_shown",
+                sender: "javascript"
+            }
+            fetch("http://localhost:5005/webhooks/rest/webhook", {
+                method: "POST",
+                body: JSON.stringify(event),
+                headers: {
+                    "Content-Type": "application/json"
+                }
+            }).then(() => console.log("Event sent"));
+        }
+    });
+});
+
+
+
+
+</script>

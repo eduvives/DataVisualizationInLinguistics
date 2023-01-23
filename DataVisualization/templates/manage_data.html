@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Manage Data</title>
+</head>
+
+<body>
+
+{% include 'messages.html' %}
+
+<div class="d-flex" id="wrapper">
+
+    {% include 'sidebar.html' with title="Manage Data" %}
+
+    <!-- Page Content -->
+    <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+            <button class="btn navbar-toggler" id="menu-toggle"><span class="navbar-toggler-icon"></span></button>
+        </nav>
+
+        <div class="container-fluid sidebar-title-container">
+
+            <h1>Manage Data</h1>
+            <div style="margin: 4px;">
+                <a type="button" href="/upload_file" class="btn btn-primary" value="Upload Document"
+                   name="upload_button">Upload Document</a>
+            </div>
+
+
+            <div style="margin: 4px;">
+
+                <form method="POST" id="dropdown_delete">
+                    {% csrf_token %}
+                    <input type="submit" class="btn btn-danger error" value="Delete Data" name="delete_button"
+                           id="delete_button">
+                    <select name="selected_data_delete" form="dropdown_delete">
+                        {% for document in documents_uploaded %}
+                            <option value="{{ document.description }}"
+                                    id="{{ document.description }}">{{ document.description }}</option>
+                        {% endfor %}
+                    </select>
+                </form>
+            </div>
+
+            <div style="margin: 4px;">
+
+                <form method="get">
+                    <input type="submit" class="btn btn-primary" value="Save Project" name="save_button">
+                </form>
+            </div>
+
+            <div style="margin: 4px;">
+
+                <form method="get">
+                    <input type="submit" class="btn btn-primary" value="Export Visualization" name="export_button">
+                </form>
+            </div>
+
+        </div>
+    </div>
+    <!-- /#page-content-wrapper -->
+
+</div>
+<!-- /#wrapper -->
+
+<!-- Bootstrap core JavaScript -->
+<script src="../static/vendor/jquery/jquery.min.js"></script>
+<script src="../static/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Menu Toggle Script -->
+<script>
+    $("#menu-toggle").click(function (e) {
+        e.preventDefault();
+        $("#wrapper").toggleClass("toggled");
+    });
+</script>
+
+<script>
+    jQuery("#delete_button").click(function () {
+        $("<div></div>").appendTo('body')
+            .html('<div><h3> Are you sure that do you want to delete this dataset? </h3></div>')
+            .dialog({
+                title: "Delete Data",
+                width: 500, height: 300,
+                modal: true,
+                resizable: false,
+                show: {effect: 'drop', direction: "left"},
+                hide: {effect: 'blind'},
+                buttons: {
+                    Yes: function () {
+                        jQuery.ajax({
+                            type: "POST", //post data
+                            data: {'key': key}, //if you want to send any data to view
+                            url: '/get_viewerModal/' // your url that u write in action in form tag
+                        }).done(function (result) {
+                            alert("am done") //this will executes after your view executed
+                        })
+                    },
+                    Cancel: function () {
+                        $(this).dialog("close");
+                    }
+                }
+            });
+    });
+</script>
+
+</body>
+</html>

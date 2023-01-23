@@ -1,0 +1,1342 @@
+version: "2.0"
+
+nlu:
+- intent: greet
+  examples: |
+    - hey
+    - hello
+    - hi
+    - hello there
+    - good morning
+    - good evening
+    - moin
+    - hey there
+    - let's go
+    - hey dude
+    - goodmorning
+    - goodevening
+    - good afternoon
+
+- intent: thanks
+  examples: |
+    - thank you
+    - thanks
+    - thank you very much
+    - thanks a lot
+
+- intent: goodbye
+  examples: |
+    - good afternoon
+    - cu
+    - good by
+    - cee you later
+    - good night
+    - bye
+    - goodbye
+    - have a nice day
+    - see you around
+    - bye bye
+    - see you later
+
+- intent: affirm
+  examples: |
+    - yes
+    - yesss
+    - y
+    - indeed
+    - of course
+    - that sounds good
+    - correct
+    - affirmative
+    - fine
+    - good
+    - okay
+    - true
+    - yea
+    - yep
+    - all right
+    - aye
+    - beyond a doubt
+    - by all means
+    - certainly
+    - definitely
+    - exactly
+    - good enough
+    - granted
+    - indubitably
+    - most assuredly
+    - naturally
+    - sure
+    - undoubtedly
+    - convinced
+    - positive
+    - decided
+    - doubtless
+
+- intent: deny
+  examples: |
+    - no
+    - nooo
+    - n
+    - never
+    - not
+    - nop
+    - nope
+    - I don't think so
+    - don't like that
+    - no way
+    - not really
+    - negative
+    - absolutely not
+    - by no means
+    - not at all
+    - not by any means
+    - not now
+    - cancel
+
+- intent: cancel_form
+  examples: |
+    - I don't want to have a user name
+    - I dont want
+    - cancel form
+    - exit the form
+    - skip form
+    - I do not want to open a document
+    - cancel document opening
+    - cancel the opening of the document
+    - do not open a document
+    - I do not want to create a user
+    - I do not want to log in
+    - I've changed my mind
+    - I don't want to answer this now
+    - I don't want to do this now
+
+- intent: bot_challenge
+  examples: |
+    - are you a bot?
+    - are you a human?
+    - am I talking to a bot?
+    - am I talking to a human?
+
+- synonym: logout
+  examples: |
+    - log out
+    - log-out
+    - log off
+    - close
+    - exit
+    - leave
+
+- intent: logout
+  examples: |
+    - I want to [log out]{"entity": "action_requested", "value": "logout"}
+    - I want to [exit]{"entity": "action_requested", "value": "logout"} the session
+    - I want to [close]{"entity": "action_requested", "value": "logout"} my session
+    - log me out
+    - [logout]{"entity": "action_requested", "value": "logout"}
+    - [leave]{"entity": "action_requested", "value": "logout"} the session
+    - [log-out]{"entity": "action_requested", "value": "logout"} my session
+
+- synonym: login
+  examples: |
+    - log in
+    - log-in
+    - logon
+    - access
+    - log on
+    - sign in
+    - open
+    - start
+
+- intent: login
+  examples: |
+    - I want to [log in]{"entity": "action_requested", "value": "login"}
+    - I want to [access]{"entity": "action_requested", "value": "login"} my session
+    - I want to [start]{"entity": "action_requested", "value": "login"} the session
+    - [logon]{"entity": "action_requested", "value": "login"} to my account
+    - [sign in]{"entity": "action_requested", "value": "login"} my session
+    - [log-in]{"entity": "action_requested", "value": "login"} the session
+    - I want to enter my user
+    - I want to enter my username
+    - Enter my user
+    - Enter my username
+    - log me in
+    - [login]{"entity": "action_requested", "value": "login"}
+
+- synonym: signup
+  examples: |
+    - sign up
+    - sign-up
+    - register
+
+- intent: signup
+  examples: |
+    - I want to [register]{"entity": "action_requested", "value": "signup"}
+    - I would like to [register]{"entity": "action_requested", "value": "signup"}
+    - [sign up]{"entity": "action_requested", "value": "signup"} me on this website
+    - [sign-up]{"entity": "action_requested", "value": "signup"} me on this web
+    - sign me up
+    - [register]{"entity": "action_requested", "value": "signup"} me
+    - [signup]{"entity": "action_requested", "value": "signup"}
+
+- synonym: layout
+  examples: |
+    - visualization layout
+    - display layout
+    - design
+    - visualization design
+    - display design
+
+- synonym: tree
+  examples: |
+    - tree layout
+    - tree visualization
+    - tree design
+    - first visualization
+    - first design
+    - first layout
+
+- synonym: force
+  examples: |
+    - force layout
+    - force visualization
+    - force design
+    - second visualization
+    - second design
+    - second layout
+
+- synonym: radial
+  examples: |
+    - radial layout
+    - radial visualization
+    - radial design
+    - third visualization
+    - third design
+    - third layout
+
+- synonym: circle
+  examples: |
+    - circle
+    - circle layout
+    - circle visualization
+    - circle design
+    - circle packing
+    - circle packing visualization
+    - circle packing design
+    - fourth visualization
+    - fourth design
+    - fourth layout
+    - last visualization
+    - last design
+    - last layout
+
+- intent: change_layout
+  examples: |
+    - I want to change the [visualization layout]{"entity": "object_requested", "value": "layout"}
+    - I want to change the [display layout]{"entity": "object_requested", "value": "layout"}
+    - Change [design]{"entity": "object_requested", "value": "layout"}
+    - I want to see another [display design]{"entity": "object_requested", "value": "layout"}
+    - I would like to see another [visualization design]{"entity": "object_requested", "value": "layout"}
+    - Other [layout]{"entity": "object_requested", "value": "layout"}
+
+- intent: change_layout_tree
+  examples: |
+    - Change the [layout]{"entity": "object_requested", "value": "layout"} to [tree]{"entity": "layout_requested", "value": "tree"}
+    - Change [design]{"entity": "object_requested", "value": "layout"} to [tree visualization]{"entity": "layout_requested", "value": "tree"}
+    - Set the [tree design]{"entity": "layout_requested", "value": "tree"}
+    - Set [tree layout]{"entity": "layout_requested", "value": "tree"}
+    - Set the [design]{"entity": "object_requested", "value": "layout"} to the [tree visualization]{"entity": "layout_requested", "value": "tree"}
+    - Set [visualization layout]{"entity": "object_requested", "value": "layout"} to [tree]{"entity": "layout_requested", "value": "tree"}
+    - Displays the [tree layout]{"entity": "layout_requested", "value": "tree"}
+    - Displays [tree visualization]{"entity": "layout_requested", "value": "tree"}
+    - I want to see the [tree design]{"entity": "layout_requested", "value": "tree"}
+    - I would like to see the [tree]{"entity": "layout_requested", "value": "tree"}
+    - Show me the [tree layout]{"entity": "layout_requested", "value": "tree"}
+    - [tree]{"entity": "layout_requested", "value": "tree"}
+
+- intent: change_layout_force
+  examples: |
+    - Change the [layout]{"entity": "object_requested", "value": "layout"} to [force]{"entity": "layout_requested", "value": "force"}
+    - Change [design]{"entity": "object_requested", "value": "layout"} to [force visualization]{"entity": "layout_requested", "value": "force"}
+    - Set the [force design]{"entity": "layout_requested", "value": "force"}
+    - Set [force layout]{"entity": "layout_requested", "value": "force"}
+    - Set the [design]{"entity": "object_requested", "value": "layout"} to the [force visualization]{"entity": "layout_requested", "value": "force"}
+    - Set [visualization layout]{"entity": "object_requested", "value": "layout"} to [force]{"entity": "layout_requested", "value": "force"}
+    - Displays the [force layout]{"entity": "layout_requested", "value": "force"}
+    - Displays [force visualization]{"entity": "layout_requested", "value": "force"}
+    - I want to see the [force design]{"entity": "layout_requested", "value": "force"}
+    - I would like to see the [force]{"entity": "layout_requested", "value": "force"}
+    - Show me the [force layout]{"entity": "layout_requested", "value": "force"}
+    - [force]{"entity": "layout_requested", "value": "force"}
+
+- intent: change_layout_radial
+  examples: |
+    - Change the [layout]{"entity": "object_requested", "value": "layout"} to [radial]{"entity": "layout_requested", "value": "radial"}
+    - Change [design]{"entity": "object_requested", "value": "layout"} to [radial visualization]{"entity": "layout_requested", "value": "radial"}
+    - Set the [radial design]{"entity": "layout_requested", "value": "radial"}
+    - Set [radial layout]{"entity": "layout_requested", "value": "radial"}
+    - Set the [design]{"entity": "object_requested", "value": "layout"} to the [radial visualization]{"entity": "layout_requested", "value": "radial"}
+    - Set [visualization layout]{"entity": "object_requested", "value": "layout"} to [radial]{"entity": "layout_requested", "value": "radial"}
+    - Displays the [radial layout]{"entity": "layout_requested", "value": "radial"}
+    - Displays [radial visualization]{"entity": "layout_requested", "value": "radial"}
+    - I want to see the [radial design]{"entity": "layout_requested", "value": "radial"}
+    - I would like to see the [radial]{"entity": "layout_requested", "value": "radial"}
+    - Show me the [radial layout]{"entity": "layout_requested", "value": "radial"}
+    - [radial]{"entity": "layout_requested", "value": "radial"}
+
+- intent: change_layout_circle
+  examples: |
+    - Change the [layout]{"entity": "object_requested", "value": "layout"} to [circle]{"entity": "layout_requested", "value": "circle"}
+    - Change [design]{"entity": "object_requested", "value": "layout"} to [circle visualization]{"entity": "layout_requested", "value": "circle"}
+    - Set the [circle design]{"entity": "layout_requested", "value": "circle"}
+    - Set [circle layout]{"entity": "layout_requested", "value": "circle"}
+    - Set the [design]{"entity": "object_requested", "value": "layout"} to the [circle visualization]{"entity": "layout_requested", "value": "circle"}
+    - Set [visualization layout]{"entity": "object_requested", "value": "layout"} to [circle packing]{"entity": "layout_requested", "value": "circle"}
+    - Displays the [circle layout]{"entity": "layout_requested", "value": "circle"}
+    - Displays [circle packing visualization]{"entity": "layout_requested", "value": "circle"}
+    - I want to see the [circle packing design]{"entity": "layout_requested", "value": "circle"}
+    - I would like to see the [circle]{"entity": "layout_requested", "value": "circle"}
+    - Show me the [circle layout]{"entity": "layout_requested", "value": "circle"}
+    - [circle packing]{"entity": "layout_requested", "value": "circle"}
+
+- synonym: document
+  examples: |
+    - file
+
+#- regex: document_requested
+#  examples: |
+#    - [a-zA-Z0-9_-]{1,255}
+
+- intent: select_document
+  examples: |
+    - Open [20170819_CR]{"entity": "document_requested"} [file]{"entity": "object_requested", "value": "document"}
+    - Open [Compact_200]{"entity": "document_requested"}
+    - Open [document]{"entity": "object_requested", "value": "document"}
+    - Open the [document]{"entity": "object_requested", "value": "document"} [test]{"entity": "document_requested"}
+    - Show me [document]{"entity": "object_requested", "value": "document"} [20190519_SO]{"entity": "document_requested"}
+    - Show me the [test4-Com]{"entity": "document_requested"} [file]{"entity": "object_requested", "value": "document"}
+    - I want to open [Task 4]{"entity": "document_requested"} [file]{"entity": "object_requested", "value": "document"}
+    - I want to open a [file]{"entity": "object_requested", "value": "document"}
+    - I want to open [wide]{"entity": "document_requested"}
+    - I want to see [531_MI]{"entity": "document_requested"} [document]{"entity": "object_requested", "value": "document"}
+    - I want to see the [file]{"entity": "object_requested", "value": "document"} [test2]{"entity": "document_requested"}
+
+# Ask bot to change to OR / AND
+- intent: switch_or
+  examples: |
+    - Change to or
+    - Switch to OR
+    - I want to switch to OR
+    - I want to change to or
+    - I would like to switch to or
+    - I would like to change to RO
+    - I want to change the highlights to RO
+    - I want to change highlights to or
+    - I want to switch the highlights to or
+    - I want to switch highlights to OR
+    - Change the highlight to OR
+    - Change highlight to or
+    - Switch the highlight to or
+    - Switch highlight to OR
+
+- intent: switch_and
+  examples: |
+    - Change to and
+    - Switch to AND
+    - I want to switch to AND
+    - I want to change to and
+    - I would like to switch to and
+    - I would like to change to AND
+    - I want to change the highlights to AND
+    - I want to change highlights to and
+    - I want to switch the highlights to and
+    - I want to switch highlights to AND
+    - Change the highlight to AND
+    - Change highlight to and
+    - Switch the highlight to and
+    - Switch highlight to AND
+
+# toxicity--> not toxic, mildly toxic, toxic, very toxic
+
+- synonym: non toxic
+  examples: |
+    - least toxic
+    - least toxicity
+    - level 0 toxic
+    - level 0 toxicity
+    - toxic level 0
+    - toxicity level 0
+    - not toxic
+
+- synonym: very toxic
+  examples: |
+    - most toxic
+    - highest toxicity
+    - level 3 toxic
+    - level 3 toxicity
+    - toxic level 3
+    - toxicity level 3
+
+- synonym: mildly toxic
+  examples: |
+    - slightly toxic
+    - level 1 toxic
+    - level 1 toxicity
+    - toxic level 1
+    - toxicity level 1
+
+- synonym: toxic
+  examples: |
+    - level 2 toxic
+    - level 2 toxicity
+    - toxic level 2
+    - toxicity level 2
+
+- intent: highlight_switch
+  examples: |
+    - Switch [non toxic]{"entity": "filter_name"} filter
+    - Switch [argumentation]{"entity": "filter_name"} filter
+    - Switch [all features]{"entity": "filter_name"} filter
+    - Switch [aggressiveness]{"entity": "filter_name"}, [insult]{"entity": "filter_name"}, [improper language]{"entity": "filter_name"}, [mockery]{"entity": "filter_name"}, [intolerance]{"entity": "filter_name"} and [sarcasm]{"entity": "filter_name"} filters
+    - Switch [all features]{"entity": "filter_name"}, [person]{"entity": "filter_name"} and [neutral stance]{"entity": "filter_name"} comments
+    - Switch [intolerance]{"entity": "filter_name"}, [positive stance]{"entity": "filter_name"}, [target group]{"entity": "filter_name"} filter
+    - Switch [argumentation]{"entity": "filter_name"}, [insult]{"entity": "filter_name"}, [improper language]{"entity": "filter_name"}, [mockery]{"entity": "filter_name"}, [intolerance]{"entity": "filter_name"} and [sarcasm]{"entity": "filter_name"} filters
+    - Switch [stereotype]{"entity": "filter_name"}, [negative stance]{"entity": "filter_name"}, [neutral stance]{"entity": "filter_name"}, [target person]{"entity": "filter_name"} options
+    - Switch [neutral stance]{"entity": "filter_name"} and [targets all]{"entity": "filter_name"} options
+    - Switch [toxic level 1]{"entity": "filter_name"}, [least toxic]{"entity": "filter_name"} and [toxic]{"entity": "filter_name"} filters
+    - Switch [most toxic]{"entity": "filter_name"} and [least toxic]{"entity": "filter_name"} filters
+
+- intent: highlight_check
+  examples: |
+    - I want to see [non toxic]{"entity": "filter_name", "value": "non toxic"} comments
+    - I want to see [not toxic]{"entity": "filter_name", "value": "non toxic"}
+    - I want to see [not toxic]{"entity": "filter_name", "value": "non toxic"} nodes
+    - highlight [level 0 toxicity]{"entity": "filter_name", "value": "non toxic"} nodes
+    - highlight [not toxic]{"entity": "filter_name", "value": "non toxic"}
+    - highlight [toxic level 0]{"entity": "filter_name", "value": "non toxic"} comments
+    - show me [not toxic]{"entity": "filter_name", "value": "non toxic"} nodes
+    - show me [not toxic]{"entity": "filter_name", "value": "non toxic"}
+    - show me [non toxic]{"entity": "filter_name", "value": "non toxic"} nodes
+    - show [least toxic]{"entity": "filter_name", "value": "non toxic"} nodes
+    - show [least toxicity]{"entity": "filter_name", "value": "non toxic"} nodes
+    - Which nodes have the [least toxicity]{"entity": "filter_name", "value": "non toxic"}?
+    - Which comments are the [least toxic]{"entity": "filter_name", "value": "non toxic"}?
+    - Which nodes are [non toxic]{"entity": "filter_name", "value": "non toxic"}?
+    - Can you show me the [least toxic]{"entity": "filter_name", "value": "non toxic"} comments?
+    - Activate the [non toxic]{"entity": "filter_name", "value": "non toxic"} filter
+    - Check the [non toxic]{"entity": "filter_name", "value": "non toxic"} filter
+    - Activate the [non toxic]{"entity": "filter_name", "value": "non toxic"} nodes filter
+    - Enable [non toxic]{"entity": "filter_name", "value": "non toxic"} nodes filtering
+    - Enable the [non toxic]{"entity": "filter_name", "value": "non toxic"} and [very toxic]{"entity": "filter_name"} filters
+    - Enable the filter [non toxic]{"entity": "filter_name", "value": "non toxic"}
+
+    - I want to see [mildly toxic]{"entity": "filter_name", "value": "mildly toxic"} comments
+    - I want to see [mildly toxic]{"entity": "filter_name", "value": "mildly toxic"}
+    - I want to see [slightly toxic]{"entity": "filter_name", "value": "mildly toxic"} and [least toxic]{"entity": "filter_name"} nodes
+    - highlight [slightly toxic]{"entity": "filter_name", "value": "mildly toxic"} nodes
+    - highlight [midly toxic]{"entity": "filter_name", "value": "mildly toxic"}
+    - highlight [mildly toxic]{"entity": "filter_name", "value": "mildly toxic"} comments
+    - show me [level 1 toxic]{"entity": "filter_name", "value": "mildly toxic"} comments
+    - show me [mildly toxic]{"entity": "filter_name", "value": "mildly toxic"}
+    - show me [level 1 toxicity]{"entity": "filter_name", "value": "mildly toxic"} , [least toxic]{"entity": "filter_name"} and [toxic]{"entity": "filter_name"} comments
+    - show [toxicity level 1]{"entity": "filter_name", "value": "mildly toxic"} nodes
+    - show [mildly toxic]{"entity": "filter_name", "value": "mildly toxic"} nodes
+    - Which nodes are [toxic level 1]{"entity": "filter_name", "value": "mildly toxic"}?
+    - Can you show me [mildly toxic]{"entity": "filter_name", "value": "mildly toxic"} nodes?
+    - Activate the [mildly toxic]{"entity": "filter_name", "value": "mildly toxic"} filter
+    - Check the [mildly toxic]{"entity": "filter_name", "value": "mildly toxic"} filter
+    - Activate the [mildly toxic]{"entity": "filter_name", "value": "mildly toxic"} comments filter
+    - Enable [mildly toxic]{"entity": "filter_name", "value": "mildly toxic"} nodes filtering
+    - Enable the [mildly toxic]{"entity": "filter_name", "value": "mildly toxic"} filter
+    - Enable the filter [mildly toxic]{"entity": "filter_name", "value": "mildly toxic"}
+
+    - I want to see [toxic]{"entity": "filter_name", "value": "toxic"} comments
+    - I want to see [toxic]{"entity": "filter_name", "value": "toxic"}
+    - I want to see [toxic]{"entity": "filter_name", "value": "toxic"} nodes
+    - highlight [level 2 toxic]{"entity": "filter_name", "value": "toxic"} comments
+    - highlight [toxic]{"entity": "filter_name", "value": "toxic"}
+    - highlight [toxic]{"entity": "filter_name", "value": "toxic"} nodes
+    - show me [toxic]{"entity": "filter_name", "value": "toxic"} comments
+    - show me [toxic]{"entity": "filter_name", "value": "toxic"}
+    - show me [level 2 toxicity]{"entity": "filter_name", "value": "toxic"} comments
+    - show [toxicity level 2]{"entity": "filter_name", "value": "toxic"} nodes
+    - show [toxic]{"entity": "filter_name", "value": "toxic"} nodes
+    - Which comments are [toxic level 2]{"entity": "filter_name", "value": "toxic"}?
+    - Can you show me [toxic]{"entity": "filter_name", "value": "toxic"} comments?
+    - Activate the [toxic]{"entity": "filter_name", "value": "toxic"} filter
+    - Check the [toxic]{"entity": "filter_name", "value": "toxic"} filter
+    - Activate the [toxic]{"entity": "filter_name", "value": "toxic"} nodes filter
+    - Enable [toxic]{"entity": "filter_name", "value": "toxic"} comments filtering
+    - Enable the [toxic]{"entity": "filter_name", "value": "toxic"} filter
+    - Enable the filter [toxic]{"entity": "filter_name", "value": "toxic"}
+
+    - I want to see [very toxic]{"entity": "filter_name", "value": "very toxic"} comments
+    - I want to see [level 3 toxic]{"entity": "filter_name", "value": "very toxic"}
+    - I want to see [very toxic]{"entity": "filter_name", "value": "very toxic"} nodes
+    - highlight [very toxic]{"entity": "filter_name", "value": "very toxic"} nodes
+    - highlight [very toxic]{"entity": "filter_name", "value": "very toxic"}
+    - highlight [very toxic]{"entity": "filter_name", "value": "very toxic"} nodes
+    - show me [level 3 toxicity]{"entity": "filter_name", "value": "very toxic"} comments
+    - show me [very toxic]{"entity": "filter_name", "value": "very toxic"}
+    - show me [very toxic]{"entity": "filter_name", "value": "very toxic"} nodes
+    - show [very toxic]{"entity": "filter_name", "value": "very toxic"} comments
+    - show [very toxic]{"entity": "filter_name", "value": "very toxic"}
+    - show [toxicity level 3]{"entity": "filter_name", "value": "very toxic"} nodes
+    - Which nodes have the [highest toxicity]{"entity": "filter_name", "value": "very toxic"}?
+    - Which comments are [toxic level 3]{"entity": "filter_name", "value": "very toxic"}?
+    - Which nodes are the [most toxic]{"entity": "filter_name", "value": "very toxic"}?
+    - Can you show me [very toxic]{"entity": "filter_name", "value": "very toxic"} comments?
+    - Activate the [very toxic]{"entity": "filter_name", "value": "very toxic"} filter
+    - Check the [very toxic]{"entity": "filter_name", "value": "very toxic"} filter
+    - Activate the [very toxic]{"entity": "filter_name", "value": "very toxic"} nodes filter
+    - Enable [very toxic]{"entity": "filter_name", "value": "very toxic"} nodes filtering
+    - Enable the [very toxic]{"entity": "filter_name", "value": "very toxic"} filter
+    - Enable the filter [very toxic]{"entity": "filter_name", "value": "very toxic"}
+
+    # positive, negative, neutral stance
+
+    - I want to see [positive]{"entity": "filter_name"} comments
+    - Show me nodes with [positive stance]{"entity": "filter_name"}
+    - Highlight nodes with [positive stance]{"entity": "filter_name"}
+    - Show comments with [positive stance]{"entity": "filter_name"}
+    - Activate the [positive stance]{"entity": "filter_name"} filter
+    - Check the [positive stance]{"entity": "filter_name"} filter
+    - Activate the [positive stance]{"entity": "filter_name"} comments filter
+    - Enable [positive stance]{"entity": "filter_name"} nodes filtering
+    - Enable the [positive stance]{"entity": "filter_name"} filter
+    - Enable the filter [positive stance]{"entity": "filter_name"}
+
+    - I want to see nodes with [negative stance]{"entity": "filter_name"}
+    - Show me [negative]{"entity": "filter_name"} nodes
+    - Highlight comments with [negative stance]{"entity": "filter_name"}
+    - Show nodes with [negative stance]{"entity": "filter_name"}
+    - Activate the [negative stance]{"entity": "filter_name"} and [all targets]{"entity": "filter_name"} filters
+    - Check the [negative stance]{"entity": "filter_name"} and [all targets]{"entity": "filter_name"} filters
+    - Activate the [negative stance]{"entity": "filter_name"} comments filter
+    - Enable [negative stance]{"entity": "filter_name"} nodes filtering
+    - Enable the [negative stance]{"entity": "filter_name"} filter
+    - Enable the filter [negative stance]{"entity": "filter_name"}
+
+    - I want to see nodes with [neutral stance]{"entity": "filter_name"}
+    - Show me comments with [neutral stance]{"entity": "filter_name"}
+    - Highlight [neutral]{"entity": "filter_name"} comments
+    - Show nodes with [neutral stance]{"entity": "filter_name"}
+    - Activate the [neutral stance]{"entity": "filter_name"} filter
+    - Check the [neutral stance]{"entity": "filter_name"} filter
+    - Activate the [neutral stance]{"entity": "filter_name"} comments filter
+    - Enable [neutral stance]{"entity": "filter_name"} nodes filtering
+    - Enable the [neutral stance]{"entity": "filter_name"} and [targets all]{"entity": "filter_name"} filters
+    - Enable the filter [neutral stance]{"entity": "filter_name"}
+
+    # targets --> target person, target group, stereotype
+
+    - I want to see comments with [target person]{"entity": "filter_name"}
+    - Show me nodes with [target person]{"entity": "filter_name"}
+    - Highlight comments with [target person]{"entity": "filter_name"}
+    - Show nodes with [target person]{"entity": "filter_name"}
+    - Activate the [target person]{"entity": "filter_name"} filter
+    - Check the [target person]{"entity": "filter_name"} filter
+    - Activate the [target person]{"entity": "filter_name"} comments filter
+    - Enable [target person]{"entity": "filter_name"} nodes filtering
+    - Enable the [target person]{"entity": "filter_name"} filter
+    - Enable the filter [target person]{"entity": "filter_name"}
+
+    - I want to see comments with [target group]{"entity": "filter_name"}
+    - Show me nodes with [target group]{"entity": "filter_name"}
+    - Highlight comments with [target group]{"entity": "filter_name"}
+    - Show nodes with [target group]{"entity": "filter_name"}
+    - Activate the [target group]{"entity": "filter_name"} filter
+    - Check the [target group]{"entity": "filter_name"} filter
+    - Activate the [target group]{"entity": "filter_name"} comments filter
+    - Enable [target group]{"entity": "filter_name"} nodes filtering
+    - Enable the [target group]{"entity": "filter_name"} filter
+    - Enable the filter [target group]{"entity": "filter_name"}
+
+    - I want to see comments with [stereotype]{"entity": "filter_name"}
+    - Show me nodes with [stereotype]{"entity": "filter_name"}
+    - Highlight nodes with [stereotype]{"entity": "filter_name"}
+    - Show comments with [stereotype]{"entity": "filter_name"}
+    - Activate the [stereotype]{"entity": "filter_name"} [negative stance]{"entity": "filter_name"}, [neutral stance]{"entity": "filter_name"}, [target person]{"entity": "filter_name"} filters
+    - Check the [stereotype]{"entity": "filter_name"} [negative stance]{"entity": "filter_name"}, [neutral stance]{"entity": "filter_name"}, [target person]{"entity": "filter_name"} filters
+    - Activate the [stereotype]{"entity": "filter_name"} comments filter
+    - Enable [stereotype]{"entity": "filter_name"} nodes filtering
+    - Enable the [stereotype]{"entity": "filter_name"} filter
+    - Enable the filter [stereotype]{"entity": "filter_name"}
+
+    # targets select all
+
+    - I want to select [all targets]{"entity": "filter_name"}
+    - Select [all targets]{"entity": "filter_name"}
+    - I want to select [all targets]{"entity": "filter_name"} checkbox
+    - Select [all targets]{"entity": "filter_name"} checkbox
+    - I want to select [all targets]{"entity": "filter_name"} option
+    - Select [all targets]{"entity": "filter_name"} option
+    - I want to see nodes with [all targets]{"entity": "filter_name"}
+    - Show me nodes with [all targets]{"entity": "filter_name"}
+    - Highlight comments with [all targets]{"entity": "filter_name"}
+    - Show comments with [all targets]{"entity": "filter_name"}
+    - Activate the select [all targets]{"entity": "filter_name"} filter
+    - Check the select [all targets]{"entity": "filter_name"} filter
+    - Activate the select [all targets]{"entity": "filter_name"} comments filter
+    - Enable select [all targets]{"entity": "filter_name"} nodes filtering
+    - Enable the select [all targets]{"entity": "filter_name"} filter
+    - Enable the filter select [all targets]{"entity": "filter_name"}
+
+    # features--> constructiveness, argumentation
+
+    - I want to see nodes with [constructiveness]{"entity": "filter_name"}
+    - Show me comments with [constructiveness]{"entity": "filter_name"}
+    - Highlight nodes with [constructiveness]{"entity": "filter_name"}
+    - Show nodes with [constructiveness]{"entity": "filter_name"}
+    - I want to see [constructive]{"entity": "filter_name"} nodes
+    - Show me [constructive]{"entity": "filter_name"} nodes
+    - Highlight [constructive]{"entity": "filter_name"} comments
+    - Show [constructive]{"entity": "filter_name"} nodes
+    - Activate the [constructiveness]{"entity": "filter_name"} filter
+    - Check the [constructiveness]{"entity": "filter_name"} filter
+    - Activate the [constructive]{"entity": "filter_name"} comments filter
+    - Enable [constructive]{"entity": "filter_name"} nodes filtering
+    - Enable the [constructive]{"entity": "filter_name"} filter
+    - Enable the filter [constructiveness]{"entity": "filter_name"}
+
+    - I want to see comments with [argumentation]{"entity": "filter_name"}
+    - Show me comments with [argumentation]{"entity": "filter_name"}
+    - Highlight nodes with [argumentation]{"entity": "filter_name"}
+    - Show comments with [argumentation]{"entity": "filter_name"}
+    - I want to see [argumentation]{"entity": "filter_name"} nodes
+    - Show me [argumentative]{"entity": "filter_name"} nodes
+    - Highlight [argumentative]{"entity": "filter_name"} comments
+    - Show [argumentative]{"entity": "filter_name"} comments
+    - Activate the [argumentation]{"entity": "filter_name"} filter
+    - Check the [argumentation]{"entity": "filter_name"} filter
+    - Activate the [argumentation]{"entity": "filter_name"} nodes filter
+    - Enable [argumentation]{"entity": "filter_name"} nodes filtering
+    - Enable the [argumentation]{"entity": "filter_name"} , [insult]{"entity": "filter_name"}, [improper language]{"entity": "filter_name"}, [mockery]{"entity": "filter_name"}, [intolerance]{"entity": "filter_name"} and [sarcasm]{"entity": "filter_name"} filters
+    - Enable the filter [argumentation]{"entity": "filter_name"}
+
+    # features--> sarcasm, mockery, intolerance
+
+    - I want to see nodes with [sarcasm]{"entity": "filter_name"}
+    - Show me comments with [sarcasm]{"entity": "filter_name"}
+    - Highlight comments with [sarcasm]{"entity": "filter_name"}
+    - Show nodes with [sarcasm]{"entity": "filter_name"}
+    - I want to see [sarcastic]{"entity": "filter_name"} nodes
+    - Show me [sarcastic]{"entity": "filter_name"} nodes
+    - Highlight [sarcastic]{"entity": "filter_name"} comments
+    - Show [sarcastic]{"entity": "filter_name"} nodes
+    - Activate the [sarcasm]{"entity": "filter_name"} filter
+    - Check the [sarcasm]{"entity": "filter_name"} filter
+    - Activate the [sarcastic]{"entity": "filter_name"} nodes filter
+    - Enable [sarcastic]{"entity": "filter_name"} nodes filtering
+    - Enable the [sarcasm]{"entity": "filter_name"} filter
+    - Enable the filter [sarcasm]{"entity": "filter_name"}
+
+    - I want to see nodes with [mockery]{"entity": "filter_name"}
+    - Show me comments with [mockery]{"entity": "filter_name"}
+    - Highlight nodes with [mockery]{"entity": "filter_name"}
+    - Show comments with [mockery]{"entity": "filter_name"}
+    - I want to see [mockery]{"entity": "filter_name"} nodes
+    - Show me [mockery]{"entity": "filter_name"} and [all targets]{"entity": "filter_name"} nodes
+    - Highlight [mockery]{"entity": "filter_name"} nodes
+    - Show [mockery]{"entity": "filter_name"} comments
+    - Activate the [mockery]{"entity": "filter_name"} filter
+    - Check the [mockery]{"entity": "filter_name"} filter
+    - Activate the [mockery]{"entity": "filter_name"} nodes filter
+    - Enable [mockery]{"entity": "filter_name"} nodes filtering
+    - Enable the [mockery]{"entity": "filter_name"} filter
+    - Enable the filter [mockery]{"entity": "filter_name"}
+
+    - I want to see nodes with [intolerance]{"entity": "filter_name"}
+    - Show me comments with [intolerance]{"entity": "filter_name"}
+    - Highlight nodes with [intolerance]{"entity": "filter_name"}
+    - Show comments with [intolerance]{"entity": "filter_name"}
+    - I want to see [intolerance]{"entity": "filter_name"} nodes
+    - Show me [intolerance]{"entity": "filter_name"} nodes
+    - Highlight [intolerance]{"entity": "filter_name"} nodes
+    - Show [intolerance]{"entity": "filter_name"} comments
+    - Activate the [intolerance]{"entity": "filter_name"} filter
+    - Check the [intolerance]{"entity": "filter_name"} filter
+    - Activate the [intolerance]{"entity": "filter_name"} nodes filter
+    - Enable [intolerance]{"entity": "filter_name"} nodes filtering
+    - Enable the [intolerance]{"entity": "filter_name"}, [positive stance]{"entity": "filter_name"}, [target group]{"entity": "filter_name"} filters
+    - Enable the filter [intolerance]{"entity": "filter_name"}
+
+    # features--> improper language, insult, aggressiveness - ?
+
+    - I want to see nodes with [improper language]{"entity": "filter_name"}
+    - Show me nodes with [improper language]{"entity": "filter_name"}
+    - Highlight comments with [improper language]{"entity": "filter_name"}
+    - Show nodes with [improper language]{"entity": "filter_name"}
+    - I want to see [improper language]{"entity": "filter_name"} comments
+    - Show me [improper language]{"entity": "filter_name"} nodes
+    - Highlight [improper language]{"entity": "filter_name"} comments
+    - Show [improper language]{"entity": "filter_name"} nodes
+    - Activate the [improper language]{"entity": "filter_name"} filter
+    - Check the [improper language]{"entity": "filter_name"} filter
+    - Activate the [improper language]{"entity": "filter_name"} nodes filter
+    - Enable [improper language]{"entity": "filter_name"} nodes filtering
+    - Enable the [improper language]{"entity": "filter_name"} filter
+    - Enable the filter [improper language]{"entity": "filter_name"}
+
+    - I want to see nodes with [insult]{"entity": "filter_name"}
+    - Show me comments with [insult]{"entity": "filter_name"}
+    - Highlight nodes with [insult]{"entity": "filter_name"}
+    - Show nodes with [insult]{"entity": "filter_name"}
+    - I want to see [insult]{"entity": "filter_name"} nodes
+    - Show me [insult]{"entity": "filter_name"} nodes
+    - Highlight [insult]{"entity": "filter_name"} comments
+    - Show [insult]{"entity": "filter_name"} comments
+    - Activate the [insult]{"entity": "filter_name"} filter
+    - Check the [insult]{"entity": "filter_name"} filter
+    - Activate the [insult]{"entity": "filter_name"} nodes filter
+    - Enable [insult]{"entity": "filter_name"} nodes filtering
+    - Enable the [insult]{"entity": "filter_name"} filter
+    - Enable the filter [insult]{"entity": "filter_name"}
+
+    - I want to see comments with [aggressiveness]{"entity": "filter_name"}
+    - Show me comments with [aggressiveness]{"entity": "filter_name"}
+    - Highlight nodes with [aggressiveness]{"entity": "filter_name"}
+    - Show comments with [aggressiveness]{"entity": "filter_name"}
+    - I want to see [aggressive]{"entity": "filter_name"} nodes
+    - Show me [aggressive]{"entity": "filter_name"} nodes
+    - Highlight [aggressive]{"entity": "filter_name"} comments
+    - Show [aggressive]{"entity": "filter_name"} nodes
+    - Activate the [aggressiveness]{"entity": "filter_name"}, [negative stance]{"entity": "filter_name"}, [neutral stance]{"entity": "filter_name"}, [target person]{"entity": "filter_name"} filters
+    - Check the [aggressiveness]{"entity": "filter_name"}, [negative stance]{"entity": "filter_name"}, [neutral stance]{"entity": "filter_name"}, [target person]{"entity": "filter_name"} filters
+    - Activate the [aggressive]{"entity": "filter_name"} nodes filter
+    - Enable [aggressive]{"entity": "filter_name"} nodes filtering
+    - Enable the [aggressiveness]{"entity": "filter_name"}, [insult]{"entity": "filter_name"}, [improper language]{"entity": "filter_name"}, [mockery]{"entity": "filter_name"}, [intolerance]{"entity": "filter_name"} and [sarcasm]{"entity": "filter_name"} filters
+    - Enable the filter [aggressiveness]{"entity": "filter_name"}
+
+    # features select all
+
+    - I want to select [all features]{"entity": "filter_name"}
+    - Select [all features]{"entity": "filter_name"}
+    - I want to select [all features]{"entity": "filter_name"} checkbox
+    - Select [all features]{"entity": "filter_name"} checkbox
+    - I want to select [all features]{"entity": "filter_name"} option
+    - Select [all features]{"entity": "filter_name"}, [person]{"entity": "filter_name"} and [neutral stance]{"entity": "filter_name"} options
+    - I want to see comments with [all features]{"entity": "filter_name"}
+    - Show me nodes with [all features]{"entity": "filter_name"}
+    - Highlight comments with [all features]{"entity": "filter_name"}
+    - Show nodes with [all features]{"entity": "filter_name"}
+    - Activate the select [all features]{"entity": "filter_name"} filter
+    - Activate the select [all features]{"entity": "filter_name"} comments filter
+    - Enable select [all features]{"entity": "filter_name"} nodes filtering
+    - Enable the select [all features]{"entity": "filter_name"} and [all targets]{"entity": "filter_name"} filters
+    - Enable the filter select [all features]{"entity": "filter_name"}
+
+# highlight uncheck all
+- intent: highlight_uncheck_all
+  examples: |
+    - I want to deselect all highlighting filters
+    - Desselect all filters
+    - Uncheck all filters
+    - Reset the filters
+    - Undo all highlighting
+    - Undo highlighting
+    - Disable all highlight filters
+    - Remove all filters
+    - Reset filters
+
+- intent: highlight_uncheck
+  examples: |
+    - Disable [non toxic]{"entity": "filter_name"} option
+    - Hide [least toxic]{"entity": "filter_name"} comments
+    - Uncheck [not toxic]{"entity": "filter_name"} filter
+    - Disable [least toxicity]{"entity": "filter_name"} option
+    - Hide [toxic level 0]{"entity": "filter_name"} nodes
+    - Uncheck [level 0 toxic]{"entity": "filter_name"} filter
+    - Disable [level 0 toxicity]{"entity": "filter_name"} and [very toxic]{"entity": "filter_name"} options
+
+    - Disable [toxicity level 3]{"entity": "filter_name"} option
+    - Hide [most toxic]{"entity": "filter_name"} and [least toxic]{"entity": "filter_name"} nodes
+    - Uncheck [very toxic]{"entity": "filter_name"} filter
+    - Disable [highest toxicity]{"entity": "filter_name"} option
+    - Hide [toxic level 3]{"entity": "filter_name"} comments
+    - Uncheck [level 3 toxic]{"entity": "filter_name"} filter
+    - Disable [level 3 toxicity]{"entity": "filter_name"} option
+
+    - Disable [toxicity level 1]{"entity": "filter_name"} option
+    - Hide [slightly toxic]{"entity": "filter_name"} comments
+    - Uncheck [mildly toxic]{"entity": "filter_name"} filter
+    - Hide [toxic level 1]{"entity": "filter_name"}, [least toxic]{"entity": "filter_name"} and [toxic]{"entity": "filter_name"} nodes
+    - Uncheck [level 1 toxic]{"entity": "filter_name"} filter
+    - Disable [level 1 toxicity]{"entity": "filter_name"} option
+
+    - Disable [toxic level 2]{"entity": "filter_name"} option
+    - Uncheck [toxic]{"entity": "filter_name"} filter
+    - Hide [toxicity level 2]{"entity": "filter_name"} comments
+    - Uncheck [level 2 toxic]{"entity": "filter_name"} filter
+    - Disable [level 2 toxicity]{"entity": "filter_name"} option
+
+    - Disable [positive stance]{"entity": "filter_name"} option
+    - Hide [positive]{"entity": "filter_name"} comments
+    - Uncheck [positive stance]{"entity": "filter_name"} filter
+
+    - Disable [negative stance]{"entity": "filter_name"} option
+    - Hide [negative]{"entity": "filter_name"} nodes
+    - Uncheck [negative stance]{"entity": "filter_name"} and [all targets]{"entity": "filter_name"} filters
+
+    - Disable [neutral stance]{"entity": "filter_name"} and [targets all]{"entity": "filter_name"} option
+    - Hide [neutral]{"entity": "filter_name"} comments
+    - Uncheck [neutral stance]{"entity": "filter_name"} filter
+
+    - Disable [target person]{"entity": "filter_name"} option
+    - Hide [person]{"entity": "filter_name"} nodes
+    - Uncheck [target person]{"entity": "filter_name"} filter
+
+    - Disable [target group]{"entity": "filter_name"} option
+    - Hide [group]{"entity": "filter_name"} comments
+    - Uncheck [target group]{"entity": "filter_name"} filter
+
+    - Disable [stereotype]{"entity": "filter_name"}, [negative stance]{"entity": "filter_name"}, [neutral stance]{"entity": "filter_name"}, [target person]{"entity": "filter_name"} options
+    - Hide [stereotype]{"entity": "filter_name"} nodes
+    - Uncheck [stereotype]{"entity": "filter_name"} filter
+
+    - Disable [targets all]{"entity": "filter_name"} option
+    - Hide [all targets]{"entity": "filter_name"} comments
+    - Uncheck [all targets]{"entity": "filter_name"} filter
+
+    - Disable [constructiveness]{"entity": "filter_name"} option
+    - Hide [constructive]{"entity": "filter_name"} nodes
+    - Uncheck [constructiveness]{"entity": "filter_name"} filter
+
+    - Disable [argumentation]{"entity": "filter_name"} option
+    - Hide [argumentation]{"entity": "filter_name"} comments
+    - Uncheck [argumentation]{"entity": "filter_name"}, [insult]{"entity": "filter_name"}, [improper language]{"entity": "filter_name"}, [mockery]{"entity": "filter_name"}, [intolerance]{"entity": "filter_name"} and [sarcasm]{"entity": "filter_name"} filters
+
+    - Disable [sarcasm]{"entity": "filter_name"} option
+    - Hide [sarcastic]{"entity": "filter_name"} nodes
+    - Uncheck [sarcasm]{"entity": "filter_name"} filter
+
+    - Disable [mockery]{"entity": "filter_name"} option
+    - Hide [mockery]{"entity": "filter_name"} and [all targets]{"entity": "filter_name"} comments
+    - Uncheck [mockery]{"entity": "filter_name"} filter
+
+    - Disable [intolerance]{"entity": "filter_name"} option
+    - Hide [intolerance]{"entity": "filter_name"} nodes
+    - Uncheck [intolerance]{"entity": "filter_name"}, [positive stance]{"entity": "filter_name"}, [target group]{"entity": "filter_name"} filter
+
+    - Disable [improper language]{"entity": "filter_name"} option
+    - Hide [improper language]{"entity": "filter_name"} comments
+    - Uncheck [improper language]{"entity": "filter_name"} filter
+
+    - Disable [insult]{"entity": "filter_name"} option
+    - Hide [insult]{"entity": "filter_name"} nodes
+    - Uncheck [insult]{"entity": "filter_name"} filter
+
+    - Disable [aggressiveness]{"entity": "filter_name"}, [negative stance]{"entity": "filter_name"}, [neutral stance]{"entity": "filter_name"}, [target person]{"entity": "filter_name"} options
+    - Hide [aggressive]{"entity": "filter_name"} comments
+    - Uncheck [aggressiveness]{"entity": "filter_name"}, [insult]{"entity": "filter_name"}, [improper language]{"entity": "filter_name"}, [mockery]{"entity": "filter_name"}, [intolerance]{"entity": "filter_name"} and [sarcasm]{"entity": "filter_name"} filters
+
+    - Disable [features all]{"entity": "filter_name"} option
+    - Hide [all features]{"entity": "filter_name"}, [person]{"entity": "filter_name"} and [neutral stance]{"entity": "filter_name"} comments
+    - Uncheck [all features]{"entity": "filter_name"} and [all targets]{"entity": "filter_name"} filters
+
+- intent: highlight_switch_last
+  examples: |
+    - Switch the last filters
+    - Switch them
+    - Switch it
+
+- intent: highlight_check_last
+  examples: |
+    - Enable the last filters
+    - Activate the last filters
+    - Check the last filters
+    - Enable them
+    - Enable it
+    - Activate them
+    - Activate it
+    - Check them
+    - Check it
+
+- intent: highlight_uncheck_last
+  examples: |
+    - Uncheck the last filters
+    - Unselect the last filters
+    - Deselect the last filters
+    - Uncheck the last
+    - Unselect the last
+    - Deselect the last
+    - Deselect it
+    - Uncheck them
+    - Uncheck it
+    - Unmark them
+    - Unmark it
+    - Disable them
+    - Disable it
+    - Turn them off
+    - Deactivate them
+    - Deactivate it
+
+- synonym: positive stance
+  examples: |
+    - positive
+
+- synonym: negative stance
+  examples: |
+    - negative
+
+- synonym: neutral stance
+  examples: |
+    - neutral
+
+- synonym: target person
+  examples: |
+    - person
+
+- synonym: target group
+  examples: |
+    - group
+
+- synonym: stereotype
+  examples: |
+    - stereotype
+
+- synonym: all targets
+  examples: |
+    - targets all
+
+- synonym: constructiveness
+  examples: |
+    - constructive
+
+- synonym: argumentation
+  examples: |
+    - argumentative
+
+- synonym: sarcasm
+  examples: |
+    - sarcastic
+
+- synonym: mockery
+  examples: |
+    - mockery
+
+- synonym: intolerance
+  examples: |
+    - intolerance
+
+- synonym: improper language
+  examples: |
+    - improper language
+
+- synonym: insult
+  examples: |
+    - insult
+
+- synonym: aggressiveness
+  examples: |
+    - aggressive
+
+- synonym: all features
+  examples: |
+    - features all
+
+# complex intents -
+# related to depth
+- intent: longest_thread
+  examples: |
+    - Show me the longest thread
+    - I want to see the longest thread
+    - Which thread is the longest
+    - Can you show me the longest thread
+    - Which thread is the deepest
+    - Can you show me the deepest thread
+    - Show me the deepest thread
+    - I want to see deepest thread
+    - I would like to see deepest thread
+    - I would like to see the longest thread
+    - Display the longest thread
+    - Display the deepest thread
+    - Show the longest thread
+    - Display the longest thread
+    - deepest thread
+    - longest thread
+
+# related to the wideness
+- intent: widest_level
+  examples: |
+    - Show me the widest level
+    - I want to see the widest level
+    - Which level is the widest?
+    - Can you show me the widest level?
+    - I would like to see the widest level
+    - Display the widest level
+    - Show the widest level
+    - Show me the widest depth
+    - I want to see the widest depth
+    - Which depth is the widest?
+    - Can you show me the widest depth?
+    - I would like to see the widest depth
+    - Display the widest depth
+    - Show the widest depth
+    - widest level
+    - widest depth
+
+# related to the size
+# It can be referenced as thread or subtree.
+- intent: largest_thread
+  examples: |
+    - Show me the largest thread
+    - I want to see the largest thread
+    - Which thread is the largest
+    - Can you show me the largest thread
+    - I would like to see the largest thread
+    - Display the largest thread
+    - Show the largest thread
+    - Which thread is the most crowded?
+    - Which thread has the most nodes?
+    - Can you show me the most crowded thread?
+    - Can you show me the thread with most nodes?
+    - Show me the most crowded thread
+    - I want to see the most crowded thread
+    - I would like to see the most crowded thread
+    - Show the most crowded thread
+    - Display the most crowded thread
+    - largest thread
+    - crowded thread
+    - Show me the largest subtree
+    - I want to see the largest subtree
+    - Which subtree is the largest
+    - Can you show me the largest subtree
+    - I would like to see the largest subtree
+    - Display the largest subtree
+    - Show the largest subtree
+    - Which subtree is the most crowded?
+    - Which subtree has the most nodes?
+    - Can you show me the most crowded subtree?
+    - Can you show me the subtree with most nodes?
+    - Show me the most crowded subtree
+    - I want to see the most crowded subtree
+    - I would like to see the most crowded subtree
+    - Show the most crowded subtree
+    - Display the most crowded subtree
+    - largest subtree
+    - crowded subgraph
+    - Show me the largest subgraph
+    - I want to see the largest subgraph
+    - Which subgraph is the largest
+    - Can you show me the largest subgraph
+    - I would like to see the largest subgraph
+    - Display the largest subgraph
+    - Show the largest subgraph
+    - Which subgraph is the most crowded?
+    - Which subgraph has the most nodes?
+    - Can you show me the most crowded subgraph?
+    - Can you show me the subgraph with most nodes?
+    - Show me the most crowded subgraph
+    - I want to see the most crowded subgraph
+    - I would like to see the most crowded subgraph
+    - Show the most crowded subgraph
+    - Display the most crowded subgraph
+    - largest subgraph
+    - crowded subgraph
+
+# most toxic thread
+- intent: most_toxic_thread
+  examples: |
+    - Show me the most toxic thread
+    - I want to see the most toxic thread
+    - Which thread is the most toxic?
+    - Can you show me the most toxic thread?
+    - I would like to see the most toxic thread
+    - Display the most toxic thread
+    - Show the most toxic thread
+    - Which thread has the most toxic nodes?
+    - Can you show me the thread with most toxic nodes?
+    - Show me the thread with most toxic nodes
+    - I want to see the thread with most toxic nodes
+    - I would like to see the thread with most toxic nodes
+    - Show the thread with most toxic nodes
+    - Display the thread with most toxic nodes
+    - most toxic thread
+    - thread with most toxic nodes
+
+# most toxic subtree
+- intent: most_toxic_subtree
+  examples: |
+    - Show me the most toxic subtree
+    - I want to see the most toxic subtree
+    - Which subtree is the most toxic?
+    - Can you show me the most toxic subtree?
+    - I would like to see the most toxic subtree
+    - Display the most toxic subtree
+    - Show the most toxic subtree
+    - Which subtree has the most toxic nodes?
+    - Can you show me the subtree with most toxic nodes?
+    - Show me the subtree with most toxic nodes
+    - I want to see the subtree with most toxic nodes
+    - I would like to see the subtree with most toxic nodes
+    - Show the subtree with most toxic nodes
+    - Display the subtree with most toxic nodes
+    - most toxic subtree
+    - subtree with most toxic nodes
+    - Show me the most toxic subgraph
+    - I want to see the most toxic subgraph
+    - Which subgraph is the most toxic?
+    - Can you show me the most toxic subgraph?
+    - I would like to see the most toxic subgraph
+    - Display the most toxic subgraph
+    - Show the most toxic subgraph
+    - Which subgraph has the most toxic nodes?
+    - Can you show me the subgraph with most toxic nodes?
+    - Show me the subgraph with most toxic nodes
+    - I want to see the subgraph with most toxic nodes
+    - I would like to see the subgraph with most toxic nodes
+    - Show the subgraph with most toxic nodes
+    - Display the subgraph with most toxic nodes
+    - most toxic subgraph
+    - subgraph with most toxic nodes
+
+# Which comment level has the most very toxic nodes?
+- intent: comment_level_vs_very_toxic
+  examples: |
+    - Which comment level has the most very toxic nodes?
+    - Which comment level has more very toxic nodes?
+    - In which comment level there are more very toxic nodes?
+    - In which comment level there are the most very toxic nodes?
+    - Show me the comment level with the most very toxic nodes?
+    - Show me the comment level that has the most very toxic nodes?
+    - I want to see the comment level with the most very toxic nodes
+    - I want to see the comment level that has the most very toxic nodes
+    - Can you show me the comment level with the most very toxic nodes
+    - Can you show me the comment level that has the most very toxic nodes?
+    - Display the comment level with the most very toxic nodes
+    - Display the comment level that has the most very toxic nodes
+    - comment level with the most very toxic nodes
+
+# What are the most occurred combination of features in most/very toxic nodes?
+- intent: combination_features_very_toxic
+  examples: |
+    - Which combination of features occurred the most in very toxic nodes?
+    - Which combination of features ocurred the most in most toxic nodes?
+    - What are the most occurred combination of features in most toxic nodes?
+    - What are the most occured combination of features in very toxic nodes?
+
+# What are the most occurred combination of features in toxic nodes?
+- intent: combination_features_toxic
+  examples: |
+    - Which combination of features occurred the most in toxic nodes?
+    - What are the most occurred combination of features in toxic nodes?
+
+# What are the most occurred combination of features in mildly toxic nodes?
+- intent: combination_features_mildly_toxic
+  examples: |
+    - Which combination of features occurred the most in mildy toxic nodes?
+    - Which combination of features ocurred the most in slighyly toxic nodes?
+    - What are the most occurred combination of features in slightly toxic nodes?
+    - What are the most occured combination of features in slightly toxic nodes?
+
+# What are the most occurred combination of features in non toxic nodes?
+- intent: combination_features_non_toxic
+  examples: |
+    - Which combination of features occurred the most in non toxic nodes?
+    - Which combination of features ocurred the most in least toxic nodes?
+    - What are the most occurred combination of features in non toxic nodes?
+    - What are the most occured combination of features in least toxic nodes?
+
+#What are the most occurred combination of features in Comment level 1 = CL1?
+- intent: combination_features_CL1
+  examples: |
+    - Which combination of features ocurred the most in comment level 1?
+    - What are the most occurred combination of features in comment level 1?
+
+#What are the most occurred combination of features in Comment level 2 = CL2?
+- intent: combination_features_CL2
+  examples: |
+    - Which combination of features ocurred the most in comment level 2?
+    - What are the most occurred combination of features in comment level 2?
+
+# comment level_1
+- intent: comment_level_1
+  examples: |
+    - Show me comment level 1
+    - Diplay the comment level 1
+    - Show the comment level 1
+    - Only show me comment level 1
+    - I want to see comment level 1
+    - I would like to see comment level 1
+
+# comment level_2
+- intent: comment_level_2
+  examples: |
+    - Show me comment level 2
+    - Diplay the comment level 2
+    - Show the comment level 2
+    - Only show me comment level 2
+    - I want to see comment level 2
+    - I would like to see comment level 2
+
+#In comment level 1 show me argument and constructive comments
+- intent: CL1_argument_constructive
+  examples: |
+    - Can you show me nodes with argumenation and constructiveness in comment level 1?
+    - Show me nodes in comment level 1 that have argumentation and constructiveness
+    - I want to see argumentation and constructive nodes in comment level 1
+    - Only show me argumentation and constructiveness nodes in comment level 1
+    - Display argumenation and constructive nodes in comment level 1
+
+#In comment level 2 show me argument and constructive comments
+- intent: CL2_argument_constructive
+  examples: |
+    - Can you show me nodes with argumenation and constructiveness in comment level 2?
+    - Show me nodes in comment level 2 that have argumentation and constructiveness
+    - I want to see argumentation and constructive nodes in comment level 2
+    - Only show me argumentation and constructiveness nodes in comment level 2
+    - Display argumenation and constructive nodes in comment level 2
+
+#- Which features are tagged the most along with constructiveness?
+- intent: constructive_feature
+  examples: |
+    - Which features are tagged the most along with constructiveness?
+    - Which features appear the most with constructiveness?
+    - Which features constructive nodes have the most?
+
+#- In which level of toxicity (loT) target person appear more?
+- intent: target_person_loT
+  examples: |
+    - In which level of toxicity target person appear more?
+    - Which level of toxicity have more target person nodes?
+    - Which level of toxicity there are more target person nodes?
+
+- intent: statistics_features_tree
+  examples: |
+    - Show me the statistics of the graph features
+    - Show me the graph features statistics
+    - Show me the statistics of the main graph features
+    - Show me the statistics of the main view graph features
+    - Compare the graph features
+    - Compare the main graph features
+    - Compare the main view graph features
+    - Display a chart of the statistics of the graph features
+    - Show me the graph features statistics in a chart
+    - Show me the statistics of the whole graph
+
+- intent: statistics_features_subtrees
+  examples: |
+    - Compare the features of subtrees
+    - Compare the features of all subtrees
+    - Compare all subtrees features
+    - Compare the features of subgraphs
+    - Compare all subgraphs features
+    - Compare the subtrees features on a chart
+    - Show me the statistics of the subtrees features
+    - Show me the subtrees features statistics
+    - Show me the statistics of the subgraphs features
+    - Display the statistics of the subgraphs features in a chart
+
+- intent: most_tagged_features
+  examples: |
+    - What are the most tagged features
+    - Which features are tagged the most
+
+#help
+
+- intent: help_glyphs
+  examples: |
+    - What are the glyphs?
+    - How can I use the glyphs?
+    - What are dots, circular glyph and trivial cheese?
+    - Give me more information about glyphs
+    - Can you give me more information about glyphs?
+
+
+- intent: help_layouts
+  examples: |
+    - Why there are many layouts?
+    - What are the layouts?
+    - Give me more information about layouts
+
+- intent: help_highlight
+  examples: |
+    - How can use highlight on the left bar?
+    - What is highlight on the left bar?
+    - What is highlight?
+    - Give me more information about highlight
+
+- intent: help_summary
+  examples: |
+    - What is summary?
+    - What does summary show?
+    - Give me information about summary
+
+- intent: help_main_graph_barchart
+  examples: |
+    - What is selected comments?
+    - What does first button on the right show?
+    - What is selected comments button?
+    - What does selected comments button do?
+    - What does selected comments do?
+
+
+- intent: help_subtree_barchart
+  examples: |
+    - What is sub graphs?
+    - What does second button on the right show?
+
+- intent: tool_help
+  examples: |
+    - What are the functions of this tool?
+    - How can I use this tool?
+    - Tell me about how to use this tool?
+
+- intent: help_AND
+  examples: |
+    - What is AND on the left bar
+    - What is AND
+
+- intent: help_OR
+  examples: |
+    - What is OR on the left bar
+    - What is OR
+
+- intent: help_AND_OR
+  examples: |
+    - What is the difference between AND and OR
+    - Why there are two options AND and OR
+
+- intent: help_what_can_you_do
+  examples: |
+    - What can you do?
+    - What can I ask you?
+    - How can you help me?
+
+
+- intent: what_can_do_after_glyphs
+  examples: |
+    - What can I do now after viewing glyphs?
+    - What more I can do now?
+
+
+- intent: features_on_the_left
+  examples: |
+    - What are features on the left bar?
+    - How can use features?
+    - What are features?
+
+- intent: targets_help
+  examples: |
+    - What are targets?
+    - What are targets on the left bar?
+    - How can I use targets?
+
+
+- intent: help_sub_structure
+  examples: |
+    - what are sub structures?
+    - help me with sub structures?
+
+
+- intent: statistics_help
+  examples: |
+    - can you tell me more about statistics?
+    - can give more information about statistics?
+
+
+- intent: test
+  examples: |
+    - test
+    - test please
