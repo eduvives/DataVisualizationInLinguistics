@@ -989,8 +989,6 @@ nlu:
     - [I want to]{"entity": "request_starter"}[visualise]{"entity": "visualise_verb"}[intolerance]{"entity": "filter_name"}[nodes]{"entity": "node_and_edge"}
     - [I want to]{"entity": "request_starter"}[visualise]{"entity": "visualise_verb"}[nodes]{"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"}
 
-
-<<<<<<< HEAD
     - I want to see nodes with [intolerance]{"entity": "filter_name"}
     - Show me comments with [intolerance]{"entity": "filter_name"}
     - Show comments with [intolerance]{"entity": "filter_name"}
@@ -1012,9 +1010,6 @@ nlu:
     - Turn on [intolerance]{"entity": "filter_name"} nodes
 
 
-    -
-=======
->>>>>>> 40a1e69589b3f0d217fd55706bff2071ba872832
     # features--> improper language, insult, aggressiveness - ?
 
     - I want to see nodes with [improper language]{"entity": "filter_name"}
@@ -1751,7 +1746,7 @@ nlu:
 #    - left hand menu
 #    - left menu
 #    - menu on left
-=======
+
 - synonym: AND option
   examples: |
     - AND option
@@ -1782,7 +1777,7 @@ nlu:
     - left hand menu
     - left menu
     - menu on left
->>>>>>> 40a1e69589b3f0d217fd55706bff2071ba872832
+
 
 - intent: help_what_can_you_do
   examples: |
