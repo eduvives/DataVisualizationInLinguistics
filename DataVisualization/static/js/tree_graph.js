@@ -1056,7 +1056,7 @@ treeJSON = d3.json(dataset, function (error, treeData) {
     }
 
     // define the zoomListener which calls the zoom function on the "zoom" event constrained within the scaleExtents
-    var zoomListener = d3.behavior
+    let zoomListener = d3.behavior
         .zoom()
         .scaleExtent([0.1, 3])
         .on("zoom", function () {

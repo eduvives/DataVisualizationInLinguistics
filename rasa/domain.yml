@@ -49,6 +49,7 @@ intents:
       use_entities:
       - document_requested
       - object_requested
+<<<<<<< HEAD
   - change_glyph_dots:
       use_entities:
       - glyph_requested
@@ -66,15 +67,28 @@ intents:
       - glyph_requested
       - object_requested
   # Filters
+=======
+  # Filter actions
+>>>>>>> 40a1e69589b3f0d217fd55706bff2071ba872832
   - switch_or
   - switch_and
   - highlight_switch
   - highlight_uncheck_all
   - highlight_uncheck
   - highlight_check
+<<<<<<< HEAD
   - highlight_switch_last
   - highlight_check_last
   - highlight_uncheck_last
+=======
+  - check_verb
+  - visualise_verb
+  - request_starter
+  # Filter type
+  - node_and_edge
+  - general_filter
+
+>>>>>>> 40a1e69589b3f0d217fd55706bff2071ba872832
   # Complex intents
   - longest_thread
   - widest_level
@@ -629,7 +643,7 @@ responses:
 #
 #    "
   utter_explain_glyphs_one:
-    - text: "intent_glyphs_blinking,glyphs-radio-buttons,Glyphs let us see features of each comment."
+    - text: "intent_glyphs_blinking,glyphs-radio-buttons,Glyphs let us see features that each each comment is tagged with."
 #      image: "https://ecemkavaz.github.io/imagesRasa/glyphsAll2.png"
 
 #  utter_explain_glyphs_three:
@@ -679,7 +693,11 @@ responses:
 
 
   utter_explain_features_tab:
+<<<<<<< HEAD
     - text: "intent_features_signal,features_accordion_button,All the comments are tagged with features that they have. \ \n
+=======
+    - text: "All comments are tagged with features that they have. \ \n
+>>>>>>> 40a1e69589b3f0d217fd55706bff2071ba872832
 
       Activate/deactivate features: \ \n
       - From the left bar \ \n
@@ -721,8 +739,13 @@ responses:
     #- title: "Read more here"
      # payload:
 
+<<<<<<< HEAD
   utter_help_select_node_edge:
     - text: "intent_node_edge_signal,highlight_accordion_button,Select node and edge will show comment with selected tags. \ \n
+=======
+  utter_help_highlight:
+    - text: "Highlight function will show the features that have been selected for each comment as a colour. \ \n
+>>>>>>> 40a1e69589b3f0d217fd55706bff2071ba872832
 
     Select node and edge by: \ \n
     - Using the Highlight Colour Feature menu \ \n
@@ -749,7 +772,7 @@ responses:
       you will see the comments that are tagged with at least one of the selected features"
 
   utter_help_summary:
-    - text: "Summary shows how many comments are labelled with different levels of toxicity and targets.  \ \n
+    - text: "Summary shows how many comments are labelled with different levels of toxicity and their targets.  \ \n
 
     It reflects data in the current visualisation."
       image: "https://ecemkavaz.github.io/imagesRasa/summary.png"
@@ -762,20 +785,20 @@ responses:
 # image: "https://ecemkavaz.github.io/imagesRasa/selectedcomments.png"
 
   utter_help_bar_chart_pop_up:
-    - text: "If you want to have more information about this:"
+    - text: "If you want more information about this:"
       buttons:
         - title: "Click here"
           payload: '/statistics_help'
 
   utter_help_main_bar_three:
-    - text: "Click on each bar to highlight the features on the graph. \ \n
+    - text: "By clicking on each bar you highlight the features on the graph. \ \n
 
      You can
-    remove features by clicking on their name to compare the only features you want."
+    remove features by clicking on their name to compare the features you want."
 
   utter_help_subtree_bar:
-    - text: "Level One Comments button displays a bar chart with the
-    statistics of features of each comment individually in level one and their children.
+    - text: "Level One Comments display a bar chart with the
+    statistics of features of each comment individually that are at level one, and their children.
           "
       image: "https://ecemkavaz.github.io/imagesRasa/levelonecomments.png"
 
