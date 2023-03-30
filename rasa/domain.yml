@@ -49,7 +49,6 @@ intents:
       use_entities:
       - document_requested
       - object_requested
-<<<<<<< HEAD
   - change_glyph_dots:
       use_entities:
       - glyph_requested
@@ -67,28 +66,22 @@ intents:
       - glyph_requested
       - object_requested
   # Filters
-=======
   # Filter actions
->>>>>>> 40a1e69589b3f0d217fd55706bff2071ba872832
   - switch_or
   - switch_and
   - highlight_switch
   - highlight_uncheck_all
   - highlight_uncheck
   - highlight_check
-<<<<<<< HEAD
   - highlight_switch_last
   - highlight_check_last
   - highlight_uncheck_last
-=======
   - check_verb
   - visualise_verb
   - request_starter
   # Filter type
   - node_and_edge
   - general_filter
-
->>>>>>> 40a1e69589b3f0d217fd55706bff2071ba872832
   # Complex intents
   - longest_thread
   - widest_level
@@ -693,11 +686,11 @@ responses:
 
 
   utter_explain_features_tab:
-<<<<<<< HEAD
+
     - text: "intent_features_signal,features_accordion_button,All the comments are tagged with features that they have. \ \n
-=======
-    - text: "All comments are tagged with features that they have. \ \n
->>>>>>> 40a1e69589b3f0d217fd55706bff2071ba872832
+
+     All comments are tagged with features that they have. \ \n
+
 
       Activate/deactivate features: \ \n
       - From the left bar \ \n
@@ -739,18 +732,19 @@ responses:
     #- title: "Read more here"
      # payload:
 
-<<<<<<< HEAD
+
   utter_help_select_node_edge:
-    - text: "intent_node_edge_signal,highlight_accordion_button,Select node and edge will show comment with selected tags. \ \n
-=======
+    - text: "intent_node_edge_signal,highlight_accordion_button,Select node and edge will show comment with selected tags."
+
+#    \ \n
+
   utter_help_highlight:
     - text: "Highlight function will show the features that have been selected for each comment as a colour. \ \n
->>>>>>> 40a1e69589b3f0d217fd55706bff2071ba872832
 
     Select node and edge by: \ \n
     - Using the Highlight Colour Feature menu \ \n
-     Asking me
-    "
+     Asking me"
+
 #    - text: "Highlight function will show the selected features for each comment as a colour. \ \n
 #
 #    Highlight colour features by: \ \n

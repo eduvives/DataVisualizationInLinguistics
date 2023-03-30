@@ -953,41 +953,41 @@ nlu:
     - Turn on [mockery]{"entity": "filter_name"} node and edge
     - Turn on [mockery]{"entity": "filter_name"} nodes
     
-    - [check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"}[nodes]{"entity": "node_and_edge"}
-    - [check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"}[nodes]{"entity": "node_and_edge"}[filter]{"entity" : "general_filter"}
-    - [check]{"entity": "check_verb"}[nodes]{"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"}
-    - [check]{"entity": "check_verb"} for me [intolerance]{"entity": "filter_name"}[nodes]{"entity": "node_and_edge"}
-    - [check]{"entity": "check_verb"} for me [intolerance]{"entity": "filter_name"}[nodes]{"entity": "node_and_edge"}[filter]{"entity" : "general_filter"}
+    - [check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}
+    - [check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"} [filter]{"entity" : "general_filter"}
+    - [check]{"entity": "check_verb"} [nodes]{"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"}
+    - [check]{"entity": "check_verb"} for me [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}
+    - [check]{"entity": "check_verb"} for me [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"} [filter]{"entity" : "general_filter"}
     - [check]{"entity": "check_verb"} for me [nodes]{"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"}
     - [check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"} for me
-    - [check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}[filter]{"entity" : "general_filter"} for me
-    - [check]{"entity": "check_verb"}[nodes]{"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"} for me
-    - [visualise]{"entity": "visualise_verb"}[intolerance]{"entity": "filter_name"} 
-    - [visualise]{"entity": "visualise_verb"}[intolerance]{"entity": "filter_name"}[nodes]{"entity": "node_and_edge"}
+    - [check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"} [filter]{"entity" : "general_filter"} for me
+    - [check]{"entity": "check_verb"} [nodes]{"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"} for me
+    - [visualise]{"entity": "visualise_verb"} [intolerance]{"entity": "filter_name"}
+    - [visualise]{"entity": "visualise_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}
     - [visualise]{"entity": "visualise_verb"} me [intolerance]{"entity": "filter_name"} 
-    - [visualise]{"entity": "visualise_verb"} me [intolerance]{"entity": "filter_name"}[nodes]{"entity": "node_and_edge"}
+    - [visualise]{"entity": "visualise_verb"} me [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}
     - [visualise]{"entity": "visualise_verb"} for me [intolerance]{"entity": "filter_name"} 
-    - [visualise]{"entity": "visualise_verb"} for me [intolerance]{"entity": "filter_name"}[nodes]{"entity": "node_and_edge"}
-    - [visualise]{"entity": "visualise_verb"}[intolerance]{"entity": "filter_name"} for me 
-    - [visualise]{"entity": "visualise_verb"}[intolerance]{"entity": "filter_name"}[nodes]{"entity": "node_and_edge"} for me
-    - [visualise]{"entity": "visualise_verb"}[intolerance]{"entity": "filter_name"}[nodes]{"entity": "node_and_edge"}
-    - [visualise]{"entity": "visualise_verb"}[nodes]{"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"}
-    - [visualise]{"entity": "visualise_verb"}[intolerance] me {"entity": "filter_name"}[nodes]{"entity": "node_and_edge"}
-    - [visualise]{"entity": "visualise_verb"}[nodes] me {"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"}
-    - [visualise]{"entity": "visualise_verb"}[intolerance] for me {"entity": "filter_name"}[nodes]{"entity": "node_and_edge"}
+    - [visualise]{"entity": "visualise_verb"} for me [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}
+    - [visualise]{"entity": "visualise_verb"} [intolerance]{"entity": "filter_name"} for me
+    - [visualise]{"entity": "visualise_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"} for me
+    - [visualise]{"entity": "visualise_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}
+    - [visualise]{"entity": "visualise_verb"} [nodes]{"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"}
+    - [visualise]{"entity": "visualise_verb"} [intolerance] me {"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}
+    - [visualise]{"entity": "visualise_verb"} [nodes] me {"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"}
+    - [visualise]{"entity": "visualise_verb"} [intolerance] for me {"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}
     - [visualise]{"entity": "visualise_verb"} for me [nodes]{"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"}
-    - [visualise]{"entity": "visualise_verb"}[intolerance]{"entity": "filter_name"}[nodes]{"entity": "node_and_edge"} for me
-    - [visualise]{"entity": "visualise_verb"}[nodes]{"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"} for me
-    - [I want to]{"entity": "request_starter"}[check]{"entity": "check_verb"}[intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}
-    - [I want to]{"entity": "request_starter"}[check]{"entity": "check_verb"} for me [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}
-    - [I want to]{"entity": "request_starter"}[check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"} for me
-    - [I want to]{"entity": "request_starter"}[check]{"entity": "check_verb"}[intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}[filter]{"entity" : "general_filter"}
-    - [I want to]{"entity": "request_starter"}[check]{"entity": "check_verb"}[intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}[filter]{"entity" : "general_filter"} for me
-    - [I want to]{"entity": "request_starter"}[check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"} [nodes] {"entity": "node_and_edge"}[filter]{"entity" : "general_filter"}
-    - [I want to]{"entity": "request_starter"}[check]{"entity": "check_verb"}[intolerance]{"entity": "filter_name"} [nodes] {"entity": "node_and_edge"}[filter]{"entity" : "general_filter"} for me
-    - [I want to]{"entity": "request_starter"}[visualise]{"entity": "visualise_verb"}[intolerance]{"entity": "filter_name"}[nodes]{"entity": "node_and_edge"}
-    - [I want to]{"entity": "request_starter"}[visualise]{"entity": "visualise_verb"}[intolerance]{"entity": "filter_name"}[nodes]{"entity": "node_and_edge"}
-    - [I want to]{"entity": "request_starter"}[visualise]{"entity": "visualise_verb"}[nodes]{"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"}
+    - [visualise]{"entity": "visualise_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"} for me
+    - [visualise]{"entity": "visualise_verb"} [nodes]{"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"} for me
+    - [I want to]{"entity": "request_starter"} [check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}
+    - [I want to]{"entity": "request_starter"} [check]{"entity": "check_verb"} for me [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}
+    - [I want to]{"entity": "request_starter"} [check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"} for me
+    - [I want to]{"entity": "request_starter"} [check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"} [filter]{"entity" : "general_filter"}
+    - [I want to]{"entity": "request_starter"} [check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"} [filter]{"entity" : "general_filter"} for me
+    - [I want to]{"entity": "request_starter"} [check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"} [nodes] {"entity": "node_and_edge"} [filter]{"entity" : "general_filter"}
+    - [I want to]{"entity": "request_starter"} [check]{"entity": "check_verb"} [intolerance]{"entity": "filter_name"} [nodes] {"entity": "node_and_edge"} [filter]{"entity" : "general_filter"} for me
+    - [I want to]{"entity": "request_starter"} [visualise]{"entity": "visualise_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}
+    - [I want to]{"entity": "request_starter"} [visualise]{"entity": "visualise_verb"} [intolerance]{"entity": "filter_name"} [nodes]{"entity": "node_and_edge"}
+    - [I want to]{"entity": "request_starter"} [visualise]{"entity": "visualise_verb"} [nodes]{"entity": "node_and_edge"} with [intolerance]{"entity": "filter_name"}
 
     - I want to see nodes with [intolerance]{"entity": "filter_name"}
     - Show me comments with [intolerance]{"entity": "filter_name"}
@@ -1713,7 +1713,7 @@ nlu:
     - Why there are two options AND and OR
     - What is the difference between OR and AND
 
-<<<<<<< HEAD
+
 #- synonym: AND option
 #  examples: |
 #    - AND option
