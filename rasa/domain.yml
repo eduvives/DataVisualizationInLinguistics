@@ -152,6 +152,7 @@ intents:
   - uncheck_all_target_icons
   - uncheck_target_person
   - uncheck_target_group
+  - help_select_node_edge
 
 actions:
   - action_check_session_login

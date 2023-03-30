@@ -27,7 +27,6 @@ nlu:
 
 - intent: goodbye
   examples: |
-    - good afternoon
     - cu
     - good bye
     - see you later
@@ -231,7 +230,6 @@ nlu:
     - design one
     - design 1
     - first layout
-    
     - first display
 
 - synonym: force
@@ -370,7 +368,7 @@ nlu:
     - Show me the [fourth layout]{"entity": "layout_requested", "value": "circle"}
     - Show me the [fourth visualisation]{"entity": "layout_requested", "value": "circle"}
     - Show me the [fourth visualization]{"entity": "layout_requested", "value": "circle"}
-    - Show me the [radial visualisation]{"entity": "layout_requested", "value": "circle"}
+    - Show me the [circle visualisation]{"entity": "layout_requested", "value": "circle"}
     - Show me the [fourth design]{"entity": "layout_requested", "value": "circle"}
     - Display the [last visualization]{"entity": "layout_requested", "value": "circle"}
     - Display the [last visualisation]{"entity": "layout_requested", "value": "circle"}
@@ -557,12 +555,12 @@ nlu:
     - deactivate
     - untick
 
-- synonym: visualise
-  examples: |
-    - visualise
-    - visualise
-    - show
-    - display 
+#- synonym: visualise
+#  examples: |
+#    - visualise
+#    - visualise
+#    - show
+#    - display
 
 - synonym: switch
   examples: |
@@ -2304,8 +2302,6 @@ nlu:
     - Enable [mockery]{"entity": "filter_name"}
     - Highlight [mockery]{"entity": "filter_name"}
     - Turn on [mockery]{"entity": "filter_name"}
-
-                                 
 
 - intent: filters_improper
   examples: |
